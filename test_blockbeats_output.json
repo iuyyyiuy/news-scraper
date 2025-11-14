@@ -1,0 +1,344 @@
+[
+  {
+    "url": "https://www.theblockbeats.info/flash/320267",
+    "title": "Balancer：已启动白帽恢复行动，约410万美元资金转移到受控托管账户",
+    "publication_date": "2025-11-13T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 13 日，Balancer 发推表示，针对近期 Balancer V2 稳定币池事件，团队已启动白帽恢复行动，并将约 410 万美元资金转移到受控托管账户，用于对账和返还，这仅适用于 Balancer V2 meta 稳定池，Balancer V3 不受影响。Balancer 提醒社区用户谨防网络钓鱼，目前暂时不要与所列资金池进行任何操作，后续将在对账完成后进一步更新信息。 此前消息，Balancer 遭黑客攻击损失金额大约 1.166 亿美元，攻击涉及多个链上的资产转移，包括 WETH、Staked ETH、wstETH 等多种代币。",
+    "scraped_at": "2025-11-13T15:29:22.969354",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/320117",
+    "title": "GoPlus：10月Web3安全事件造成超4584万美元损失",
+    "publication_date": "2025-11-12T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 12 日，GoPlus 监测显示，10 月 Web3 因智能合约漏洞、社会工程学攻击、钓鱼攻击、貔恘盘、Rugpull 等安全事故总损失超 4584 万美元，其中： · GMGN 用户遭钓鱼攻击，攻击者伪造第三方代币网站诱导非授权交易，107 位用户损失超 70 万美元； · 曾获 CZ 等 KOL 关注的推特账号改名 @OracleBNB，假冒与 @four_meme_合作发币，然后 RUG 获利 34 枚 BNB。",
+    "scraped_at": "2025-11-13T15:34:02.028152",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319955",
+    "title": "黑客利用Polymarket评论区植入钓鱼地址，已致用户损失超50万美元",
+    "publication_date": "2025-11-11T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 11 日，据 Polymarket 资深交易员 @25usdc，有黑客正在利用 Polymarket 评论区进行诈骗活动，损失已超过 50 万美元。 据悉，黑客通过以混淆非明文的方式发布指向其诈骗网站的链接，用户在通过邮箱登陆该网站的过程中被植入脚本，导致数据泄露，资金丢失。",
+    "scraped_at": "2025-11-13T15:38:29.529915",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319934",
+    "title": "Balancer发布提案，建议弃用v2稳定池并鼓励LP将流动性迁移至v3",
+    "publication_date": "2025-11-11T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 11 日，Balancer 发文表示，「在上周遭攻击事件之后，出于谨慎考虑，Balancer Labs 提出了一项 BIP 提案，建议弃用 v2 稳定池并鼓励 LP 将其流动性迁移到 v3。Balancer v3 仍然完全可用且未受影响。」",
+    "scraped_at": "2025-11-13T15:39:05.839422",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319870",
+    "title": "Balancer黑客已将所盗资产全部兑换为ETH，现持有2.53万枚ETH",
+    "publication_date": "2025-11-10T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 10 日，据链上数据分析师余烬监测，过去几日 Balancer 黑客持续将 ETH LST 代币和其它的非 ETH 代币兑换为 ETH。目前基本已全部兑换为 ETH，总计持有 2.53 万枚的 ETH (约合 9169 万美元)。",
+    "scraped_at": "2025-11-13T15:40:44.610252",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319855",
+    "title": "0G与南洋理工大学联合投资500万新元共建去中心化AI研究中心",
+    "publication_date": "2025-11-10T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 10 日，新加坡南洋理工大学（NTU）与去中心化 AI 基础设施公司 Zero Gravity（0G）宣布联合投资 500 万新元成立去中心化 AI 技术研究中心，旨在推动基于区块链的人工智能创新，打造更加透明、安全、可验证的 AI 系统。 这是 0G 首次与全球高校开展合作，研究方向包括去中心化 AI 训练、区块链集成模型对齐以及有用工作量证明（PoUW）共识机制等。研究中心将通过开放生态体系，支持开发者、机构及社区共同参与验证与审计，推动 AI 从封闭走向开放透明。 该项目为期四年，涵盖工作坊、黑客松、学生奖学金及开源项目，预计两年内推出首批概念验证成果，应用于金融、医疗与智能基础设施等领域。此前，0G 曾获超 3.25 亿美元资金承诺，其中包括由 Hack VC 领投的 4000 万美元种子轮融资。",
+    "scraped_at": "2025-11-13T15:41:06.369750",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319847",
+    "title": "日本金融厅考虑出台新规，拟要求加密货币托管业务必须注册",
+    "publication_date": "2025-11-10T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 10 日，据 The Block 报道，日本金融厅（FSA）正在考虑建立一项新制度，要求数字资产托管方及交易管理服务商在向加密货币交易平台提供服务前，必须向监管机构申报并注册。日本首相顾问机构——金融制度审议会下属的一个工作小组于 11 月 7 日讨论了这一议题。 按照现行规定，加密货币交易平台必须严格管理客户存款，包括将用户资产保存在冷钱包中。然而，目前并没有针对与交易平台合作的第三方服务商设立类似的监管规则。 FSA 计划要求托管及交易服务提供方必须在主管部门注册，同时交易平台只能使用这些已注册托管方提供的系统。此举旨在弥补安全漏洞，防止资产被盗或系统故障等风险。",
+    "scraped_at": "2025-11-13T15:41:18.556871",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "被盗",
+      "漏洞"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319750",
+    "title": "分析：美国政府或「黑吃黑」窃取陈志12.7万枚比特币，案件符合国家级黑客组织操盘特征",
+    "publication_date": "2025-11-09T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 9 日，国家计算机病毒应急处理中心发布《LuBian 矿池遭黑客攻击被窃取巨额比特币事件技术溯源分析报告》。2020 年 12 月 29 日，LuBian 矿池发生一起重大黑客攻击事件，总计 127272.06953176 枚比特币（当时市值约 35 亿美元，现市值已达 150 亿美元）被攻击者窃取。这批巨额比特币的持有者正是柬埔寨太子集团主席陈志。黑客攻击事件发生后，陈志及其太子集团分别于 2021 年初、2022 年 7 月多次在区块链上发布消息，向黑客喊话，希望黑客能够归还被盗比特币并愿意支付赎金，但没有收到任何回复。但奇怪的是，这批巨额比特币被盗后，存放于攻击者控制的比特币钱包地址中沉寂长达 4 年之久，几乎分文未动，这显然不符合一般黑客急于变现追逐利益的行为，更像是一场由「国家级黑客组织」操盘的精准行动。直到 2024 年 6 月，这批被盗比特币才再次被转移到新的比特币钱包地址中，至今未动。 2025 年 10 月 14 日，美国司法部宣布对陈志提起刑事指控，并称没收陈志及其太子集团的 12.7 万枚比特币。种种证据表明，美国政府没收的陈志及其太子集团的这批巨额比特币正是早在 2020 年就已经被黑客攻击者利用技术手段窃取的 LuBian 矿池比特币。也就是说，美国政府或早在 2020 年就已经通过黑客技术手段窃取了陈志持有的 12.7 万枚比特币，这是一起典型的国家级黑客组织操盘的「黑吃黑」事件。",
+    "scraped_at": "2025-11-13T15:43:52.650323",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客",
+      "被盗",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319681",
+    "title": "因陪审团未达成一致，涉2500万美元以太坊MEV案宣告审判无效",
+    "publication_date": "2025-11-08T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 8 日，据 Cointelegraph 报道，纽约联邦法院针对兄弟二人 Anton 与 James Peraire-Bueno 的案件因陪审团无法就有罪或无罪达成一致，法官已宣布审判无效。 两人被指控与 2023 年一次以太坊链上 MEV 攻击有关，该攻击在约 12 秒内获得约 2500 万美元，检方称其行为构成「诱骗并切换」（bait and switch），涉嫌欺诈和洗钱；而辩方则辩称此类交易更接近于链上「抢跑」的博弈行为。案件历时三周审理，最终因陪审团意见分歧而流审。",
+    "scraped_at": "2025-11-13T15:45:49.562336",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319547",
+    "title": "Tom Lee：1011暴跌及DeFi协议暴雷导致市场信心受损，需要几周时间消化",
+    "publication_date": "2025-11-07T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 7 日，以太坊第一持仓机构 BitMine 董事长 Tom Lee 昨日接受 CNBC 采访时表示，1011 暴跌是加密历史上最大的清算事件，随后又发生了 Balancer 被盗等 DeFi 协议暴雷事件，这些都严重打击了市场信心，所以市场可能还需要几周时间消化上述事件影响。 「好消息是目前看出现问题的项目并不多，所以似乎不是系统性问题」。",
+    "scraped_at": "2025-11-13T15:49:22.730119",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "被盗"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319541",
+    "title": "谷歌：黑客正利用AI技术开发新型恶意软件盗取加密货币",
+    "publication_date": "2025-11-07T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 7 日，谷歌威胁情报组最新报告显示，已发现至少五种新型恶意软件正在利用大型语言模型 (LLM) 动态生成和隐藏恶意代码。 其中，与朝鲜相关的黑客组织 UNC1069 被发现使用 Gemini 探测钱包数据并制作钓鱼脚本，意图盗取数字资产。这些恶意软件采用\"实时代码创建\"技术，通过调用外部 AI 模型如 Gemini 或 Qwen2.5-Coder 来规避传统安全检测。谷歌表示已禁用相关账户并加强了模型访问的安全措施。（Decrypt）",
+    "scraped_at": "2025-11-13T15:49:31.332473",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319498",
+    "title": "DeFi连环暴雷隐忧蔓延，浮冰之下或暗藏更多危机",
+    "publication_date": "2025-11-07T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 7 日，近期关于 DeFI 连环清算将带来更多流动性危机的忧虑在加密社区蔓延，11 月 3 日 Stream Finance 突然宣布暂停存提款，一场席卷 DeFi 世界的风暴被推向了高潮。其一名外部基金管理人在 10 月 11 日的市场剧烈波动中爆仓，造成了约 9300 万美元的基金资产损失。整个 DeFi 生态可能面临 80 亿美元 TVL（总锁定价值）的系统性危机，目前仅爆出约 1 亿美元损失。 DeFi 流动性协议 Elixir 受此拖累出现 6800 万美元风险敞口，Morpho 联创亦回应部分资金池「流动性不足」称其并非系统漏洞。收益稳定币经历 Luna 暴雷以来最大单周资金流出，总计 10 亿美元，而 Ethena Labs 发行的明星稳定币产品 USDe 市值也跌破 90 亿美元，近一个月下降约 45%。Compound 为了应对流动性危机已暂停以太坊上多个稳定币借贷市场，Stables Labs 旗下的稳定币 USDX 也在今日凌晨大幅脱锚下跌至 0.314 美元。资产杠杆连环嵌套和管理不透明带来的危机是否只浮现了冰山一角，更多详细报道可见 《DeFi 潜在 80 亿美金的雷，现在只爆了 1 个亿》 。",
+    "scraped_at": "2025-11-13T15:50:43.931243",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319444",
+    "title": "摩根大通：比特币或将在未来6到12个月内涨至约17万美元",
+    "publication_date": "2025-11-06T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 6 日，据 The Block 报道，摩根大通分析师表示，随着杠杆重置以及比特币相对于黄金的波动率改善，比特币在未来 6 至 12 个月内可能上涨至约 17 万美元。 由董事总经理 Nikolaos Panigirtzoglou 领衔的分析师团队在报告中指出，加密市场已从近期高点回调约 20%，其中最剧烈的下跌发生在 10 月 10 日，当时永续合约市场出现了加密史上最大规模的强平事件。随后在 11 月 3 日 再次出现较小规模的清算。分析师称，11 月 3 日的事件与投资者信心进一步受挫有关，原因是 Balancer 协议遭遇超 1.2 亿美元漏洞攻击，再次引发了市场对协议安全性的担忧。 尽管市场连续两次出现抛售，分析师表示，比特币合约的去杠杆阶段如今似乎已基本结束。他们指出，比特币永续合约未平仓量与市值的比率在几周内已从高于平均水平回落至历史常态。以太坊市场也出现了类似的趋势，尽管去杠杆化的幅度相对较小。",
+    "scraped_at": "2025-11-13T15:52:05.752133",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319433",
+    "title": "Morpho联创回应部分资金池「流动性不足」：并非系统漏洞，而是压力下的自然运作机制",
+    "publication_date": "2025-11-06T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 6 日，Morpho 联创 Merlin Egalite 发文回应部分资金池「流动性不足」表示，「当市场承受压力时，人们往往会选择降低风险，这意味着许多出借者会同时尝试提取全部资金，从而导致资金利用率上升、流动性下降，在极端情况下甚至出现短期内无可用流动性的状况。这并不是系统的漏洞，而是借贷池在压力下的自然反应机制。为恢复平衡，利率模型会自动上调借款利率。 以 Morpho 为例，其目标资金利用率为 90%，这意味着在大多数情况下，约有 90% 的存入资金会被借出。当利用率飙升至 100% 时，利率会提高 4 倍。在绝大多数情况下，市场利率通常会在几分钟内恢复平衡（约 90% 的利用率），而在市场压力较大的时期，恢复可能需要数小时。 此外，所谓的「流动性不足」是局部且可控的，只会出现在个别出现失衡的市场中。前几天，在 Morpho 的 320 个资金池中，仅有 3–4 个出现了短暂的流动性不足，其余金库均正常运行。因此，那些声称「整个协议流动性枯竭」的说法是误导性的。流动性不足并不代表亏损或坏账。它只是意味着短期内资金被大量借出，而市场会实时作出反应，重新定价风险并寻找新的平衡点。」",
+    "scraped_at": "2025-11-13T15:52:21.642413",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319345",
+    "title": "Notional：因Balancer漏洞相关坏账将停止运行，后续公布详细用户提现方案",
+    "publication_date": "2025-11-06T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 6 日，固定利率借贷协议 Notional Finance 发布针对 V3 用户的重要更新，与 Balancer 漏洞相关的坏账总额在主网上为 641.4 枚 ETH，在 Arbitrum 上为 80.2 枚 ETH。在受影响的 Balancer/Aura 杠杆金库中持有仓位的用户将损失其仓位价值 100%。主网和 Arbitrum 上的以太坊借贷者和流动性提供者将面临账户价值大幅缩水，包括以 ETH 为抵押进行借贷的用户。其他用户的账户价值不会受到任何影响。 Notional V3 将在主网和 Arbitrum 上停止运行。由于不良债务规模较大，Notional V3 无法继续正常运行。将尽快公布详细的用户提现方案。在 Notional 平台持有跨币种借贷头寸的用户将自动迁移至 Aave 平台。由于 Notional V3 的逐步关闭，将无法准确地向用户展示清算风险，也无法让用户管理自身头寸。",
+    "scraped_at": "2025-11-13T15:54:44.762731",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319297",
+    "title": "Balancer发布漏洞攻击事件报告：系批量兑换交易四舍五入逻辑错误被利用",
+    "publication_date": "2025-11-06T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 6 日，据官方消息，Balancer 发布漏洞攻击事件初步报告表示，Balancer V2 的可组合稳定池于 11 月 4 日在多条链上（包括 Ethereum、Base、Avalanche、Polygon、Arbitrum 等）遭遇攻击。漏洞源于批量兑换（batchSwap）中针对 EXACT_OUT 交易的四舍五入逻辑错误，攻击者利用该机制操控池内余额并提取资产。此次事件仅影响 Balancer V2 的可组合稳定池，Balancer V3 与其他池型均未受影响。 Balancer 团队与安全合作伙伴及白帽团队迅速行动，通过 Hypernative 自动暂停、资产冻结、SEAL 框架下的白帽干预等措施，成功遏制攻击蔓延并追回部分资产。其中，StakeWise 已追回约 73.5% 被盗 osETH，BitFinding 与 Base MEV bot 等团队亦协助追回部分资金。 目前，Balancer 正在与 SEAL、zeroShadow 等安全伙伴共同进行跨链追踪与资金回收，最终核实的损失及恢复数据将在完整技术复盘报告中公布。官方提醒用户：仅通过 Balancer 官方渠道获取确认信息，V3 及非稳定池操作依然安全。",
+    "scraped_at": "2025-11-13T15:55:59.285755",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "被盗",
+      "漏洞",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319254",
+    "title": "DWF Labs曾于2022年遭遇黑客组织攻击损失超4400万美元",
+    "publication_date": "2025-11-05T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 5 日，据雅虎财经报道，加密做市商 DWF Labs 在 2022 年遭遇了一起由与黑客组织发动的网络攻击，损失超过 4400 万美元。",
+    "scraped_at": "2025-11-13T15:57:09.977060",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319244",
+    "title": "观点：美联储独立性遭特朗普「组合拳」，但总统言论影响力有限",
+    "publication_date": "2025-11-05T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 5 日，在特朗普近一年的持续攻击下，美联储正承受重压。美联储同时面对特朗普的辱骂、解雇美联储主席鲍威尔的威胁、试图解雇美联储理事库克的持续行动，以及为减轻政府债务成本而明确要求降息——除此之外，财政部长贝森特还指控美联储自金融危机以来越权行事。 然而无论经济学家对美联储所受威胁有多焦虑，2025 年全年金融市场始终保持平静。学者 Francesco Bianchi 更新其研究结果显示：特朗普在第一任期内通过社交媒体对美联储发表的不当言论，曾导致金融市场对联邦基金利率的预期出现统计意义上的显著下降。2025 年的情况与此一致，这表明市场认为特朗普的威胁「有效」，美联储会以降息回应。但从长期来看，总统的言论影响力有限，且也没有迹象显示「债券义警」会通过拉高通胀预期来限制总统行动（「债券义警」指通过抛售债券推高收益率，倒逼政府调整政策的投资者）。 前美联储理事 Randy Kroszner 指出，金融市场几乎不担心特朗普的行动会导致中期通胀率上升。前财政部长拉里·萨默斯也提出观点表示，对「美联储越权」的抱怨「根本排不进美国面临的前 100 大问题」。",
+    "scraped_at": "2025-11-13T15:57:26.497585",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319127",
+    "title": "Berachain：已追回所有因漏洞失窃资金，区块链已恢复运行",
+    "publication_date": "2025-11-05T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 5 日，Berachain 发布公告称， 因 BEX / Balancer v2 漏洞而损失的所有资金（约 1280 万美元）已返还至 Berachain 基金会 Deployer 地址。区块链已恢复运行。 HONEY 的铸造/兑换功能也已相应恢复，但所有 BEX 功能均受到限制，包括兑换、提现、存款等。 对于那些拥有大量独立存款人的被盗用资金池，Berachain 核心团队目前正在开发一套系统，该系统会将存款归还到其原始地址，并据此分配给用户。团队提醒，目前在 BEX 中未被攻击的存款用户暂时无法提现。这是出于谨慎考虑，因为 Balancer 漏洞的原因尚未完全查明。",
+    "scraped_at": "2025-11-13T16:00:22.415762",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "被盗",
+      "漏洞",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319120",
+    "title": "美国制裁朝鲜银行家，指控其对被盗加密货币资金进行洗钱",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，美国财政部外国资产控制办公室（OFAC）11 月 4 日宣布，对多名银行家、金融机构及相关实体实施新一轮制裁，指控其参与为朝鲜洗钱、转移通过网络犯罪获得的加密资产，用于资助其核武计划。 美国财政部表示，过去三年中，朝鲜通过恶意软件和社交工程攻击共窃取逾 30 亿美元数字资产，规模超过任何其他国家相关行为体。被制裁对象包括朝鲜银行家 Jang Kuk Chol 与 Ho Jong Son，他们被指代表受制裁的第一信用银行（First Credit Bank）管理资金，其中包括约 530 万美元的加密货币。 财政部指出，朝鲜依赖在本国、俄罗斯等地设立的银行代表、空壳公司及金融机构网络，用于洗钱、加密货币盗窃及规避制裁。美国此前已警告企业，警惕伪装身份的朝鲜 IT 从业者潜入金融系统从事非法活动。（美联社）",
+    "scraped_at": "2025-11-13T16:00:32.353489",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "被盗",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319079",
+    "title": "Berachain：大多数关键合作伙伴已准备就绪恢复区块",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，Berachain 发布更新公告称：除一家预言机供应商外，大多数关键合作伙伴已准备就绪。鉴于近期 Stream/Elixir 等相关问题，预言机提供商在过去 24 小时内承受了巨大压力。他们希望能在数小时内恢复运行。一旦预言机恢复运行且区块链开始生成区块，Berachain 将在此再次发布更新。 在此期间，团队已验证并收到目前持有被盗 BEX 资金的白帽人士提供的预签名交易。一旦区块链恢复生成区块，这些交易将把 BEX 资金从白帽人士转移到基金会部署者的钱包，不再依赖于白帽人士。如果恢复顺利，Berachain 将向社区发布最新消息。 昨日消息，Berachain 基金会表示，「验证节点已协调暂停 Berachain 网络运行，以便核心团队执行紧急硬分叉，解决 BEX 上与 Balancer V2 相关的漏洞问题。此次网络暂停是有计划的，网络将在不久后恢复运行。」",
+    "scraped_at": "2025-11-13T16:01:34.351055",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "被盗",
+      "漏洞"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319076",
+    "title": "美检方要求对Samourai Wallet创始人判刑5年，涉洗钱2.37亿美元",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，美国检方要求对隐私钱包 Samourai Wallet 两位创始人 Keonne Rodriguez 与 William Lonergan Hill 各判处 5 年监禁，理由是他们长期运营未注册的加密混币服务、协助洗钱至少 2.37 亿美元，包括来自毒品、暗网、黑客攻击与非法内容等犯罪收益。两人于 7 月认罪，本周将被分别判刑。（TheBlock）",
+    "scraped_at": "2025-11-13T16:01:38.826112",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319040",
+    "title": "DeFi协议Moonwell疑似遭遇攻击，目前损失超100万美元",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，区块链安全公司 BlockSec 发文称，「我们的系统检测到一系列针对DeFi借贷协议 Moonwell 智能合约（部署在 Base 和 Optimism 上）的可疑交易。 经分析，问题源于 离线预言机（off-chain oracle）提供的 rsETH / ETH 代币价格数据出现异常——该价格被攻击者（可能是 MEV 机器人）利用，导致损失超过 100 万美元。看起来协议使用的价格数据被错误更新。目前无法直接联系相关项目方。」",
+    "scraped_at": "2025-11-13T16:02:33.313313",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319038",
+    "title": "BlockSec：Moonwell协议遭攻击，Base和Optimism链上损失超100万美元",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，据官方消息，BlockSec 的系统检测到一系列可疑交易，目标指向 @MoonwellDeFi 部署在 #Base 和 #Optimism 链上的智能合约。分析表明，此次事件源于链下预言机（oracle）提供的代币价格（rsETH/ETH）数据存在问题，该漏洞可能已被 MEV 机器人利用，导致损失超过 100 万美元。",
+    "scraped_at": "2025-11-13T16:02:36.919197",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/319022",
+    "title": "WILD因连环清算价格闪崩，Arthur Hayes发文喊单抄底",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，Wilder World 团队成员昨日发文更新称，「大约在 11 月 3 日 15:45，WILD 发生了一场快速闪崩，目前仍在进行中。此次事件并非由安全漏洞或攻击造成，而是源于 WILD PeaPods 借贷池的连环清算事件（cascading liquidation）。 简而言之，我们与 PeaPods 的整合带来了未预料到的系统性风险，而我们当时并未完全理解这种风险。不幸的是，在极端市场条件下，这一风险被触发，引发了强制清算与价格急跌。」 BitMEX 联创 Arthur Hayes 对此评论表示，「请务必明白，在 DeFi 中使用杠杆和借贷所承担的风险。你绝不应该被清算。话虽如此，还是要感谢你让我有机会以更低的价格买入更多的 WILD 代币。迫不及待想等到 12 月 Open World 上线！」 截至发文时，WILD 24 小时跌超 65%，市值跌至 3300 万美元。",
+    "scraped_at": "2025-11-13T16:03:01.520522",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "漏洞",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/318997",
+    "title": "Berachain：硬分叉升级文件已分发，攻击者是白帽黑客并愿意返还资金",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，Berachain 在 X 平台发文表示，硬分叉升级文件已分发，许多验证节点也已升级，希望链上运行所需的核心基础设施合作伙伴（例如清算预言机）确保更新其 RPC，因为目前这是恢复链上运行的主要障碍，完成核心服务 RPC 请求后将与桥接器、CEX 合作伙伴、托管机构等协调以恢复服务。目前也在与 BEX 资金持有者进行沟通，他是一位 MEV 机器人运营商并表示自己是白帽黑客，愿意预先签署一系列交易以便在升级后将资金返还，预计将返还到 Berachain 的部署地址。",
+    "scraped_at": "2025-11-13T16:03:45.489270",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客",
+      "攻击"
+    ]
+  },
+  {
+    "url": "https://www.theblockbeats.info/flash/318993",
+    "title": "Balancer黑客目前已将超半数盗取的LST资产换成ETH",
+    "publication_date": "2025-11-04T00:00:00",
+    "author": "@BlockBeats",
+    "body_text": "BlockBeats 消息，11 月 4 日，据链上分析师余烬监测，今天凌晨 StakeWise 通过合约调用从 Balancer 黑客处追回 5,041 枚 osETH (1930 万美元) 。因此黑客从 Balancer 盗取的资产从 1.17 亿美元下降到 9800 万美元。 黑客陆续把 LST 换成 ETH，目前已经将超过半数被盗资产换回成 ETH。",
+    "scraped_at": "2025-11-13T16:03:51.940865",
+    "source_website": "theblockbeats.info",
+    "matched_keywords": [
+      "黑客",
+      "被盗"
+    ]
+  }
+]

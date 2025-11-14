@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "report_id": "test_pattern_1762933137",
+    "report_type": "pattern_analysis",
+    "generated_at": "2025-11-12T15:38:57.582627",
+    "pattern_type": "WASH_TRADING"
+  },
+  "analysis": {
+    "pattern_type": "WASH_TRADING",
+    "total_occurrences": 7,
+    "affected_users": 5,
+    "average_severity": 89.42857142857143
+  },
+  "temporal_distribution": {
+    "2025-11-05": 1,
+    "2025-11-06": 1,
+    "2025-11-07": 2,
+    "2025-11-08": 1,
+    "2025-11-09": 1,
+    "2025-11-10": 1
+  },
+  "user_distribution": [
+    {
+      "user_id": "user_0",
+      "occurrence_count": 2,
+      "average_severity": 85.0
+    },
+    {
+      "user_id": "user_6",
+      "occurrence_count": 2,
+      "average_severity": 91.0
+    },
+    {
+      "user_id": "user_2",
+      "occurrence_count": 1,
+      "average_severity": 92.0
+    },
+    {
+      "user_id": "user_8",
+      "occurrence_count": 1,
+      "average_severity": 98.0
+    },
+    {
+      "user_id": "user_4",
+      "occurrence_count": 1,
+      "average_severity": 84.0
+    }
+  ],
+  "examples": [
+    {
+      "alert_id": "test_alert_0",
+      "user_id": "user_0",
+      "timestamp": "2025-11-05T15:38:57.582452",
+      "anomaly_score": 80,
+      "risk_level": "HIGH",
+      "explanation": "Test alert 0 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_6",
+      "user_id": "user_6",
+      "timestamp": "2025-11-06T09:38:57.582452",
+      "anomaly_score": 86,
+      "risk_level": "HIGH",
+      "explanation": "Test alert 6 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_12",
+      "user_id": "user_2",
+      "timestamp": "2025-11-07T03:38:57.582452",
+      "anomaly_score": 92,
+      "risk_level": "HIGH",
+      "explanation": "Test alert 12 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_18",
+      "user_id": "user_8",
+      "timestamp": "2025-11-07T21:38:57.582452",
+      "anomaly_score": 98,
+      "risk_level": "HIGH",
+      "explanation": "Test alert 18 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_24",
+      "user_id": "user_4",
+      "timestamp": "2025-11-08T15:38:57.582452",
+      "anomaly_score": 84,
+      "risk_level": "HIGH",
+      "explanation": "Test alert 24 for WASH_TRADING"
+    }
+  ]
+}

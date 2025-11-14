@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "report_id": "test_profile_1762933137",
+    "report_type": "user_risk_profile",
+    "generated_at": "2025-11-12T15:38:57.580652",
+    "user_id": "user_1"
+  },
+  "profile": {
+    "user_id": "user_1",
+    "total_trades": 500,
+    "total_alerts": 2,
+    "risk_score": 41.0,
+    "risk_level": "LOW"
+  },
+  "alerts_by_pattern": {
+    "PUMP_AND_DUMP": 1,
+    "GENERAL_ANOMALY": 1
+  },
+  "trading_statistics": {
+    "total_volume": 10000.0,
+    "average_volume": 20.0,
+    "total_symbols": 5
+  },
+  "risk_trend": [],
+  "recent_alerts": [
+    {
+      "alert_id": "test_alert_1",
+      "timestamp": "2025-11-05T18:38:57.580585",
+      "anomaly_score": 51,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Test alert 1 for PUMP_AND_DUMP"
+    },
+    {
+      "alert_id": "test_alert_11",
+      "timestamp": "2025-11-07T00:38:57.580585",
+      "anomaly_score": 31,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Test alert 11 for GENERAL_ANOMALY"
+    }
+  ]
+}

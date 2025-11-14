@@ -1,0 +1,53 @@
+detection:
+  thresholds:
+    high_risk_score: 80.0
+    medium_risk_score: 50.0
+    hft_trades_per_hour: 100
+    wash_trading_time_window: 300  # seconds
+    pump_dump_volume_spike: 3.0  # multiplier
+    pump_dump_price_change: 0.5  # 50%
+  
+  model_weights:
+    isolation_forest: 0.3
+    autoencoder: 0.4
+    random_forest: 0.3
+  
+  feature_windows:
+    - "1H"
+    - "24H"
+    - "7D"
+
+database:
+  url: ${DATABASE_URL}  # Environment variable
+  pool_size: 10
+  max_overflow: 20
+
+redis:
+  url: ${REDIS_URL}  # Environment variable
+  ttl: 3600
+  host: localhost
+  port: 6379
+  db: 0
+
+streaming:
+  window_size_minutes: 5
+  slide_interval_seconds: 30
+  max_window_size: 10000
+  batch_size: 100
+  min_trades_for_analysis: 10
+  alert_threshold_score: 50.0
+  enable_immediate_alerts: true
+  enable_redis: false
+  enable_auto_processing: false
+  auto_process_interval_seconds: 30
+
+api:
+  rate_limit: 100  # requests per minute
+  max_upload_size: 100  # MB
+  cors_origins:
+    - "*"
+
+logging:
+  level: INFO
+  format: json
+  output: logs/app.log

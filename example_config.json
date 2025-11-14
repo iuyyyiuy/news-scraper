@@ -1,0 +1,16 @@
+{
+  "target_url": "https://www.theblockbeats.info/newsflash",
+  "max_articles": 10,
+  "request_delay": 2.0,
+  "output_format": "json",
+  "output_path": "scraped_articles.json",
+  "timeout": 30,
+  "max_retries": 3,
+  "selectors": {
+    "article_links": "a[href*='/flash/']",
+    "title": "h1",
+    "date": "time",
+    "author": ".author-name",
+    "body": ".flash-top"
+  }
+}
