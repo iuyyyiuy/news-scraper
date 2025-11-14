@@ -1,0 +1,7 @@
+{
+  "n_samples": 4,
+  "n_features": 195,
+  "n_estimators": 100,
+  "contamination": 0.5,
+  "trained_at": "2025-11-11T22:54:29.306807"
+}

@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "report_id": "profile_user_5_1762933244",
+    "report_type": "user_risk_profile",
+    "generated_at": "2025-11-12T15:40:44.193057",
+    "user_id": "user_5"
+  },
+  "profile": {
+    "user_id": "user_5",
+    "total_trades": 500,
+    "total_alerts": 5,
+    "risk_score": 61.0,
+    "risk_level": "MEDIUM"
+  },
+  "alerts_by_pattern": {
+    "PUMP_AND_DUMP": 1,
+    "SPOOFING": 2,
+    "GENERAL_ANOMALY": 2
+  },
+  "trading_statistics": {
+    "total_volume": 10000.0,
+    "average_volume": 20.0,
+    "total_symbols": 5,
+    "buy_count": 250,
+    "sell_count": 250
+  },
+  "risk_trend": [],
+  "recent_alerts": [
+    {
+      "alert_id": "alert_5",
+      "timestamp": "2025-11-06T06:40:44.192915",
+      "anomaly_score": 25,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 25.0"
+    },
+    {
+      "alert_id": "alert_15",
+      "timestamp": "2025-11-07T12:40:44.192915",
+      "anomaly_score": 95,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 95.0"
+    },
+    {
+      "alert_id": "alert_25",
+      "timestamp": "2025-11-08T18:40:44.192915",
+      "anomaly_score": 75,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Detected PUMP_AND_DUMP pattern with score 75.0"
+    },
+    {
+      "alert_id": "alert_35",
+      "timestamp": "2025-11-10T00:40:44.192915",
+      "anomaly_score": 25,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 25.0"
+    },
+    {
+      "alert_id": "alert_45",
+      "timestamp": "2025-11-11T06:40:44.192915",
+      "anomaly_score": 85,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 85.0"
+    }
+  ]
+}

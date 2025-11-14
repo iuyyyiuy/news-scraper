@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "report_id": "pattern_WASH_TRADING_1762933244",
+    "report_type": "pattern_analysis",
+    "generated_at": "2025-11-12T15:40:44.195065",
+    "pattern_type": "WASH_TRADING"
+  },
+  "analysis": {
+    "pattern_type": "WASH_TRADING",
+    "total_occurrences": 10,
+    "affected_users": 5,
+    "average_severity": 89.0
+  },
+  "temporal_distribution": {
+    "2025-11-05": 1,
+    "2025-11-06": 1,
+    "2025-11-07": 2,
+    "2025-11-08": 1,
+    "2025-11-09": 1,
+    "2025-11-10": 2,
+    "2025-11-11": 1,
+    "2025-11-12": 1
+  },
+  "user_distribution": [
+    {
+      "user_id": "user_0",
+      "occurrence_count": 2,
+      "average_severity": 85.0
+    },
+    {
+      "user_id": "user_6",
+      "occurrence_count": 2,
+      "average_severity": 91.0
+    },
+    {
+      "user_id": "user_2",
+      "occurrence_count": 2,
+      "average_severity": 87.0
+    },
+    {
+      "user_id": "user_8",
+      "occurrence_count": 2,
+      "average_severity": 93.0
+    },
+    {
+      "user_id": "user_4",
+      "occurrence_count": 2,
+      "average_severity": 89.0
+    }
+  ],
+  "examples": [
+    {
+      "alert_id": "alert_0",
+      "user_id": "user_0",
+      "timestamp": "2025-11-05T15:40:44.194860",
+      "anomaly_score": 80,
+      "risk_level": "HIGH",
+      "explanation": "Detected WASH_TRADING pattern with score 80.0"
+    },
+    {
+      "alert_id": "alert_6",
+      "user_id": "user_6",
+      "timestamp": "2025-11-06T09:40:44.194860",
+      "anomaly_score": 86,
+      "risk_level": "HIGH",
+      "explanation": "Detected WASH_TRADING pattern with score 86.0"
+    },
+    {
+      "alert_id": "alert_12",
+      "user_id": "user_2",
+      "timestamp": "2025-11-07T03:40:44.194860",
+      "anomaly_score": 92,
+      "risk_level": "HIGH",
+      "explanation": "Detected WASH_TRADING pattern with score 92.0"
+    },
+    {
+      "alert_id": "alert_18",
+      "user_id": "user_8",
+      "timestamp": "2025-11-07T21:40:44.194860",
+      "anomaly_score": 98,
+      "risk_level": "HIGH",
+      "explanation": "Detected WASH_TRADING pattern with score 98.0"
+    },
+    {
+      "alert_id": "alert_24",
+      "user_id": "user_4",
+      "timestamp": "2025-11-08T15:40:44.194860",
+      "anomaly_score": 84,
+      "risk_level": "HIGH",
+      "explanation": "Detected WASH_TRADING pattern with score 84.0"
+    }
+  ]
+}

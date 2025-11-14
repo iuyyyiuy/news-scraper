@@ -1,0 +1,18 @@
+# Trade Risk Analyzer API Requirements
+
+# Core API
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+
+# HTTP Client
+requests==2.31.0
+
+# System monitoring
+psutil==5.9.6
+
+# Existing dependencies
+pandas>=1.5.0
+numpy>=1.23.0
+scikit-learn>=1.2.0
+sqlalchemy>=2.0.0

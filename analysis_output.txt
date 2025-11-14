@@ -1,0 +1,447 @@
+
+################################################################################
+#                                                                              #
+#                     COMPREHENSIVE USER BEHAVIOR ANALYSIS                     #
+#                                                                              #
+################################################################################
+
+================================================================================
+LOADING ALL USER DATA
+================================================================================
+================================================================================
+DISCOVERING USER DATA FILES
+================================================================================
+
+Checking 商務大使09.22...
+  Found 14 files
+
+Checking 商務大使09.28...
+  Found 7 files
+
+Total files found: 21
+
+[1/21] Loading user_8347040...
+2025-11-11 23:17:10 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8286819-上級8241081/UID 8347040.xlsx, sheet: 0
+2025-11-11 23:17:10 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 113 records
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 226 trade records (strict=False)
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 226 valid, 0 invalid
+  ✓ 226 trades, 4.4 days, 51.2 trades/day
+
+[2/21] Loading user_8350885...
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8286819-上級8241081/UID 8350885.xlsx, sheet: 0
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 9 records
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 18 trade records (strict=False)
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 18 valid, 0 invalid
+  ✓ 18 trades, 0.0 days, 2187.3 trades/day
+
+[3/21] Loading user_8409007...
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8407687-上級6302548/UID 8409007.xlsx, sheet: 0
+2025-11-11 23:17:11 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 3215 records
+2025-11-11 23:17:13 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 6430 trade records (strict=False)
+2025-11-11 23:17:13 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 6430 valid, 0 invalid
+  ✓ 6430 trades, 6.1 days, 1054.6 trades/day
+
+[4/21] Loading user_8420526...
+2025-11-11 23:17:13 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8416524-上級6302548/UID 8420526.xlsx, sheet: 0
+2025-11-11 23:17:14 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 753 records
+2025-11-11 23:17:14 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 1506 trade records (strict=False)
+2025-11-11 23:17:14 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 1506 valid, 0 invalid
+  ✓ 1506 trades, 3.1 days, 487.4 trades/day
+
+[5/21] Loading user_8420522...
+2025-11-11 23:17:14 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8416521-上級6302548/UID 8420522.xlsx, sheet: 0
+2025-11-11 23:17:14 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 773 records
+2025-11-11 23:17:14 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 1546 trade records (strict=False)
+2025-11-11 23:17:15 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 1546 valid, 0 invalid
+  ✓ 1546 trades, 3.1 days, 498.3 trades/day
+
+[6/21] Loading user_8400719...
+2025-11-11 23:17:15 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8400719.xlsx, sheet: 0
+2025-11-11 23:17:15 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 1384 records
+2025-11-11 23:17:15 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 2768 trade records (strict=False)
+2025-11-11 23:17:16 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 2768 valid, 0 invalid
+  ✓ 2768 trades, 6.1 days, 456.9 trades/day
+
+[7/21] Loading user_8403247...
+2025-11-11 23:17:16 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8403247.xlsx, sheet: 0
+2025-11-11 23:17:16 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 1098 records
+2025-11-11 23:17:16 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 2196 trade records (strict=False)
+2025-11-11 23:17:16 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 2196 valid, 0 invalid
+  ✓ 2196 trades, 5.4 days, 410.2 trades/day
+
+[8/21] Loading user_8399753...
+2025-11-11 23:17:16 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8399753.xlsx, sheet: 0
+2025-11-11 23:17:17 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 2234 records
+2025-11-11 23:17:18 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 4468 trade records (strict=False)
+2025-11-11 23:17:18 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 4468 valid, 0 invalid
+  ✓ 4468 trades, 8.0 days, 559.6 trades/day
+
+[9/21] Loading user_8397219...
+2025-11-11 23:17:18 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8397219.xlsx, sheet: 0
+2025-11-11 23:17:19 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 1880 records
+2025-11-11 23:17:20 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 3760 trade records (strict=False)
+2025-11-11 23:17:20 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 3760 valid, 0 invalid
+  ✓ 3760 trades, 7.0 days, 539.6 trades/day
+
+[10/21] Loading user_8395383...
+2025-11-11 23:17:20 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8395383.xlsx, sheet: 0
+2025-11-11 23:17:20 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 2555 records
+2025-11-11 23:17:22 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 5110 trade records (strict=False)
+2025-11-11 23:17:22 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 5110 valid, 0 invalid
+  ✓ 5110 trades, 8.6 days, 597.1 trades/day
+
+[11/21] Loading user_8391061...
+2025-11-11 23:17:22 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8391061.xlsx, sheet: 0
+2025-11-11 23:17:22 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 2506 records
+2025-11-11 23:17:23 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 5012 trade records (strict=False)
+2025-11-11 23:17:23 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 5012 valid, 0 invalid
+  ✓ 5012 trades, 9.5 days, 526.1 trades/day
+
+[12/21] Loading user_8406456...
+2025-11-11 23:17:24 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8360320-上級6302548/UID 8406456.xlsx, sheet: 0
+2025-11-11 23:17:24 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 1380 records
+2025-11-11 23:17:25 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 2760 trade records (strict=False)
+2025-11-11 23:17:25 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 2760 valid, 0 invalid
+  ✓ 2760 trades, 4.7 days, 593.4 trades/day
+
+[13/21] Loading user_8363457...
+2025-11-11 23:17:25 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8347984-上級6302548/UID 8363457.xlsx, sheet: 0
+2025-11-11 23:17:26 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 4339 records
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 8678 trade records (strict=False)
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 8678 valid, 0 invalid
+  ✓ 8678 trades, 18.9 days, 459.0 trades/day
+
+[14/21] Loading user_8354838...
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.22/商務大使8347984-上級6302548/UID 8354838.xlsx, sheet: 0
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 54 records
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 108 trade records (strict=False)
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 108 valid, 0 invalid
+  ✓ 108 trades, 0.8 days, 131.2 trades/day
+
+[15/21] Loading user_8429394...
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8423795-上級 5743779/UID 8429394.xlsx, sheet: 0
+2025-11-11 23:17:28 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 592 records
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 1184 trade records (strict=False)
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 1184 valid, 0 invalid
+  ✓ 1184 trades, 3.7 days, 319.1 trades/day
+
+[16/21] Loading user_8445401...
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8423820-上級 5743779/UID 8445401.xlsx, sheet: 0
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 168 records
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 336 trade records (strict=False)
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 336 valid, 0 invalid
+  ✓ 336 trades, 0.6 days, 542.0 trades/day
+
+[17/21] Loading user_8445374...
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8423817-上級 5743779/UID 8445374.xlsx, sheet: 0
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 191 records
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 382 trade records (strict=False)
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 382 valid, 0 invalid
+  ✓ 382 trades, 0.7 days, 558.5 trades/day
+
+[18/21] Loading user_8429421...
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8423806-上級 5743779/UID 8429421.xlsx, sheet: 0
+2025-11-11 23:17:29 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 378 records
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 756 trade records (strict=False)
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 756 valid, 0 invalid
+  ✓ 756 trades, 3.5 days, 217.6 trades/day
+
+[19/21] Loading user_8445325...
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8423812-上級 5743779/UID 8445325.xlsx, sheet: 0
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 163 records
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 326 trade records (strict=False)
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 326 valid, 0 invalid
+  ✓ 326 trades, 0.6 days, 540.6 trades/day
+
+[20/21] Loading user_8430904...
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8430240-上級 5743779/UID 8430904.xlsx, sheet: 0
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 488 records
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 976 trade records (strict=False)
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 976 valid, 0 invalid
+  ✓ 976 trades, 3.7 days, 265.5 trades/day
+
+[21/21] Loading user_8429402...
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.importer - INFO - Importing Excel file: 商務大使09.28/商務大使8423802-上級 5743779/UID 8429402.xlsx, sheet: 0
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.importer - INFO - Successfully read Excel with 523 records
+2025-11-11 23:17:30 - trade_risk_analyzer.data_ingestion.validator - INFO - Validating 1046 trade records (strict=False)
+2025-11-11 23:17:31 - trade_risk_analyzer.data_ingestion.validator - INFO - Validation complete: 1046 valid, 0 invalid
+  ✓ 1046 trades, 3.5 days, 300.8 trades/day
+
+================================================================================
+DATA LOADING COMPLETE
+================================================================================
+Total users loaded: 21
+Total trades: 49592
+Date range: 2025-08-27 22:28:42 to 2025-09-29 08:53:58
+Symbols: ['BTCUSDT', 'ETHUSDT']
+
+================================================================================
+USER BEHAVIOR ANALYSIS
+================================================================================
+
+Top 10 Most Active Users (by trades/day):
+--------------------------------------------------------------------------------
+user_8350885         |     18 trades |  2187.34 trades/day | 1 symbols
+user_8409007         |   6430 trades |  1054.64 trades/day | 1 symbols
+user_8395383         |   5110 trades |   597.14 trades/day | 1 symbols
+user_8406456         |   2760 trades |   593.39 trades/day | 1 symbols
+user_8399753         |   4468 trades |   559.58 trades/day | 1 symbols
+user_8445374         |    382 trades |   558.49 trades/day | 1 symbols
+user_8445401         |    336 trades |   542.03 trades/day | 1 symbols
+user_8445325         |    326 trades |   540.62 trades/day | 1 symbols
+user_8397219         |   3760 trades |   539.56 trades/day | 1 symbols
+user_8391061         |   5012 trades |   526.11 trades/day | 1 symbols
+
+User Categories:
+--------------------------------------------------------------------------------
+High Frequency (>100 trades/day): 20 users
+  - user_8350885: 2187.3 trades/day
+  - user_8409007: 1054.6 trades/day
+  - user_8395383: 597.1 trades/day
+  - user_8406456: 593.4 trades/day
+  - user_8399753: 559.6 trades/day
+  - user_8445374: 558.5 trades/day
+  - user_8445401: 542.0 trades/day
+  - user_8445325: 540.6 trades/day
+  - user_8397219: 539.6 trades/day
+  - user_8391061: 526.1 trades/day
+  - user_8420522: 498.3 trades/day
+  - user_8420526: 487.4 trades/day
+  - user_8363457: 459.0 trades/day
+  - user_8400719: 456.9 trades/day
+  - user_8403247: 410.2 trades/day
+  - user_8429394: 319.1 trades/day
+  - user_8429402: 300.8 trades/day
+  - user_8430904: 265.5 trades/day
+  - user_8429421: 217.6 trades/day
+  - user_8354838: 131.2 trades/day
+
+Medium Frequency (20-100 trades/day): 1 users
+  - user_8347040: 51.2 trades/day
+
+Low Frequency (<20 trades/day): 0 users
+
+================================================================================
+FEATURE EXTRACTION
+================================================================================
+
+Extracting features for all users...
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracting features from 49592 trades, grouped by user_id
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracting frequency features...
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.frequency_metrics - INFO - Calculating trades per window, grouped by user_id
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.frequency_metrics - INFO - Calculated frequency metrics for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.frequency_metrics - INFO - Calculating burst metrics (window: 5min)
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.frequency_metrics - INFO - Calculated burst metrics for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.frequency_metrics - INFO - Detecting quote stuffing (threshold: 100/min)
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.frequency_metrics - INFO - Detected quote stuffing for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracting volume features...
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculating basic volume statistics, grouped by user_id
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculated basic statistics for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculating volume percentiles: [25, 50, 75, 90, 95, 99]
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculated percentile rankings for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Detecting volume spikes (threshold: 3.0x, window: 1H)
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/volume_statistics.py:185: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  rolling_avg = group_df['volume'].rolling(window=rolling_window, min_periods=1).mean()
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Detected volume spikes for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculating volume consistency scores, grouped by user_id
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculated consistency scores for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculating rolling volume statistics
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/volume_statistics.py:330: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  rolling_mean = group_df['volume'].rolling(window=window, min_periods=1).mean()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/volume_statistics.py:331: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  rolling_std = group_df['volume'].rolling(window=window, min_periods=1).std()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/volume_statistics.py:332: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  rolling_max = group_df['volume'].rolling(window=window, min_periods=1).max()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/volume_statistics.py:333: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  rolling_min = group_df['volume'].rolling(window=window, min_periods=1).min()
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculated rolling statistics for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculating volume distribution characteristics
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.volume_statistics - INFO - Calculated distribution characteristics for 21 groups
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracting temporal features...
+2025-11-11 23:17:31 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Extracting hour-of-day distributions, grouped by user_id
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Extracted hour-of-day distributions for 21 groups
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Extracting day-of-week distributions, grouped by user_id
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Extracted day-of-week distributions for 21 groups
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Calculating session concentration (gap: 60 min)
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Calculated session concentration for 21 groups
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Calculating time-between-trades statistics
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Calculated time-between-trades for 21 groups
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Identifying temporal clustering (window: 5 min, threshold: 10)
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Identified temporal clustering for 21 groups
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Calculating temporal regularity
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.temporal_patterns - INFO - Calculated temporal regularity for 21 groups
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracting price impact features...
+2025-11-11 23:17:32 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Calculating price deviation, grouped by user_id
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Calculated price deviation for 21 groups
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Calculating slippage metrics, grouped by user_id
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Calculated slippage metrics for 21 groups
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Detecting price reversal patterns (threshold: 0.02)
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Detected price reversals for 21 groups
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Analyzing spread impact, grouped by user_id
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Analyzed spread impact for 21 groups
+2025-11-11 23:17:33 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Calculating price momentum for windows: ['5min', '1H', '24H']
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/price_impact.py:395: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  rolling_return = group_df['price'].pct_change(periods=1).rolling(window=window).sum()
+2025-11-11 23:17:34 - trade_risk_analyzer.feature_engineering.price_impact - INFO - Calculated price momentum for 21 groups
+2025-11-11 23:17:34 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracting behavioral features...
+2025-11-11 23:17:34 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculating holding time statistics, grouped by user_id
+2025-11-11 23:17:35 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculated holding time statistics for 21 groups
+2025-11-11 23:17:35 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculating win/loss ratio, grouped by user_id
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculated win/loss ratios for 21 groups
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Measuring trading pair diversity, grouped by user_id
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Measured trading pair diversity for 21 groups
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculating velocity metrics for windows: ['1H', '24H', '7D']
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+/Users/kabellatsang/PycharmProjects/pythonProject3/trade_risk_analyzer/feature_engineering/behavioral_metrics.py:311: FutureWarning: 'H' is deprecated and will be removed in a future version, please use 'h' instead.
+  trade_counts = group_df.resample(window).size()
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculated velocity metrics for 21 groups
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculating trading style indicators
+2025-11-11 23:17:36 - trade_risk_analyzer.feature_engineering.behavioral_metrics - INFO - Calculated trading style indicators for 21 groups
+2025-11-11 23:17:37 - trade_risk_analyzer.feature_engineering.extractor - INFO - Extracted 205 features for 21 groups
+
+✓ Feature extraction complete
+  Users: 21
+  Features: 205
+  ✓ Saved to all_users_features.csv
+
+================================================================================
+ANOMALY DETECTION
+================================================================================
+
+1. Isolation Forest Detection
+--------------------------------------------------------------------------------
+2025-11-11 23:17:37 - trade_risk_analyzer.models.isolation_forest - INFO - Training Isolation Forest with 21 samples, 195 features
+2025-11-11 23:17:37 - trade_risk_analyzer.models.isolation_forest - INFO - Isolation Forest training complete
+2025-11-11 23:17:37 - trade_risk_analyzer.models.isolation_forest - INFO - Predicted 6 anomalies out of 21 samples
+Anomalies detected: 6/21
+
+Top 10 Most Suspicious Users:
+--------------------------------------------------------------------------------
+user_8363457         | ANOMALY  | Score: 0.5992 |   8678 trades |   459.03 trades/day
+user_8350885         | ANOMALY  | Score: 0.5866 |     18 trades |  2187.34 trades/day
+user_8409007         | ANOMALY  | Score: 0.5625 |   6430 trades |  1054.64 trades/day
+user_8430904         | ANOMALY  | Score: 0.5477 |    976 trades |   265.48 trades/day
+user_8347040         | ANOMALY  | Score: 0.5450 |    226 trades |    51.16 trades/day
+user_8354838         | ANOMALY  | Score: 0.5332 |    108 trades |   131.22 trades/day
+user_8445374         | NORMAL   | Score: 0.5000 |    382 trades |   558.49 trades/day
+user_8429402         | NORMAL   | Score: 0.4910 |   1046 trades |   300.82 trades/day
+user_8445325         | NORMAL   | Score: 0.4899 |    326 trades |   540.62 trades/day
+user_8391061         | NORMAL   | Score: 0.4877 |   5012 trades |   526.11 trades/day
+
+✓ Results saved to anomaly_detection_results.csv
+
+================================================================================
+FINAL ANALYSIS REPORT
+================================================================================
+
+Dataset Overview:
+  Total users analyzed: 21
+  Total trades: 49,592
+  Date range: 2025-08-27 to 2025-09-29
+  Symbols traded: BTCUSDT, ETHUSDT
+
+Trading Activity Distribution:
+  High frequency users (>100 trades/day): 20
+  Medium frequency users (20-100 trades/day): 1
+  Low frequency users (<20 trades/day): 0
+
+Anomaly Detection Results:
+  Anomalous users detected: 6/21
+  Percentage flagged: 28.6%
+
+High-Risk Users (Anomalies with >50 trades/day):
+  - user_8363457: 459.0 trades/day, score: 0.5992
+  - user_8350885: 2187.3 trades/day, score: 0.5866
+  - user_8409007: 1054.6 trades/day, score: 0.5625
+  - user_8430904: 265.5 trades/day, score: 0.5477
+  - user_8347040: 51.2 trades/day, score: 0.5450
+  - user_8354838: 131.2 trades/day, score: 0.5332
+
+================================================================================
+ANALYSIS COMPLETE
+================================================================================
+
+Output Files:
+  - all_users_features.csv (feature matrix)
+  - anomaly_detection_results.csv (detection results)
