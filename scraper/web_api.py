@@ -85,7 +85,7 @@ class ScrapeRequestModel(BaseModel):
         """Validate sources list."""
         if not v:
             raise ValueError('At least one source is required')
-        valid_sources = ['blockbeats', 'jinse', 'panews']
+        valid_sources = ['blockbeats', 'jinse']
         for source in v:
             if source.lower() not in valid_sources:
                 raise ValueError(f'Invalid source: {source}. Valid sources: {valid_sources}')

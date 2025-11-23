@@ -83,7 +83,7 @@ class PANewsScraper:
             show_in_all = log_type not in ['filtered', 'skipped']
         
         if self.log_callback:
-            self.log_callback(message, log_type, show_in_all)
+            self.log_callback(message, log_type, 'panews', show_in_all)
         logger.info(message)
     
     def find_latest_article_id(self) -> Optional[int]:
