@@ -136,7 +136,7 @@ class MultiSourceScraper:
         Returns:
             Tuple of (source_name, scraping_result, articles_list)
         """
-        self._log(f"🚀 开始抓取 {source.upper()}", "info")
+        # Start message removed
         
         try:
             scraper = self._create_scraper(source)
