@@ -220,7 +220,12 @@ def run_scraper_task(
             dedup_stats = scraper.deduplicator.get_statistics()
             log_callback(f"🔍 去重完成: 移除 {dedup_stats['duplicates_found']} 篇重复文章", "info")
         
-        log_callback(f"✅ 最终提取: {result.articles_scraped} 篇唯一文章", "success")
+        log_callback(f"📊 共抓取: {global_counter['count']} 篇文章", "info")
+        if enable_deduplication and scraper.deduplicator:
+            dedup_stats = scraper.deduplicator.get_statistics()
+            log_callback(f"🔍 去重后: {result.articles_scraped} 篇唯一文章", "success")
+        else:
+            log_callback(f"✅ 最终保存: {result.articles_scraped} 篇文章", "success")
         
         # Get session and add all scraped articles
         session = session_manager.get_session(session_id)
