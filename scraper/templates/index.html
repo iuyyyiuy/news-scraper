@@ -724,10 +724,18 @@
                 resultIcon.innerHTML = '<div class="success-icon">✅</div>';
                 resultTitle.textContent = '爬取成功完成！';
 
+                // Get total from global counter if available
+                const totalArticles = data.total_articles || data.articles_scraped;
+                const dedupArticles = data.articles_scraped;
+                
                 statsSection.innerHTML = `
                     <div class="stat-box">
                         <div class="stat-label">已爬取文章</div>
-                        <div class="stat-value">${data.articles_scraped}</div>
+                        <div class="stat-value">${totalArticles}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">已去重爬取文章</div>
+                        <div class="stat-value">${dedupArticles}</div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-label">耗时</div>

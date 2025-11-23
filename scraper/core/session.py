@@ -25,6 +25,7 @@ class Session:
     status: SessionStatus
     articles_found: int = 0
     articles_scraped: int = 0
+    total_articles: int = 0  # Total before deduplication
     start_time: datetime = field(default_factory=datetime.now)
     end_time: Optional[datetime] = None
     error_message: Optional[str] = None
@@ -99,6 +100,7 @@ class Session:
             "status": self.status.value,
             "articles_found": self.articles_found,
             "articles_scraped": self.articles_scraped,
+            "total_articles": self.total_articles,
             "start_time": self.start_time.isoformat(),
             "end_time": self.end_time.isoformat() if self.end_time else None,
             "error_message": self.error_message,
