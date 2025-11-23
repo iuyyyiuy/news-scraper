@@ -36,8 +36,9 @@ class Session:
     end_date: Optional[datetime] = None
     keywords: List[str] = field(default_factory=list)
     
-    # Logs
+    # Logs (organized by source)
     logs: List[dict] = field(default_factory=list)
+    source_logs: Dict[str, List[dict]] = field(default_factory=dict)  # Per-source logs
     _last_log_index: int = -1  # Track which log was last sent
     
     @property
@@ -52,23 +53,42 @@ class Session:
             return (self.end_time - self.start_time).total_seconds()
         return (datetime.now() - self.start_time).total_seconds()
     
-    def add_log(self, message: str, log_type: str = 'info'):
-        """Add a log entry to the session."""
-        self.logs.append({
+    def add_log(self, message: str, log_type: str = 'info', source: str = None):
+        """
+        Add a log entry to the session.
+        
+        Args:
+            message: Log message
+            log_type: Type of log (info, success, error, etc.)
+            source: Optional source name (blockbeats, jinse, panews)
+        """
+        log_entry = {
             'message': message,
             'type': log_type,
-            'timestamp': datetime.now().isoformat()
-        })
+            'timestamp': datetime.now().isoformat(),
+            'source': source
+        }
+        
+        # Add to general logs
+        self.logs.append(log_entry)
+        
+        # Add to source-specific logs if source is specified
+        if source:
+            if source not in self.source_logs:
+                self.source_logs[source] = []
+            self.source_logs[source].append(log_entry)
     
     def to_dict(self) -> dict:
         """Convert session to dictionary for API responses."""
         # Get new log if available
         new_log = None
         new_log_type = None
+        new_log_source = None
         if self.logs and len(self.logs) > self._last_log_index + 1:
             self._last_log_index = len(self.logs) - 1
             new_log = self.logs[-1].get('message')
             new_log_type = self.logs[-1].get('type')
+            new_log_source = self.logs[-1].get('source')
         
         return {
             "session_id": self.session_id,
@@ -84,7 +104,9 @@ class Session:
             "end_date": self.end_date.isoformat() if self.end_date else None,
             "keywords": self.keywords,
             "log": new_log,  # Only send new log
-            "log_type": new_log_type
+            "log_type": new_log_type,
+            "log_source": new_log_source,  # Source of the log
+            "source_logs": {source: logs for source, logs in self.source_logs.items()}  # All source logs
         }
 
 
@@ -148,7 +170,7 @@ class SessionManager:
         with self._lock:
             return self._sessions.get(session_id)
     
-    def add_log(self, session_id: str, message: str, log_type: str = 'info') -> None:
+    def add_log(self, session_id: str, message: str, log_type: str = 'info', source: str = None) -> None:
         """
         Add a log entry to a session.
         
@@ -156,11 +178,12 @@ class SessionManager:
             session_id: The session ID
             message: Log message
             log_type: Type of log (info, success, filtered, error)
+            source: Optional source name (blockbeats, jinse, panews)
         """
         with self._lock:
             session = self._sessions.get(session_id)
             if session:
-                session.add_log(message, log_type)
+                session.add_log(message, log_type, source)
     
     def update_progress(
         self,
