@@ -428,8 +428,6 @@
                             <span>Jinse (金色财经)</span>
                         </label>
                         <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
-                            <input type="checkbox" id="sourcePanews" value="panews" checked style="width: auto; cursor: pointer;">
-                            <span>PANews</span>
                         </label>
                     </div>
                     <p class="help-text">选择要爬取的新闻来源（可多选）</p>
@@ -463,7 +461,6 @@
                     <button class="log-tab active" data-source="all">全部</button>
                     <button class="log-tab" data-source="blockbeats" style="display: none;">BlockBeats</button>
                     <button class="log-tab" data-source="jinse" style="display: none;">Jinse</button>
-                    <button class="log-tab" data-source="panews" style="display: none;">PANews</button>
                 </div>
                 <div class="log-container" id="logContainer">
                     <div class="log-entry">等待开始...</div>
@@ -503,7 +500,6 @@
             'all': [],
             'blockbeats': [],
             'jinse': [],
-            'panews': []
         };
         let currentLogView = 'all';
 
@@ -545,7 +541,6 @@
             const sources = [];
             if (document.getElementById('sourceBlockbeats').checked) sources.push('blockbeats');
             if (document.getElementById('sourceJinse').checked) sources.push('jinse');
-            if (document.getElementById('sourcePanews').checked) sources.push('panews');
             
             const enableDedup = document.getElementById('enableDedup').checked;
 
@@ -865,7 +860,6 @@
                 'all': [],
                 'blockbeats': [],
                 'jinse': [],
-                'panews': []
             };
             currentLogView = 'all';
             
