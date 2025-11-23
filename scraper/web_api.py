@@ -167,18 +167,11 @@ def run_scraper_task(
         
         # Set up progress callback with source tracking
         def progress_callback(source: str, articles_found: int, articles_scraped: int):
+            # Only update progress, don't log
             session_manager.update_progress(
                 session_id,
                 articles_found=articles_found,
                 articles_scraped=articles_scraped
-            )
-            # Log with source prefix (don't show in "All" tab)
-            session_manager.add_log(
-                session_id,
-                f"[{source.upper()}] 检查: {articles_found}, 抓取: {articles_scraped}",
-                "progress",
-                source=source,
-                show_in_all=False
             )
         
         # Set up logging callback with source tracking
