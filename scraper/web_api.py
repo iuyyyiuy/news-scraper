@@ -174,8 +174,17 @@ def run_scraper_task(
                 articles_scraped=articles_scraped
             )
         
-        # Set up logging callback with source tracking
+        # Set up logging callback with source tracking and global counter
+        global_counter = {'count': 0}  # Shared counter across all sources
+        
         def log_callback(message: str, log_type: str = 'info', source: str = None, show_in_all: bool = True):
+            # If message contains article save, increment global counter
+            if '✅ 已保存:' in message or '✅ ID' in message:
+                global_counter['count'] += 1
+                # Replace the number in brackets with global counter
+                import re
+                message = re.sub(r'\[\d+\]', f"[{global_counter['count']}]", message)
+            
             session_manager.add_log(session_id, message, log_type, source=source, show_in_all=show_in_all)
         
         # Log start
