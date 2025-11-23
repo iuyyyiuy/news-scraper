@@ -181,14 +181,12 @@ def run_scraper_task(
             # If message contains article save, increment global counter
             if '✅ 已保存:' in message or '✅ ID' in message:
                 global_counter['count'] += 1
-                # Replace the number in brackets with global counter
-                import re
-                message = re.sub(r'\[\d+\]', f"[{global_counter['count']}]", message)
                 
-                # For "全部" tab, remove ID number from message
+                # For "全部" tab, remove both order number and ID
                 if show_in_all:
-                    # Remove "ID XXXXX... " from the message
-                    message = re.sub(r'ID \d+\.\.\.\s*', '', message)
+                    import re
+                    # Remove "[X] ID XXXXX... " from the message
+                    message = re.sub(r'\[\d+\]\s*ID \d+\.\.\.\s*', '', message)
             
             session_manager.add_log(session_id, message, log_type, source=source, show_in_all=show_in_all)
         
