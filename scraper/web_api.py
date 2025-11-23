@@ -212,25 +212,13 @@ def run_scraper_task(
         # Get per-source results
         source_results = scraper.get_source_results()
         
-        # Log per-source summary
-        log_callback("=" * 60, "info")
-        log_callback("📊 各来源统计:", "info")
-        for source, src_result in source_results.items():
-            log_callback(
-                f"  {source.upper()}: 检查 {src_result.total_articles_found} 篇, "
-                f"抓取 {src_result.articles_scraped} 篇",
-                "info",
-                source=source
-            )
-        
-        # Log deduplication stats
+        # Log completion summary - sources already logged their completion
+        # Just log the final result after deduplication
         if enable_deduplication and scraper.deduplicator:
             dedup_stats = scraper.deduplicator.get_statistics()
-            log_callback("=" * 60, "info")
-            log_callback(f"🔍 去重统计: 移除 {dedup_stats['duplicates_found']} 篇重复文章", "info")
+            log_callback(f"🔍 去重完成: 移除 {dedup_stats['duplicates_found']} 篇重复文章", "info")
         
-        log_callback("=" * 60, "info")
-        log_callback(f"✅ 爬取完成！最终保存 {result.articles_scraped} 篇唯一文章", "success")
+        log_callback(f"✅ 最终提取: {result.articles_scraped} 篇唯一文章", "success")
         
         # Get session and add all scraped articles
         session = session_manager.get_session(session_id)
