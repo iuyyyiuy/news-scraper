@@ -184,6 +184,11 @@ def run_scraper_task(
                 # Replace the number in brackets with global counter
                 import re
                 message = re.sub(r'\[\d+\]', f"[{global_counter['count']}]", message)
+                
+                # For "全部" tab, remove ID number from message
+                if show_in_all:
+                    # Remove "ID XXXXX... " from the message
+                    message = re.sub(r'ID \d+\.\.\.\s*', '', message)
             
             session_manager.add_log(session_id, message, log_type, source=source, show_in_all=show_in_all)
         
