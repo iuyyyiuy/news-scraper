@@ -76,10 +76,84 @@ class JinseScraper:
         self.parser = HTMLParser(selectors=jinse_selectors)
         self.base_url = "https://www.jinse.cn/lives/"
     
-    def _log(self, message: str, log_type: str = 'info'):
+    
+    def _parse_jinse_article(self, html: str, url: str) -> Article:
+        """
+        Custom parser for Jinse articles.
+        
+        Args:
+            html: HTML content
+            url: Article URL
+            
+        Returns:
+            Article object
+        """
+        from bs4 import BeautifulSoup
+        
+        soup = BeautifulSoup(html, 'html.parser')
+        
+        # Extract title from <span class="title">
+        title_elem = soup.select_one('span.title')
+        title = title_elem.get_text(strip=True) if title_elem else "金色财经_区块链资讯_数字货币行情分析"
+        
+        # Extract content from <p class="content">
+        content_elem = soup.select_one('p.content')
+        body_text = content_elem.get_text(strip=True) if content_elem else ""
+        
+        # Extract date - try multiple sources
+        publication_date = None
+        year = datetime.now().year
+        
+        # Method 1: Extract from <span class="js-liveDetail__date">
+        date_elem = soup.select_one('span.js-liveDetail__date')
+        if date_elem:
+            date_text = date_elem.get_text(strip=True)
+            # Pattern: "11月23日，星期日" or "11月23日"
+            date_match = re.search(r'(\d{1,2})月(\d{1,2})日', date_text)
+            if date_match:
+                month = int(date_match.group(1))
+                day = int(date_match.group(2))
+                try:
+                    publication_date = datetime(year, month, day, 0, 0, 0)
+                except ValueError:
+                    pass
+        
+        # Method 2: Extract from content text - pattern: "11月23日消息"
+        if not publication_date and body_text:
+            date_match = re.search(r'(\d{1,2})月(\d{1,2})日', body_text[:100])
+            if date_match:
+                month = int(date_match.group(1))
+                day = int(date_match.group(2))
+                try:
+                    publication_date = datetime(year, month, day, 0, 0, 0)
+                except ValueError:
+                    pass
+        
+        # Fallback: use current date
+        if not publication_date:
+            publication_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        
+        # Create article
+        article = Article(
+            url=url,
+            title=title,
+            publication_date=publication_date,
+            author="金色财经",
+            body_text=body_text,
+            scraped_at=datetime.now(),
+            source_website="jinse.cn"
+        )
+        
+        return article
+
+    def _log(self, message: str, log_type: str = 'info', show_in_all: bool = None):
         """Helper to log messages if callback is available."""
+        # Smart defaults: filtered/skipped logs don't show in "All" tab
+        if show_in_all is None:
+            show_in_all = log_type not in ['filtered', 'skipped']
+        
         if self.log_callback:
-            self.log_callback(message, log_type)
+            self.log_callback(message, log_type, show_in_all)
         logger.info(message)
     
     def find_latest_article_id(self) -> Optional[int]:
@@ -164,22 +238,18 @@ class JinseScraper:
                     # Reset consecutive failures counter
                     consecutive_failures = 0
                     
-                    # Parse article
-                    article = self.parser.parse_article(
-                        response.text,
-                        article_url,
-                        "jinse.cn"
-                    )
+                    # Parse article using custom Jinse parser
+                    article = self._parse_jinse_article(response.text, article_url)
                     
                     # Check if article is within date range
                     if article.publication_date:
                         if article.publication_date < self.start_date:
                             articles_before_start_date += 1
-                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  日期过早 ({article.publication_date.date()})", "filtered")
+                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  日期过早 ({article.publication_date.date()})", "filtered", show_in_all=False)
                             current_id -= 1
                             continue
                         elif article.publication_date > self.end_date:
-                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  日期太新 ({article.publication_date.date()})", "filtered")
+                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  日期太新 ({article.publication_date.date()})", "filtered", show_in_all=False)
                             current_id -= 1
                             continue
                         else:
@@ -192,7 +262,7 @@ class JinseScraper:
                         matched = [kw for kw in self.keywords_filter if kw in article_text]
                         
                         if not matched:
-                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  无匹配关键词", "filtered")
+                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  无匹配关键词", "filtered", show_in_all=False)
                             current_id -= 1
                             continue
                         
@@ -214,18 +284,18 @@ class JinseScraper:
                     if e.response.status_code == 404:
                         consecutive_failures += 1
                         if consecutive_failures % 10 == 0:
-                            self._log(f"⏭️  连续 {consecutive_failures} 个文章不存在", "filtered")
+                            self._log(f"⏭️  连续 {consecutive_failures} 个文章不存在", "filtered", show_in_all=False)
                     else:
                         articles_failed += 1
                         error_msg = f"HTTP错误 ID {current_id}: {str(e)}"
                         errors.append(error_msg)
-                        self._log(f"⚠️  {error_msg}", "filtered")
+                        self._log(f"⚠️  {error_msg}", "filtered", show_in_all=False)
                 
                 except Exception as e:
                     articles_failed += 1
                     error_msg = f"ID {current_id} 跳过: {str(e)}"
                     errors.append(error_msg)
-                    self._log(f"⚠️  {error_msg}", "filtered")
+                    self._log(f"⚠️  {error_msg}", "filtered", show_in_all=False)
                 
                 # Move to next article ID
                 current_id -= 1

@@ -53,7 +53,7 @@ class Session:
             return (self.end_time - self.start_time).total_seconds()
         return (datetime.now() - self.start_time).total_seconds()
     
-    def add_log(self, message: str, log_type: str = 'info', source: str = None):
+    def add_log(self, message: str, log_type: str = 'info', source: str = None, show_in_all: bool = True):
         """
         Add a log entry to the session.
         
@@ -61,12 +61,14 @@ class Session:
             message: Log message
             log_type: Type of log (info, success, error, etc.)
             source: Optional source name (blockbeats, jinse, panews)
+            show_in_all: Whether to show in "全部" (All) tab (default: True)
         """
         log_entry = {
             'message': message,
             'type': log_type,
             'timestamp': datetime.now().isoformat(),
-            'source': source
+            'source': source,
+            'show_in_all': show_in_all
         }
         
         # Add to general logs
@@ -84,11 +86,13 @@ class Session:
         new_log = None
         new_log_type = None
         new_log_source = None
+        new_show_in_all = True
         if self.logs and len(self.logs) > self._last_log_index + 1:
             self._last_log_index = len(self.logs) - 1
             new_log = self.logs[-1].get('message')
             new_log_type = self.logs[-1].get('type')
             new_log_source = self.logs[-1].get('source')
+            new_show_in_all = self.logs[-1].get('show_in_all', True)
         
         return {
             "session_id": self.session_id,
@@ -106,6 +110,7 @@ class Session:
             "log": new_log,  # Only send new log
             "log_type": new_log_type,
             "log_source": new_log_source,  # Source of the log
+            "show_in_all": new_show_in_all,  # Whether to show in "All" tab
             "source_logs": {source: logs for source, logs in self.source_logs.items()}  # All source logs
         }
 
@@ -170,7 +175,7 @@ class SessionManager:
         with self._lock:
             return self._sessions.get(session_id)
     
-    def add_log(self, session_id: str, message: str, log_type: str = 'info', source: str = None) -> None:
+    def add_log(self, session_id: str, message: str, log_type: str = 'info', source: str = None, show_in_all: bool = True) -> None:
         """
         Add a log entry to a session.
         
@@ -179,11 +184,12 @@ class SessionManager:
             message: Log message
             log_type: Type of log (info, success, filtered, error)
             source: Optional source name (blockbeats, jinse, panews)
+            show_in_all: Whether to show in "全部" (All) tab (default: True)
         """
         with self._lock:
             session = self._sessions.get(session_id)
             if session:
-                session.add_log(message, log_type, source)
+                session.add_log(message, log_type, source, show_in_all)
     
     def update_progress(
         self,

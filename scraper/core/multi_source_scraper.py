@@ -89,10 +89,10 @@ class MultiSourceScraper:
         self.source_results: Dict[str, ScrapingResult] = {}
         self.source_articles: Dict[str, List[Article]] = {}
     
-    def _log(self, message: str, log_type: str = 'info'):
+    def _log(self, message: str, log_type: str = 'info', show_in_all: bool = True):
         """Helper to log messages if callback is available."""
         if self.log_callback:
-            self.log_callback(message, log_type)
+            self.log_callback(message, log_type, show_in_all)
         logger.info(message)
     
     def _create_scraper(self, source: str):

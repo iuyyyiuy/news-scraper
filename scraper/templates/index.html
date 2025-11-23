@@ -663,7 +663,8 @@
                     const logMessage = typeof data.log === 'string' ? data.log : data.log.message || JSON.stringify(data.log);
                     const logType = data.log_type || data.log.type || 'info';
                     const logSource = data.log_source || null;
-                    addLogEntry(logMessage, logType, logSource);
+                    const showInAll = data.show_in_all !== undefined ? data.show_in_all : true;
+                    addLogEntry(logMessage, logType, logSource, showInAll);
                 }
 
                 // Check if completed or failed
@@ -789,24 +790,32 @@
         }
 
         // Add log entry to the log container
-        function addLogEntry(message, type = 'info', source = null) {
+        function addLogEntry(message, type = 'info', source = null, showInAll = true) {
             const logEntry = {
                 message: message,
                 type: type,
                 source: source,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                showInAll: showInAll
             };
             
-            // Add to all logs
-            sourceLogs['all'].push(logEntry);
+            // Add to "all" logs only if showInAll is true
+            if (showInAll) {
+                sourceLogs['all'].push(logEntry);
+            }
             
-            // Add to source-specific logs
+            // Always add to source-specific logs
             if (source && sourceLogs[source]) {
                 sourceLogs[source].push(logEntry);
             }
             
             // Display if current view matches
-            if (currentLogView === 'all' || currentLogView === source || !source) {
+            if (currentLogView === 'all') {
+                // Only display if showInAll is true
+                if (showInAll) {
+                    displayLogEntry(logEntry);
+                }
+            } else if (currentLogView === source || !source) {
                 displayLogEntry(logEntry);
             }
         }

@@ -76,10 +76,14 @@ class PANewsScraper:
         self.parser = HTMLParser(selectors=panews_selectors)
         self.base_url = "https://www.panewslab.com/zh/articledetails/"
     
-    def _log(self, message: str, log_type: str = 'info'):
+    def _log(self, message: str, log_type: str = 'info', show_in_all: bool = None):
         """Helper to log messages if callback is available."""
+        # Smart defaults: filtered/skipped logs don't show in "All" tab
+        if show_in_all is None:
+            show_in_all = log_type not in ['filtered', 'skipped']
+        
         if self.log_callback:
-            self.log_callback(message, log_type)
+            self.log_callback(message, log_type, show_in_all)
         logger.info(message)
     
     def find_latest_article_id(self) -> Optional[int]:
@@ -205,7 +209,7 @@ class PANewsScraper:
                         matched = [kw for kw in self.keywords_filter if kw in article_text]
                         
                         if not matched:
-                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  无匹配关键词", "filtered")
+                            self._log(f"[{articles_checked}] ID {current_id}... ⏭️  无匹配关键词", "filtered", show_in_all=False)
                             current_id -= 1
                             continue
                         
@@ -227,18 +231,18 @@ class PANewsScraper:
                     if e.response.status_code == 404:
                         consecutive_failures += 1
                         if consecutive_failures % 10 == 0:
-                            self._log(f"⏭️  连续 {consecutive_failures} 个文章不存在", "filtered")
+                            self._log(f"⏭️  连续 {consecutive_failures} 个文章不存在", "filtered", show_in_all=False)
                     else:
                         articles_failed += 1
                         error_msg = f"HTTP错误 ID {current_id}: {str(e)}"
                         errors.append(error_msg)
-                        self._log(f"⚠️  {error_msg}", "filtered")
+                        self._log(f"⚠️  {error_msg}", "filtered", show_in_all=False)
                 
                 except Exception as e:
                     articles_failed += 1
                     error_msg = f"ID {current_id} 跳过: {str(e)}"
                     errors.append(error_msg)
-                    self._log(f"⚠️  {error_msg}", "filtered")
+                    self._log(f"⚠️  {error_msg}", "filtered", show_in_all=False)
                 
                 # Move to next article ID
                 current_id -= 1

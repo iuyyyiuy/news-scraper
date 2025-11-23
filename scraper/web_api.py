@@ -180,8 +180,8 @@ def run_scraper_task(
             )
         
         # Set up logging callback with source tracking
-        def log_callback(message: str, log_type: str = 'info', source: str = None):
-            session_manager.add_log(session_id, message, log_type, source=source)
+        def log_callback(message: str, log_type: str = 'info', source: str = None, show_in_all: bool = True):
+            session_manager.add_log(session_id, message, log_type, source=source, show_in_all=show_in_all)
         
         # Log start
         log_callback("🚀 开始多源爬取...", "info")
