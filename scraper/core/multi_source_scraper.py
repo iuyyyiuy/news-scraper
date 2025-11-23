@@ -145,10 +145,7 @@ class MultiSourceScraper:
             # Get articles from the temporary store
             articles = scraper.data_store.get_all_articles()
             
-            self._log(
-                f"✅ {source.upper()} 完成: {result.articles_scraped} 篇文章",
-                "success"
-            )
+            # Completion message removed
             
             return (source, result, articles)
             
