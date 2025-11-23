@@ -211,6 +211,65 @@ class JSONDataStore(DataStore):
 
 
 
+class InMemoryDataStore(DataStore):
+    """In-memory data storage implementation (no persistence)."""
+    
+    def __init__(self):
+        """Initialize the in-memory data store."""
+        super().__init__("")
+        self._articles: List[Article] = []
+    
+    def save_article(self, article: Article) -> bool:
+        """
+        Save an article to memory with duplicate checking.
+        
+        Args:
+            article: The article to save
+            
+        Returns:
+            True if article was saved, False if it already exists
+        """
+        # Check for duplicates based on URL
+        if self.article_exists(article.url):
+            return False
+        
+        # Add article to in-memory list and URL set
+        self._articles.append(article)
+        self._scraped_urls.add(article.url)
+        
+        return True
+    
+    def article_exists(self, url: str) -> bool:
+        """
+        Check if an article with the given URL already exists.
+        
+        Args:
+            url: The article URL to check
+            
+        Returns:
+            True if article exists, False otherwise
+        """
+        return url in self._scraped_urls
+    
+    def get_all_articles(self) -> List[Article]:
+        """
+        Retrieve all stored articles.
+        
+        Returns:
+            List of all articles in storage
+        """
+        return self._articles.copy()
+    
+    def export(self, path: str) -> None:
+        """
+        Export is not supported for in-memory storage.
+        
+        Args:
+            path: Path where data would be exported
+        """
+        raise NotImplementedError("Export not supported for in-memory storage")
+
+
 class CSVDataStore(DataStore):
     """CSV file-based data storage implementation."""
     

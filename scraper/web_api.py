@@ -59,8 +59,10 @@ class ScrapeRequestModel(BaseModel):
     """Request model for starting a scrape."""
     days_filter: int = Field(..., description="Number of days to look back (e.g., 7 for last 7 days)", ge=1, le=90)
     keywords: List[str] = Field(..., description="Keywords to filter articles")
-    max_articles: Optional[int] = Field(None, description="Maximum number of articles to scrape")
-    target_url: Optional[str] = Field(None, description="Target URL to scrape (optional)")
+    max_articles: Optional[int] = Field(None, description="Maximum number of articles to scrape per source")
+    sources: List[str] = Field(default=['blockbeats'], description="News sources to scrape from")
+    enable_deduplication: bool = Field(default=True, description="Enable deduplication across sources")
+    target_url: Optional[str] = Field(None, description="Target URL to scrape (optional, for backward compatibility)")
     
     @validator('keywords')
     def validate_keywords(cls, v):
@@ -76,6 +78,17 @@ class ScrapeRequestModel(BaseModel):
         if v is not None and v <= 0:
             raise ValueError('max_articles must be greater than 0')
         return v
+    
+    @validator('sources')
+    def validate_sources(cls, v):
+        """Validate sources list."""
+        if not v:
+            raise ValueError('At least one source is required')
+        valid_sources = ['blockbeats', 'jinse', 'panews']
+        for source in v:
+            if source.lower() not in valid_sources:
+                raise ValueError(f'Invalid source: {source}. Valid sources: {valid_sources}')
+        return [s.lower() for s in v]
 
 
 class ScrapeResponseModel(BaseModel):
@@ -107,95 +120,131 @@ def run_scraper_task(
     days_filter: int,
     keywords: List[str],
     max_articles: Optional[int],
-    target_url: Optional[str]
+    sources: List[str],
+    enable_deduplication: bool
 ):
     """
-    Background task to run the scraper.
+    Background task to run the multi-source scraper.
     
     Args:
         session_id: Session ID
         days_filter: Number of days to look back
         keywords: Keywords for filtering
-        max_articles: Maximum articles to scrape
-        target_url: Target URL to scrape
+        max_articles: Maximum articles to scrape per source
+        sources: List of sources to scrape from
+        enable_deduplication: Whether to enable deduplication
     """
     try:
-        logger.info(f"Starting scraper task for session {session_id}")
+        from scraper.core.multi_source_scraper import MultiSourceScraper
+        from scraper.core.storage import CSVDataStore
+        from datetime import timedelta
+        
+        logger.info(f"Starting multi-source scraper task for session {session_id}")
         logger.info(f"Days filter: Last {days_filter} days")
         logger.info(f"Keywords: {keywords}")
+        logger.info(f"Sources: {sources}")
+        logger.info(f"Deduplication: {enable_deduplication}")
+        
+        # Calculate date range
+        end_date_obj = datetime.now().date()
+        start_date_obj = end_date_obj - timedelta(days=days_filter)
         
         # Create config
         config = Config(
-            target_url=target_url or DEFAULT_CONFIG["target_url"],
+            target_url="",  # Not used for multi-source
             max_articles=max_articles or DEFAULT_CONFIG["max_articles"],
             request_delay=DEFAULT_CONFIG["request_delay"],
-            output_format="json",
-            output_path=f"temp_session_{session_id}.json",
+            output_format="csv",
+            output_path=f"temp_session_{session_id}.csv",
             timeout=DEFAULT_CONFIG["timeout"],
             max_retries=DEFAULT_CONFIG["max_retries"],
-            selectors=DEFAULT_CONFIG["selectors"],
-            keywords=keywords
+            selectors=DEFAULT_CONFIG["selectors"]
         )
         
-        # Set up progress callback with logging
-        def progress_callback(articles_found: int, articles_scraped: int):
+        # Create data store
+        data_store = CSVDataStore(config.output_path)
+        
+        # Set up progress callback with source tracking
+        def progress_callback(source: str, articles_found: int, articles_scraped: int):
             session_manager.update_progress(
                 session_id,
                 articles_found=articles_found,
                 articles_scraped=articles_scraped
             )
+            # Log with source prefix
+            session_manager.add_log(
+                session_id,
+                f"[{source.upper()}] 检查: {articles_found}, 抓取: {articles_scraped}",
+                "progress",
+                source=source
+            )
         
-        # Set up logging callback
-        def log_callback(message: str, log_type: str = 'info'):
-            session_manager.add_log(session_id, message, log_type)
-        
-        # Create a temporary data store for the scraper
-        temp_store = JSONDataStore(config.output_path)
-        
-        # Calculate date range from days_filter
-        from datetime import timedelta
-        end_date_obj = datetime.now().date()
-        start_date_obj = end_date_obj - timedelta(days=days_filter)
+        # Set up logging callback with source tracking
+        def log_callback(message: str, log_type: str = 'info', source: str = None):
+            session_manager.add_log(session_id, message, log_type, source=source)
         
         # Log start
-        log_callback("🚀 开始爬取...", "info")
+        log_callback("🚀 开始多源爬取...", "info")
         log_callback(f"📅 日期范围: {start_date_obj} 到 {end_date_obj}", "info")
         log_callback(f"🔑 关键词: {', '.join(keywords[:5])}{'...' if len(keywords) > 5 else ''}", "info")
-        log_callback(f"📊 最大文章数: {config.max_articles}", "info")
+        log_callback(f"📰 来源: {', '.join([s.upper() for s in sources])}", "info")
+        log_callback(f"🔄 去重: {'启用' if enable_deduplication else '禁用'}", "info")
+        log_callback(f"📊 每个来源最多检查: {config.max_articles} 篇", "info")
         
-        # Use BlockBeats scraper that iterates through article IDs
-        log_callback("🔍 正在查找最新文章ID...", "info")
-        
-        scraper = BlockBeatsScraper(
+        # Create multi-source scraper
+        scraper = MultiSourceScraper(
             config=config,
-            data_store=temp_store,
+            data_store=data_store,
             start_date=start_date_obj,
             end_date=end_date_obj,
             keywords_filter=keywords,
+            sources=sources,
+            enable_deduplication=enable_deduplication,
             progress_callback=progress_callback,
             log_callback=log_callback
         )
         
         # Run scraper
-        result = scraper.scrape()
+        result = scraper.scrape(parallel=True)
         
-        # Log results
-        log_callback(f"✅ 爬取完成！找到 {result.articles_scraped} 篇文章", "success")
+        # Get per-source results
+        source_results = scraper.get_source_results()
+        
+        # Log per-source summary
+        log_callback("=" * 60, "info")
+        log_callback("📊 各来源统计:", "info")
+        for source, src_result in source_results.items():
+            log_callback(
+                f"  {source.upper()}: 检查 {src_result.total_articles_found} 篇, "
+                f"抓取 {src_result.articles_scraped} 篇",
+                "info",
+                source=source
+            )
+        
+        # Log deduplication stats
+        if enable_deduplication and scraper.deduplicator:
+            dedup_stats = scraper.deduplicator.get_statistics()
+            log_callback("=" * 60, "info")
+            log_callback(f"🔍 去重统计: 移除 {dedup_stats['duplicates_found']} 篇重复文章", "info")
+        
+        log_callback("=" * 60, "info")
+        log_callback(f"✅ 爬取完成！最终保存 {result.articles_scraped} 篇唯一文章", "success")
         
         # Get session and add all scraped articles
         session = session_manager.get_session(session_id)
         if session:
-            for article in temp_store.get_all_articles():
+            for article in data_store.get_all_articles():
                 session_manager.add_article(session_id, article)
         
         # Mark session as complete
         session_manager.complete_session(session_id, result)
         
-        logger.info(f"Scraper task completed for session {session_id}")
+        logger.info(f"Multi-source scraper task completed for session {session_id}")
         logger.info(f"Articles scraped: {result.articles_scraped}")
         
     except Exception as e:
-        logger.error(f"Scraper task failed for session {session_id}: {str(e)}")
+        logger.error(f"Scraper task failed for session {session_id}: {str(e)}", exc_info=True)
+        log_callback(f"❌ 错误: {str(e)}", "error")
         session_manager.fail_session(session_id, str(e))
 
 
@@ -245,7 +294,8 @@ async def start_scrape(
             request.days_filter,
             request.keywords,
             request.max_articles,
-            request.target_url
+            request.sources,
+            request.enable_deduplication
         )
         
         return ScrapeResponseModel(

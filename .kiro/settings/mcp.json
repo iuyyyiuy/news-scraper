@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "coinex": {
+      "command": "uvx",
+      "args": ["coinex-mcp-server"],
+      "env": {
+        "COINEX_ACCESS_ID": "",
+        "COINEX_SECRET_KEY": ""
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

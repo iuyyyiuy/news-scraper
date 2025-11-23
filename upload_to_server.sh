@@ -29,13 +29,33 @@ TEMP_DIR=$(mktemp -d)
 mkdir -p $TEMP_DIR/scraper
 
 # Copy necessary files
+echo "  - Copying scraper directory..."
 cp -r scraper/ $TEMP_DIR/
+echo "  - Copying requirements.txt..."
 cp requirements.txt $TEMP_DIR/
+echo "  - Copying run scripts..."
 cp run_web_server.py $TEMP_DIR/ 2>/dev/null || true
+cp test_web_interface_multi_source.py $TEMP_DIR/ 2>/dev/null || true
+
+# Verify new multi-source files exist
+echo "  - Verifying multi-source files..."
+if [ ! -f "$TEMP_DIR/scraper/core/jinse_scraper.py" ]; then
+    echo -e "${RED}❌ Warning: jinse_scraper.py not found!${NC}"
+fi
+if [ ! -f "$TEMP_DIR/scraper/core/panews_scraper.py" ]; then
+    echo -e "${RED}❌ Warning: panews_scraper.py not found!${NC}"
+fi
+if [ ! -f "$TEMP_DIR/scraper/core/deduplicator.py" ]; then
+    echo -e "${RED}❌ Warning: deduplicator.py not found!${NC}"
+fi
+if [ ! -f "$TEMP_DIR/scraper/core/multi_source_scraper.py" ]; then
+    echo -e "${RED}❌ Warning: multi_source_scraper.py not found!${NC}"
+fi
 
 # Create tarball
 cd $TEMP_DIR
-tar -czf news-scraper.tar.gz scraper/ requirements.txt run_web_server.py 2>/dev/null || tar -czf news-scraper.tar.gz scraper/ requirements.txt
+echo "  - Creating tarball..."
+tar -czf news-scraper.tar.gz scraper/ requirements.txt run_web_server.py test_web_interface_multi_source.py 2>/dev/null || tar -czf news-scraper.tar.gz scraper/ requirements.txt
 
 # Upload to server
 echo -e "${YELLOW}📤 Uploading to server...${NC}"

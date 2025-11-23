@@ -312,6 +312,44 @@
             font-weight: bold;
         }
 
+        .log-entry.progress {
+            color: #9b59b6;
+        }
+
+        .log-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e8ecef;
+        }
+
+        .log-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s;
+            margin: 0;
+            width: auto;
+        }
+
+        .log-tab:hover {
+            color: #1abc9c;
+            background: #f8f9fa;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .log-tab.active {
+            color: #1abc9c;
+            border-bottom-color: #1abc9c;
+            background: transparent;
+        }
+
         @media (max-width: 600px) {
             .date-inputs {
                 grid-template-columns: 1fr;
@@ -367,15 +405,42 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="maxArticles">检查文章数量上限</label>
+                    <label for="maxArticles">每个来源检查文章数量上限</label>
                     <input 
                         type="number" 
                         id="maxArticles" 
-                        value="500"
+                        value="50"
                         min="1"
                         max="5000"
                     >
-                    <p class="help-text">最多检查多少篇文章（默认500篇，数量越大耗时越长）</p>
+                    <p class="help-text">每个来源最多检查多少篇文章（默认50篇，数量越大耗时越长）</p>
+                </div>
+
+                <div class="form-group">
+                    <label>新闻来源</label>
+                    <div style="display: flex; gap: 20px; margin-top: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="sourceBlockbeats" value="blockbeats" checked style="width: auto; cursor: pointer;">
+                            <span>BlockBeats (区块律动)</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="sourceJinse" value="jinse" checked style="width: auto; cursor: pointer;">
+                            <span>Jinse (金色财经)</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="sourcePanews" value="panews" checked style="width: auto; cursor: pointer;">
+                            <span>PANews</span>
+                        </label>
+                    </div>
+                    <p class="help-text">选择要爬取的新闻来源（可多选）</p>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="enableDedup" checked style="width: auto; cursor: pointer;">
+                        <span>启用智能去重</span>
+                    </label>
+                    <p class="help-text">自动识别并移除重复的新闻文章（推荐开启）</p>
                 </div>
 
                 <button type="submit" id="submitBtn">开始爬取</button>
@@ -391,9 +456,15 @@
             <div class="article-count" id="articleCount">0</div>
             <p>篇文章已找到</p>
             
-            <!-- Log Display -->
+            <!-- Log Display with Tabs -->
             <div class="log-section">
                 <h3>📋 实时日志</h3>
+                <div class="log-tabs" id="logTabs">
+                    <button class="log-tab active" data-source="all">全部</button>
+                    <button class="log-tab" data-source="blockbeats" style="display: none;">BlockBeats</button>
+                    <button class="log-tab" data-source="jinse" style="display: none;">Jinse</button>
+                    <button class="log-tab" data-source="panews" style="display: none;">PANews</button>
+                </div>
                 <div class="log-container" id="logContainer">
                     <div class="log-entry">等待开始...</div>
                 </div>
@@ -428,6 +499,13 @@
     <script>
         let currentSessionId = null;
         let eventSource = null;
+        let sourceLogs = {
+            'all': [],
+            'blockbeats': [],
+            'jinse': [],
+            'panews': []
+        };
+        let currentLogView = 'all';
 
         // Default to last 7 days
         document.getElementById('daysFilter').value = 7;
@@ -436,9 +514,22 @@
         document.getElementById('maxArticles').addEventListener('change', function() {
             const value = parseInt(this.value);
             if (value > 1000) {
-                if (!confirm(`您设置了检查 ${value} 篇文章，这可能需要较长时间（约 ${Math.ceil(value * 2 / 60)} 分钟）。是否继续？`)) {
-                    this.value = 500;
+                if (!confirm(`您设置了每个来源检查 ${value} 篇文章，这可能需要较长时间。是否继续？`)) {
+                    this.value = 50;
                 }
+            }
+        });
+
+        // Log tab switching
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('log-tab')) {
+                // Update active tab
+                document.querySelectorAll('.log-tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Switch log view
+                currentLogView = e.target.dataset.source;
+                displayLogs(currentLogView);
             }
         });
 
@@ -449,11 +540,25 @@
             const daysFilter = document.getElementById('daysFilter').value;
             const keywords = document.getElementById('keywords').value;
             const maxArticles = document.getElementById('maxArticles').value;
+            
+            // Get selected sources
+            const sources = [];
+            if (document.getElementById('sourceBlockbeats').checked) sources.push('blockbeats');
+            if (document.getElementById('sourceJinse').checked) sources.push('jinse');
+            if (document.getElementById('sourcePanews').checked) sources.push('panews');
+            
+            const enableDedup = document.getElementById('enableDedup').checked;
 
             // Validate days
             const days = parseInt(daysFilter);
             if (isNaN(days) || days < 1 || days > 90) {
                 showError('请输入有效的天数（1-90天）');
+                return;
+            }
+
+            // Validate sources
+            if (sources.length === 0) {
+                showError('请至少选择一个新闻来源');
                 return;
             }
 
@@ -471,6 +576,16 @@
                 return;
             }
 
+            // Show/hide source tabs based on selection
+            document.querySelectorAll('.log-tab').forEach(tab => {
+                const source = tab.dataset.source;
+                if (source === 'all' || sources.includes(source)) {
+                    tab.style.display = 'block';
+                } else {
+                    tab.style.display = 'none';
+                }
+            });
+
             // Hide error and form, show progress
             hideError();
             clearLogs();
@@ -483,7 +598,9 @@
                 // Start scraping
                 const requestBody = {
                     days_filter: days,
-                    keywords: keywordList
+                    keywords: keywordList,
+                    sources: sources,
+                    enable_deduplication: enableDedup
                 };
 
                 if (maxArticles) {
@@ -545,7 +662,8 @@
                 if (data.log) {
                     const logMessage = typeof data.log === 'string' ? data.log : data.log.message || JSON.stringify(data.log);
                     const logType = data.log_type || data.log.type || 'info';
-                    addLogEntry(logMessage, logType);
+                    const logSource = data.log_source || null;
+                    addLogEntry(logMessage, logType, logSource);
                 }
 
                 // Check if completed or failed
@@ -671,24 +789,85 @@
         }
 
         // Add log entry to the log container
-        function addLogEntry(message, type = 'info') {
+        function addLogEntry(message, type = 'info', source = null) {
+            const logEntry = {
+                message: message,
+                type: type,
+                source: source,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add to all logs
+            sourceLogs['all'].push(logEntry);
+            
+            // Add to source-specific logs
+            if (source && sourceLogs[source]) {
+                sourceLogs[source].push(logEntry);
+            }
+            
+            // Display if current view matches
+            if (currentLogView === 'all' || currentLogView === source || !source) {
+                displayLogEntry(logEntry);
+            }
+        }
+
+        // Display a single log entry
+        function displayLogEntry(logEntry) {
             const logContainer = document.getElementById('logContainer');
-            const logEntry = document.createElement('div');
-            logEntry.className = `log-entry ${type}`;
-            logEntry.textContent = message;
-            logContainer.appendChild(logEntry);
+            const div = document.createElement('div');
+            div.className = `log-entry ${logEntry.type}`;
+            div.textContent = logEntry.message;
+            logContainer.appendChild(div);
             
             // Auto-scroll to bottom
             logContainer.scrollTop = logContainer.scrollHeight;
             
-            // Keep only last 100 entries
+            // Keep only last 100 entries in view
             while (logContainer.children.length > 100) {
                 logContainer.removeChild(logContainer.firstChild);
             }
         }
 
+        // Display logs for a specific source
+        function displayLogs(source) {
+            const logContainer = document.getElementById('logContainer');
+            logContainer.innerHTML = '';
+            
+            const logs = sourceLogs[source] || [];
+            if (logs.length === 0) {
+                logContainer.innerHTML = '<div class="log-entry">暂无日志...</div>';
+                return;
+            }
+            
+            logs.forEach(logEntry => {
+                const div = document.createElement('div');
+                div.className = `log-entry ${logEntry.type}`;
+                div.textContent = logEntry.message;
+                logContainer.appendChild(div);
+            });
+            
+            // Auto-scroll to bottom
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
         // Clear logs
         function clearLogs() {
+            sourceLogs = {
+                'all': [],
+                'blockbeats': [],
+                'jinse': [],
+                'panews': []
+            };
+            currentLogView = 'all';
+            
+            // Reset to "all" tab
+            document.querySelectorAll('.log-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.source === 'all') {
+                    tab.classList.add('active');
+                }
+            });
+            
             const logContainer = document.getElementById('logContainer');
             logContainer.innerHTML = '<div class="log-entry">开始爬取...</div>';
         }
