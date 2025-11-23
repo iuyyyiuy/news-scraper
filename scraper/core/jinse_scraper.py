@@ -256,6 +256,12 @@ class JinseScraper:
                             # Reset the counter since we found an article in range
                             articles_before_start_date = 0
                     
+                    # Filter out summary titles (晨讯, 午报, etc.)
+                    if re.search(r'(金色晨讯|金色午报|重要动态一览)', article.title):
+                        self._log(f"[{articles_checked}] ID {current_id}... ⏭️  过滤摘要类标题", "filtered", show_in_all=False)
+                        current_id -= 1
+                        continue
+                    
                     # Check keywords
                     if self.keywords_filter:
                         article_text = f"{article.title} {article.body_text}".lower()
