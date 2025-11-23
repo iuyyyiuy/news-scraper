@@ -164,7 +164,7 @@ class JinseScraper:
             Latest article ID or None if not found
         """
         try:
-            self._log("🔍 正在查找金色财经最新文章ID...", "info", show_in_all=False)
+            # Search message removed
             response = self.http_client.fetch_with_retry("https://www.jinse.cn/lives")
             
             # Look for lives article links in the format /lives/{id}.html
@@ -174,7 +174,7 @@ class JinseScraper:
             if matches:
                 # Get the highest ID
                 latest_id = max(int(id_str) for id_str in matches)
-                self._log(f"✅ 找到最新文章ID: {latest_id}", "info", show_in_all=False)
+                # Found ID message removed
                 return latest_id
             
             self._log("⚠️  未找到任何文章ID", "error")
