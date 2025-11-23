@@ -1,6 +1,7 @@
 """
 Web API for the news scraper with web interface.
 """
+# Updated for clean log display - progress logs hidden from All tab
 import asyncio
 import logging
 from datetime import datetime, date
