@@ -368,79 +368,10 @@
                 max-height: 300px;
             }
         }
-    
-        /* Sidebar Navigation */
-        .page-container {
-            display: flex;
-            min-height: 100vh;
-            background: #f5f7fa;
-        }
-
-        .sidebar {
-            width: 250px;
-            background: #ffffff;
-            border-right: 1px solid #e8ecef;
-            padding: 20px;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-        }
-
-        .sidebar-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            color: #1abc9c;
-        }
-
-        .nav-item {
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #2c3e50;
-            text-decoration: none;
-        }
-
-        .nav-item:hover {
-            background: #f8f9fa;
-        }
-
-        .nav-item.active {
-            background: #e8f8f5;
-            color: #1abc9c;
-            font-weight: 500;
-        }
-
-        .main-wrapper {
-            margin-left: 250px;
-            flex: 1;
-            padding: 40px 20px;
-        }
-
     </style>
 </head>
 <body>
-    <div class="page-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-title">📊 Crypto News</div>
-            <a href="/dashboard" class="nav-item">
-                📰 安全事件数据库
-            </a>
-            <a href="/" class="nav-item active">
-                🔍 新闻搜索
-            </a>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-wrapper">
-<div class="container">
+    <div class="container">
         <div class="card">
             <h1>Crypto News Scraper</h1>
             <p class="subtitle">通过时间范围和关键词搜索并下载新闻文章</p>
@@ -497,6 +428,8 @@
                             <span>Jinse (金色财经)</span>
                         </label>
                         <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                            <input type="checkbox" id="sourcePanews" value="panews" checked style="width: auto; cursor: pointer;">
+                            <span>PANews</span>
                         </label>
                     </div>
                     <p class="help-text">选择要爬取的新闻来源（可多选）</p>
@@ -530,6 +463,7 @@
                     <button class="log-tab active" data-source="all">全部</button>
                     <button class="log-tab" data-source="blockbeats" style="display: none;">BlockBeats</button>
                     <button class="log-tab" data-source="jinse" style="display: none;">Jinse</button>
+                    <button class="log-tab" data-source="panews" style="display: none;">PANews</button>
                 </div>
                 <div class="log-container" id="logContainer">
                     <div class="log-entry">等待开始...</div>
@@ -569,6 +503,7 @@
             'all': [],
             'blockbeats': [],
             'jinse': [],
+            'panews': []
         };
         let currentLogView = 'all';
 
@@ -610,6 +545,7 @@
             const sources = [];
             if (document.getElementById('sourceBlockbeats').checked) sources.push('blockbeats');
             if (document.getElementById('sourceJinse').checked) sources.push('jinse');
+            if (document.getElementById('sourcePanews').checked) sources.push('panews');
             
             const enableDedup = document.getElementById('enableDedup').checked;
 
@@ -727,8 +663,7 @@
                     const logMessage = typeof data.log === 'string' ? data.log : data.log.message || JSON.stringify(data.log);
                     const logType = data.log_type || data.log.type || 'info';
                     const logSource = data.log_source || null;
-                    const showInAll = data.show_in_all !== undefined ? data.show_in_all : true;
-                    addLogEntry(logMessage, logType, logSource, showInAll);
+                    addLogEntry(logMessage, logType, logSource);
                 }
 
                 // Check if completed or failed
@@ -793,14 +728,10 @@
                 resultIcon.innerHTML = '<div class="success-icon">✅</div>';
                 resultTitle.textContent = '爬取成功完成！';
 
-                // Get total from global counter if available
-                const totalArticles = data.total_articles || data.articles_scraped;
-                const dedupArticles = data.articles_scraped;
-                
                 statsSection.innerHTML = `
                     <div class="stat-box">
-                        <div class="stat-label">已去重爬取文章</div>
-                        <div class="stat-value">${dedupArticles}</div>
+                        <div class="stat-label">已爬取文章</div>
+                        <div class="stat-value">${data.articles_scraped}</div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-label">耗时</div>
@@ -858,32 +789,24 @@
         }
 
         // Add log entry to the log container
-        function addLogEntry(message, type = 'info', source = null, showInAll = true) {
+        function addLogEntry(message, type = 'info', source = null) {
             const logEntry = {
                 message: message,
                 type: type,
                 source: source,
-                timestamp: new Date().toISOString(),
-                showInAll: showInAll
+                timestamp: new Date().toISOString()
             };
             
-            // Add to "all" logs only if showInAll is true
-            if (showInAll) {
-                sourceLogs['all'].push(logEntry);
-            }
+            // Add to all logs
+            sourceLogs['all'].push(logEntry);
             
-            // Always add to source-specific logs
+            // Add to source-specific logs
             if (source && sourceLogs[source]) {
                 sourceLogs[source].push(logEntry);
             }
             
             // Display if current view matches
-            if (currentLogView === 'all') {
-                // Only display if showInAll is true
-                if (showInAll) {
-                    displayLogEntry(logEntry);
-                }
-            } else if (currentLogView === source || !source) {
+            if (currentLogView === 'all' || currentLogView === source || !source) {
                 displayLogEntry(logEntry);
             }
         }
@@ -933,6 +856,7 @@
                 'all': [],
                 'blockbeats': [],
                 'jinse': [],
+                'panews': []
             };
             currentLogView = 'all';
             
@@ -948,7 +872,5 @@
             logContainer.innerHTML = '<div class="log-entry">开始爬取...</div>';
         }
     </script>
-        </div>
-    </div>
 </body>
 </html>
