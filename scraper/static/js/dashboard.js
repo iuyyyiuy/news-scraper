@@ -143,7 +143,21 @@ class DashboardController {
             return;
         }
         
-        tbody.innerHTML = articles.map(article => `
+        tbody.innerHTML = articles.map(article => {
+            // Parse keywords if they're a string
+            let keywords = article.matched_keywords;
+            if (typeof keywords === 'string') {
+                try {
+                    keywords = JSON.parse(keywords);
+                } catch (e) {
+                    keywords = [keywords];
+                }
+            }
+            if (!Array.isArray(keywords)) {
+                keywords = [keywords];
+            }
+            
+            return `
             <tr>
                 <td class="article-date">${this.formatDate(article.date)}</td>
                 <td><span class="article-source">${article.source}</span></td>
@@ -154,10 +168,10 @@ class DashboardController {
                 </td>
                 <td>
                     <div class="keywords-cell">
-                        ${article.matched_keywords.slice(0, 3).map(kw => 
+                        ${keywords.slice(0, 3).map(kw => 
                             `<span class="keyword-tag">${this.escapeHtml(kw)}</span>`
                         ).join('')}
-                        ${article.matched_keywords.length > 3 ? 
+                        ${keywords.length > 3 ? 
                             `<span class="keyword-tag">+${article.matched_keywords.length - 3}</span>` : ''}
                     </div>
                 </td>
@@ -182,9 +196,22 @@ class DashboardController {
                 document.getElementById('modal-source').textContent = article.source;
                 document.getElementById('modal-date').textContent = this.formatDate(article.date);
                 
+                // Parse keywords if they're a string
+                let keywords = article.matched_keywords;
+                if (typeof keywords === 'string') {
+                    try {
+                        keywords = JSON.parse(keywords);
+                    } catch (e) {
+                        keywords = [keywords];
+                    }
+                }
+                if (!Array.isArray(keywords)) {
+                    keywords = [keywords];
+                }
+                
                 // Keywords
                 const keywordsDiv = document.getElementById('modal-keywords');
-                keywordsDiv.innerHTML = article.matched_keywords.map(kw => 
+                keywordsDiv.innerHTML = keywords.map(kw => 
                     `<span class="keyword-tag">${this.escapeHtml(kw)}</span>`
                 ).join('');
                 
