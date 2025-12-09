@@ -1,0 +1,14 @@
+# News Database Feature Dependencies
+# Add these to your existing requirements.txt
+
+# Supabase client (use 1.0.3 for compatibility)
+supabase==1.0.3
+
+# Task scheduling
+APScheduler==3.10.4
+
+# Timezone handling
+pytz==2024.1
+
+# Environment variables
+python-dotenv==1.0.0
