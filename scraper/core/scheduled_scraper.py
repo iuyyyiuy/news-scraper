@@ -170,7 +170,7 @@ class ScheduledScraper:
             
             # Store each article
             for article in articles:
-                if self._store_article(article, keyword):
+                if self._store_article(article, [keyword]):
                     result['stored'] += 1
                 else:
                     result['duplicate'] += 1
@@ -201,8 +201,14 @@ class ScheduledScraper:
                 return False
             
             # Prepare article data - match CSV structure
+            pub_date = article.date if hasattr(article, 'date') else article.publication_date
+            if hasattr(pub_date, 'strftime'):
+                pub_date_str = pub_date.strftime('%Y/%m/%d')
+            else:
+                pub_date_str = str(pub_date)
+            
             article_data = {
-                'publication_date': article.date.strftime('%Y/%m/%d') if hasattr(article.date, 'strftime') else str(article.date),
+                'publication_date': pub_date_str,
                 'title': article.title,
                 'body_text': article.content if hasattr(article, 'content') else article.title,
                 'url': article.url,
