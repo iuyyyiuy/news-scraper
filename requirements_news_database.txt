@@ -1,8 +1,14 @@
 # News Database Feature Dependencies
 # Add these to your existing requirements.txt
 
+<<<<<<< HEAD
 # Supabase client (use 1.0.3 for compatibility)
 supabase==1.0.3
+=======
+# Supabase client
+supabase==2.3.4
+httpx==0.24.1
+>>>>>>> 0e8806a7e2cf153eeb4cf9ab80013c792eb3c4d9
 
 # Task scheduling
 APScheduler==3.10.4

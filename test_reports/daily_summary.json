@@ -1,0 +1,358 @@
+{
+  "metadata": {
+    "report_id": "test_daily_1762933137",
+    "report_type": "daily_summary",
+    "generated_at": "2025-11-12T15:38:57.575155",
+    "date": "2025-11-11T15:38:57.575150"
+  },
+  "summary": {
+    "total_trades": 1000,
+    "total_alerts": 30,
+    "high_risk_alerts": 10,
+    "medium_risk_alerts": 10,
+    "low_risk_alerts": 10,
+    "average_anomaly_score": 62.5
+  },
+  "alerts_by_pattern": {
+    "WASH_TRADING": 5,
+    "PUMP_AND_DUMP": 5,
+    "LAYERING": 5,
+    "SPOOFING": 5,
+    "HFT_MANIPULATION": 5,
+    "GENERAL_ANOMALY": 5
+  },
+  "top_risk_users": [
+    {
+      "user_id": "user_9",
+      "alert_count": 3,
+      "average_score": 69.0,
+      "max_score": 89
+    },
+    {
+      "user_id": "user_8",
+      "alert_count": 3,
+      "average_score": 68.0,
+      "max_score": 98
+    },
+    {
+      "user_id": "user_6",
+      "alert_count": 3,
+      "average_score": 66.0,
+      "max_score": 86
+    },
+    {
+      "user_id": "user_5",
+      "alert_count": 3,
+      "average_score": 65.0,
+      "max_score": 95
+    },
+    {
+      "user_id": "user_3",
+      "alert_count": 3,
+      "average_score": 63.0,
+      "max_score": 83
+    },
+    {
+      "user_id": "user_2",
+      "alert_count": 3,
+      "average_score": 62.0,
+      "max_score": 92
+    },
+    {
+      "user_id": "user_7",
+      "alert_count": 3,
+      "average_score": 60.333333333333336,
+      "max_score": 87
+    },
+    {
+      "user_id": "user_0",
+      "alert_count": 3,
+      "average_score": 60.0,
+      "max_score": 80
+    },
+    {
+      "user_id": "user_4",
+      "alert_count": 3,
+      "average_score": 57.333333333333336,
+      "max_score": 84
+    },
+    {
+      "user_id": "user_1",
+      "alert_count": 3,
+      "average_score": 54.333333333333336,
+      "max_score": 81
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": "test_alert_0",
+      "user_id": "user_0",
+      "timestamp": "2025-11-05T15:38:57.574976",
+      "anomaly_score": 80,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Test alert 0 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_1",
+      "user_id": "user_1",
+      "timestamp": "2025-11-05T18:38:57.574976",
+      "anomaly_score": 51,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Test alert 1 for PUMP_AND_DUMP"
+    },
+    {
+      "alert_id": "test_alert_2",
+      "user_id": "user_2",
+      "timestamp": "2025-11-05T21:38:57.574976",
+      "anomaly_score": 22,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Test alert 2 for LAYERING"
+    },
+    {
+      "alert_id": "test_alert_3",
+      "user_id": "user_3",
+      "timestamp": "2025-11-06T00:38:57.574976",
+      "anomaly_score": 83,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Test alert 3 for SPOOFING"
+    },
+    {
+      "alert_id": "test_alert_4",
+      "user_id": "user_4",
+      "timestamp": "2025-11-06T03:38:57.574976",
+      "anomaly_score": 54,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Test alert 4 for HFT_MANIPULATION"
+    },
+    {
+      "alert_id": "test_alert_5",
+      "user_id": "user_5",
+      "timestamp": "2025-11-06T06:38:57.574976",
+      "anomaly_score": 25,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Test alert 5 for GENERAL_ANOMALY"
+    },
+    {
+      "alert_id": "test_alert_6",
+      "user_id": "user_6",
+      "timestamp": "2025-11-06T09:38:57.574976",
+      "anomaly_score": 86,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Test alert 6 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_7",
+      "user_id": "user_7",
+      "timestamp": "2025-11-06T12:38:57.574976",
+      "anomaly_score": 57,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Test alert 7 for PUMP_AND_DUMP"
+    },
+    {
+      "alert_id": "test_alert_8",
+      "user_id": "user_8",
+      "timestamp": "2025-11-06T15:38:57.574976",
+      "anomaly_score": 28,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Test alert 8 for LAYERING"
+    },
+    {
+      "alert_id": "test_alert_9",
+      "user_id": "user_9",
+      "timestamp": "2025-11-06T18:38:57.574976",
+      "anomaly_score": 89,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Test alert 9 for SPOOFING"
+    },
+    {
+      "alert_id": "test_alert_10",
+      "user_id": "user_0",
+      "timestamp": "2025-11-06T21:38:57.574976",
+      "anomaly_score": 60,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Test alert 10 for HFT_MANIPULATION"
+    },
+    {
+      "alert_id": "test_alert_11",
+      "user_id": "user_1",
+      "timestamp": "2025-11-07T00:38:57.574976",
+      "anomaly_score": 31,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Test alert 11 for GENERAL_ANOMALY"
+    },
+    {
+      "alert_id": "test_alert_12",
+      "user_id": "user_2",
+      "timestamp": "2025-11-07T03:38:57.574976",
+      "anomaly_score": 92,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Test alert 12 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_13",
+      "user_id": "user_3",
+      "timestamp": "2025-11-07T06:38:57.574976",
+      "anomaly_score": 63,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Test alert 13 for PUMP_AND_DUMP"
+    },
+    {
+      "alert_id": "test_alert_14",
+      "user_id": "user_4",
+      "timestamp": "2025-11-07T09:38:57.574976",
+      "anomaly_score": 34,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Test alert 14 for LAYERING"
+    },
+    {
+      "alert_id": "test_alert_15",
+      "user_id": "user_5",
+      "timestamp": "2025-11-07T12:38:57.574976",
+      "anomaly_score": 95,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Test alert 15 for SPOOFING"
+    },
+    {
+      "alert_id": "test_alert_16",
+      "user_id": "user_6",
+      "timestamp": "2025-11-07T15:38:57.574976",
+      "anomaly_score": 66,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Test alert 16 for HFT_MANIPULATION"
+    },
+    {
+      "alert_id": "test_alert_17",
+      "user_id": "user_7",
+      "timestamp": "2025-11-07T18:38:57.574976",
+      "anomaly_score": 37,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Test alert 17 for GENERAL_ANOMALY"
+    },
+    {
+      "alert_id": "test_alert_18",
+      "user_id": "user_8",
+      "timestamp": "2025-11-07T21:38:57.574976",
+      "anomaly_score": 98,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Test alert 18 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_19",
+      "user_id": "user_9",
+      "timestamp": "2025-11-08T00:38:57.574976",
+      "anomaly_score": 69,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Test alert 19 for PUMP_AND_DUMP"
+    },
+    {
+      "alert_id": "test_alert_20",
+      "user_id": "user_0",
+      "timestamp": "2025-11-08T03:38:57.574976",
+      "anomaly_score": 40,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Test alert 20 for LAYERING"
+    },
+    {
+      "alert_id": "test_alert_21",
+      "user_id": "user_1",
+      "timestamp": "2025-11-08T06:38:57.574976",
+      "anomaly_score": 81,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Test alert 21 for SPOOFING"
+    },
+    {
+      "alert_id": "test_alert_22",
+      "user_id": "user_2",
+      "timestamp": "2025-11-08T09:38:57.574976",
+      "anomaly_score": 72,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Test alert 22 for HFT_MANIPULATION"
+    },
+    {
+      "alert_id": "test_alert_23",
+      "user_id": "user_3",
+      "timestamp": "2025-11-08T12:38:57.574976",
+      "anomaly_score": 43,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Test alert 23 for GENERAL_ANOMALY"
+    },
+    {
+      "alert_id": "test_alert_24",
+      "user_id": "user_4",
+      "timestamp": "2025-11-08T15:38:57.574976",
+      "anomaly_score": 84,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Test alert 24 for WASH_TRADING"
+    },
+    {
+      "alert_id": "test_alert_25",
+      "user_id": "user_5",
+      "timestamp": "2025-11-08T18:38:57.574976",
+      "anomaly_score": 75,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Test alert 25 for PUMP_AND_DUMP"
+    },
+    {
+      "alert_id": "test_alert_26",
+      "user_id": "user_6",
+      "timestamp": "2025-11-08T21:38:57.574976",
+      "anomaly_score": 46,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Test alert 26 for LAYERING"
+    },
+    {
+      "alert_id": "test_alert_27",
+      "user_id": "user_7",
+      "timestamp": "2025-11-09T00:38:57.574976",
+      "anomaly_score": 87,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Test alert 27 for SPOOFING"
+    },
+    {
+      "alert_id": "test_alert_28",
+      "user_id": "user_8",
+      "timestamp": "2025-11-09T03:38:57.574976",
+      "anomaly_score": 78,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Test alert 28 for HFT_MANIPULATION"
+    },
+    {
+      "alert_id": "test_alert_29",
+      "user_id": "user_9",
+      "timestamp": "2025-11-09T06:38:57.574976",
+      "anomaly_score": 49,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Test alert 29 for GENERAL_ANOMALY"
+    }
+  ]
+}

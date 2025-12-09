@@ -1,0 +1,358 @@
+{
+  "metadata": {
+    "report_id": "daily_20251111",
+    "report_type": "daily_summary",
+    "generated_at": "2025-11-12T15:40:44.187479",
+    "date": "2025-11-11T15:40:44.187463"
+  },
+  "summary": {
+    "total_trades": 1000,
+    "total_alerts": 30,
+    "high_risk_alerts": 10,
+    "medium_risk_alerts": 10,
+    "low_risk_alerts": 10,
+    "average_anomaly_score": 62.5
+  },
+  "alerts_by_pattern": {
+    "WASH_TRADING": 5,
+    "PUMP_AND_DUMP": 5,
+    "LAYERING": 5,
+    "SPOOFING": 5,
+    "HFT_MANIPULATION": 5,
+    "GENERAL_ANOMALY": 5
+  },
+  "top_risk_users": [
+    {
+      "user_id": "user_9",
+      "alert_count": 3,
+      "average_score": 69.0,
+      "max_score": 89
+    },
+    {
+      "user_id": "user_8",
+      "alert_count": 3,
+      "average_score": 68.0,
+      "max_score": 98
+    },
+    {
+      "user_id": "user_6",
+      "alert_count": 3,
+      "average_score": 66.0,
+      "max_score": 86
+    },
+    {
+      "user_id": "user_5",
+      "alert_count": 3,
+      "average_score": 65.0,
+      "max_score": 95
+    },
+    {
+      "user_id": "user_3",
+      "alert_count": 3,
+      "average_score": 63.0,
+      "max_score": 83
+    },
+    {
+      "user_id": "user_2",
+      "alert_count": 3,
+      "average_score": 62.0,
+      "max_score": 92
+    },
+    {
+      "user_id": "user_7",
+      "alert_count": 3,
+      "average_score": 60.333333333333336,
+      "max_score": 87
+    },
+    {
+      "user_id": "user_0",
+      "alert_count": 3,
+      "average_score": 60.0,
+      "max_score": 80
+    },
+    {
+      "user_id": "user_4",
+      "alert_count": 3,
+      "average_score": 57.333333333333336,
+      "max_score": 84
+    },
+    {
+      "user_id": "user_1",
+      "alert_count": 3,
+      "average_score": 54.333333333333336,
+      "max_score": 81
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": "alert_0",
+      "user_id": "user_0",
+      "timestamp": "2025-11-05T15:40:44.187345",
+      "anomaly_score": 80,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Detected WASH_TRADING pattern with score 80.0"
+    },
+    {
+      "alert_id": "alert_1",
+      "user_id": "user_1",
+      "timestamp": "2025-11-05T18:40:44.187345",
+      "anomaly_score": 51,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Detected PUMP_AND_DUMP pattern with score 51.0"
+    },
+    {
+      "alert_id": "alert_2",
+      "user_id": "user_2",
+      "timestamp": "2025-11-05T21:40:44.187345",
+      "anomaly_score": 22,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Detected LAYERING pattern with score 22.0"
+    },
+    {
+      "alert_id": "alert_3",
+      "user_id": "user_3",
+      "timestamp": "2025-11-06T00:40:44.187345",
+      "anomaly_score": 83,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 83.0"
+    },
+    {
+      "alert_id": "alert_4",
+      "user_id": "user_4",
+      "timestamp": "2025-11-06T03:40:44.187345",
+      "anomaly_score": 54,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Detected HFT_MANIPULATION pattern with score 54.0"
+    },
+    {
+      "alert_id": "alert_5",
+      "user_id": "user_5",
+      "timestamp": "2025-11-06T06:40:44.187345",
+      "anomaly_score": 25,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 25.0"
+    },
+    {
+      "alert_id": "alert_6",
+      "user_id": "user_6",
+      "timestamp": "2025-11-06T09:40:44.187345",
+      "anomaly_score": 86,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Detected WASH_TRADING pattern with score 86.0"
+    },
+    {
+      "alert_id": "alert_7",
+      "user_id": "user_7",
+      "timestamp": "2025-11-06T12:40:44.187345",
+      "anomaly_score": 57,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Detected PUMP_AND_DUMP pattern with score 57.0"
+    },
+    {
+      "alert_id": "alert_8",
+      "user_id": "user_8",
+      "timestamp": "2025-11-06T15:40:44.187345",
+      "anomaly_score": 28,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Detected LAYERING pattern with score 28.0"
+    },
+    {
+      "alert_id": "alert_9",
+      "user_id": "user_9",
+      "timestamp": "2025-11-06T18:40:44.187345",
+      "anomaly_score": 89,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 89.0"
+    },
+    {
+      "alert_id": "alert_10",
+      "user_id": "user_0",
+      "timestamp": "2025-11-06T21:40:44.187345",
+      "anomaly_score": 60,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Detected HFT_MANIPULATION pattern with score 60.0"
+    },
+    {
+      "alert_id": "alert_11",
+      "user_id": "user_1",
+      "timestamp": "2025-11-07T00:40:44.187345",
+      "anomaly_score": 31,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 31.0"
+    },
+    {
+      "alert_id": "alert_12",
+      "user_id": "user_2",
+      "timestamp": "2025-11-07T03:40:44.187345",
+      "anomaly_score": 92,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Detected WASH_TRADING pattern with score 92.0"
+    },
+    {
+      "alert_id": "alert_13",
+      "user_id": "user_3",
+      "timestamp": "2025-11-07T06:40:44.187345",
+      "anomaly_score": 63,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Detected PUMP_AND_DUMP pattern with score 63.0"
+    },
+    {
+      "alert_id": "alert_14",
+      "user_id": "user_4",
+      "timestamp": "2025-11-07T09:40:44.187345",
+      "anomaly_score": 34,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Detected LAYERING pattern with score 34.0"
+    },
+    {
+      "alert_id": "alert_15",
+      "user_id": "user_5",
+      "timestamp": "2025-11-07T12:40:44.187345",
+      "anomaly_score": 95,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 95.0"
+    },
+    {
+      "alert_id": "alert_16",
+      "user_id": "user_6",
+      "timestamp": "2025-11-07T15:40:44.187345",
+      "anomaly_score": 66,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Detected HFT_MANIPULATION pattern with score 66.0"
+    },
+    {
+      "alert_id": "alert_17",
+      "user_id": "user_7",
+      "timestamp": "2025-11-07T18:40:44.187345",
+      "anomaly_score": 37,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 37.0"
+    },
+    {
+      "alert_id": "alert_18",
+      "user_id": "user_8",
+      "timestamp": "2025-11-07T21:40:44.187345",
+      "anomaly_score": 98,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Detected WASH_TRADING pattern with score 98.0"
+    },
+    {
+      "alert_id": "alert_19",
+      "user_id": "user_9",
+      "timestamp": "2025-11-08T00:40:44.187345",
+      "anomaly_score": 69,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Detected PUMP_AND_DUMP pattern with score 69.0"
+    },
+    {
+      "alert_id": "alert_20",
+      "user_id": "user_0",
+      "timestamp": "2025-11-08T03:40:44.187345",
+      "anomaly_score": 40,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Detected LAYERING pattern with score 40.0"
+    },
+    {
+      "alert_id": "alert_21",
+      "user_id": "user_1",
+      "timestamp": "2025-11-08T06:40:44.187345",
+      "anomaly_score": 81,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 81.0"
+    },
+    {
+      "alert_id": "alert_22",
+      "user_id": "user_2",
+      "timestamp": "2025-11-08T09:40:44.187345",
+      "anomaly_score": 72,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Detected HFT_MANIPULATION pattern with score 72.0"
+    },
+    {
+      "alert_id": "alert_23",
+      "user_id": "user_3",
+      "timestamp": "2025-11-08T12:40:44.187345",
+      "anomaly_score": 43,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 43.0"
+    },
+    {
+      "alert_id": "alert_24",
+      "user_id": "user_4",
+      "timestamp": "2025-11-08T15:40:44.187345",
+      "anomaly_score": 84,
+      "risk_level": "HIGH",
+      "pattern_type": "WASH_TRADING",
+      "explanation": "Detected WASH_TRADING pattern with score 84.0"
+    },
+    {
+      "alert_id": "alert_25",
+      "user_id": "user_5",
+      "timestamp": "2025-11-08T18:40:44.187345",
+      "anomaly_score": 75,
+      "risk_level": "MEDIUM",
+      "pattern_type": "PUMP_AND_DUMP",
+      "explanation": "Detected PUMP_AND_DUMP pattern with score 75.0"
+    },
+    {
+      "alert_id": "alert_26",
+      "user_id": "user_6",
+      "timestamp": "2025-11-08T21:40:44.187345",
+      "anomaly_score": 46,
+      "risk_level": "LOW",
+      "pattern_type": "LAYERING",
+      "explanation": "Detected LAYERING pattern with score 46.0"
+    },
+    {
+      "alert_id": "alert_27",
+      "user_id": "user_7",
+      "timestamp": "2025-11-09T00:40:44.187345",
+      "anomaly_score": 87,
+      "risk_level": "HIGH",
+      "pattern_type": "SPOOFING",
+      "explanation": "Detected SPOOFING pattern with score 87.0"
+    },
+    {
+      "alert_id": "alert_28",
+      "user_id": "user_8",
+      "timestamp": "2025-11-09T03:40:44.187345",
+      "anomaly_score": 78,
+      "risk_level": "MEDIUM",
+      "pattern_type": "HFT_MANIPULATION",
+      "explanation": "Detected HFT_MANIPULATION pattern with score 78.0"
+    },
+    {
+      "alert_id": "alert_29",
+      "user_id": "user_9",
+      "timestamp": "2025-11-09T06:40:44.187345",
+      "anomaly_score": 49,
+      "risk_level": "LOW",
+      "pattern_type": "GENERAL_ANOMALY",
+      "explanation": "Detected GENERAL_ANOMALY pattern with score 49.0"
+    }
+  ]
+}

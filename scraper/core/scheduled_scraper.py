@@ -158,6 +158,7 @@ class ScheduledScraper:
                 # Article exists, could update keywords here if needed
                 return False
             
+<<<<<<< HEAD
             # Prepare article data - match CSV structure
             article_data = {
                 'publication_date': article['date'].strftime('%Y/%m/%d') if hasattr(article['date'], 'strftime') else str(article['date']),
@@ -165,6 +166,15 @@ class ScheduledScraper:
                 'body_text': article.get('content', article['title']),  # Use title if no content
                 'url': article['url'],
                 'source': article['source'],
+=======
+            # Prepare article data
+            article_data = {
+                'title': article['title'],
+                'url': article['url'],
+                'date': article['date'],
+                'source': article['source'],
+                'content': article.get('content', article['title']),  # Use title if no content
+>>>>>>> 0e8806a7e2cf153eeb4cf9ab80013c792eb3c4d9
                 'matched_keywords': [keyword]
             }
             
