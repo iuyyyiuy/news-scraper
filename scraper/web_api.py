@@ -365,13 +365,78 @@ async def health_check():
     
     return health_status
 
+@app.post("/api/trigger-scrape")
+async def trigger_scrape_now(background_tasks: BackgroundTasks):
+    """Manually trigger the scheduled scraper (for testing)"""
+    try:
+        from scraper.core.scheduled_scraper import ScheduledScraper
+        
+        def run_scrape():
+            scraper = ScheduledScraper()
+            result = scraper.scrape_daily()
+            logger.info(f"Manual scrape completed: {result}")
+        
+        background_tasks.add_task(run_scrape)
+        
+        return {
+            "success": True,
+            "message": "Scrape triggered successfully. Check logs for progress."
+        }
+    except Exception as e:
+        logger.error(f"Failed to trigger scrape: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/trigger-scrape")
+async def trigger_manual_scrape():
+    """Manually trigger the scheduled scraper (for testing)"""
+    try:
+        from scraper.core.scheduled_scraper import ScheduledScraper
+        import threading
+        
+        def run_scrape():
+            scraper = ScheduledScraper()
+            scraper.scrape_daily()
+        
+        # Run in background thread
+        thread = threading.Thread(target=run_scrape)
+        thread.start()
+        
+        return {"success": True, "message": "Scrape triggered successfully"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+# Global scheduler instance
+scheduler_service = None
+
 @app.on_event("startup")
 async def startup_event():
     """Start the scheduler when the app starts"""
+    global scheduler_service
     try:
         from scraper.core.scheduler import SchedulerService
-        scheduler = SchedulerService()
-        scheduler.start_scheduler()
+        scheduler_service = SchedulerService()
+        scheduler_service.start_scheduler()
         print("✅ Scheduler started successfully")
     except Exception as e:
         print(f"⚠️  Scheduler failed to start: {e}")
+
+@app.post("/api/trigger-scrape")
+async def trigger_manual_scrape():
+    """Manually trigger the daily scrape (for testing)"""
+    if scheduler_service is None:
+        raise HTTPException(status_code=503, detail="Scheduler not initialized")
+    
+    import threading
+    thread = threading.Thread(target=scheduler_service.trigger_scrape_now)
+    thread.start()
+    
+    return {"success": True, "message": "Scrape triggered successfully"}
+
+@app.get("/api/scheduler-status")
+async def get_scheduler_status_endpoint():
+    """Get scheduler status"""
+    if scheduler_service is None:
+        return {"running": False, "message": "Scheduler not initialized"}
+    
+    status = scheduler_service.get_scheduler_status()
+    return status
