@@ -30,7 +30,10 @@ app.mount("/static", StaticFiles(directory="scraper/static"), name="static")
 # Serve dashboard HTML
 @app.get("/")
 async def index():
-    return RedirectResponse(url="/dashboard")
+    """Serve the news scraper interface"""
+    response = FileResponse("scraper/templates/index.html")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
 
 @app.get("/dashboard")
 async def dashboard():
