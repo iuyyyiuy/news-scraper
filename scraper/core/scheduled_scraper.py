@@ -62,6 +62,7 @@ class ScheduledScraper:
     def scrape_daily(self) -> Dict[str, any]:
         """
         Execute daily scraping for all keywords
+        Scrapes latest 500 articles once and filters by all keywords
         
         Returns:
             Dictionary with scraping results
@@ -79,21 +80,59 @@ class ScheduledScraper:
             'errors': []
         }
         
-        # Scrape for each keyword
-        for keyword in self.KEYWORDS:
-            try:
-                print(f"\n🔍 Scraping keyword: {keyword}")
-                keyword_results = self._scrape_keyword(keyword)
+        # Scrape once with all keywords (more efficient)
+        try:
+            print(f"\n🔍 Scraping latest 500 articles with {len(self.KEYWORDS)} keywords")
+            
+            # Create config for bulk scraping
+            config = Config(
+                target_url="https://www.theblockbeats.info/newsflash",
+                max_articles=500,
+                request_delay=2.0,
+                timeout=30,
+                max_retries=3
+            )
+            
+            temp_file = os.path.join(self.temp_dir, "temp_daily.csv")
+            data_store = CSVDataStore(temp_file)
+            
+            end_date = date.today()
+            start_date = end_date - timedelta(days=30)
+            
+            # Create scraper with all keywords at once
+            scraper = MultiSourceScraper(
+                config=config,
+                data_store=data_store,
+                start_date=start_date,
+                end_date=end_date,
+                keywords_filter=self.KEYWORDS,  # All keywords at once
+                sources=['blockbeats'],
+                enable_deduplication=True
+            )
+            
+            # Run scraper
+            scraper.scrape()
+            articles = data_store.get_all_articles()
+            
+            results['articles_found'] = len(articles)
+            results['keywords_processed'] = len(self.KEYWORDS)
+            
+            # Store each article
+            for article in articles:
+                # Find which keywords matched
+                matched_keywords = [kw for kw in self.KEYWORDS if kw in article.title or kw in article.content]
                 
-                results['keywords_processed'] += 1
-                results['articles_found'] += keyword_results['found']
-                results['articles_stored'] += keyword_results['stored']
-                results['articles_duplicate'] += keyword_results['duplicate']
-                
-            except Exception as e:
-                error_msg = f"Error scraping keyword '{keyword}': {e}"
-                print(f"❌ {error_msg}")
-                results['errors'].append(error_msg)
+                if self._store_article(article, matched_keywords):
+                    results['articles_stored'] += 1
+                else:
+                    results['articles_duplicate'] += 1
+            
+            print(f"  ✅ Found: {results['articles_found']}, Stored: {results['articles_stored']}, Duplicate: {results['articles_duplicate']}")
+            
+        except Exception as e:
+            error_msg = f"Error during scraping: {e}"
+            print(f"❌ {error_msg}")
+            results['errors'].append(error_msg)
         
         results['end_time'] = datetime.now()
         results['duration'] = (results['end_time'] - results['start_time']).total_seconds()
@@ -144,7 +183,7 @@ class ScheduledScraper:
         
         return result
     
-    def _store_article(self, article: Dict, keyword: str) -> bool:
+    def _store_article(self, article, matched_keywords: List[str]) -> bool:
         """
         Store article in database
         
@@ -163,12 +202,12 @@ class ScheduledScraper:
             
             # Prepare article data - match CSV structure
             article_data = {
-                'publication_date': article['date'].strftime('%Y/%m/%d') if hasattr(article['date'], 'strftime') else str(article['date']),
-                'title': article['title'],
-                'body_text': article.get('content', article['title']),
-                'url': article['url'],
-                'source': article['source'],
-                'matched_keywords': [keyword]
+                'publication_date': article.date.strftime('%Y/%m/%d') if hasattr(article.date, 'strftime') else str(article.date),
+                'title': article.title,
+                'body_text': article.content if hasattr(article, 'content') else article.title,
+                'url': article.url,
+                'source': article.source,
+                'matched_keywords': matched_keywords
             }
             
             # Insert into database
