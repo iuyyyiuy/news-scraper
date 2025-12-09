@@ -122,12 +122,16 @@ class ScheduledScraper:
             
             print(f"   Found {len(articles)} matching articles")
             
-            # Store each article
+            # Store each article - keywords already filtered by MultiSourceScraper
             for article in articles:
-                # Find which keywords matched
-                title_lower = article.title.lower()
-                content_lower = (article.content if hasattr(article, 'content') else '').lower()
-                matched_keywords = [kw for kw in self.KEYWORDS if kw.lower() in title_lower or kw.lower() in content_lower]
+                # Get matched keywords from article or find them
+                if hasattr(article, 'matched_keywords') and article.matched_keywords:
+                    matched_keywords = article.matched_keywords
+                else:
+                    # Find which keywords matched
+                    title_lower = article.title.lower()
+                    body_lower = article.body_text.lower() if hasattr(article, 'body_text') else ''
+                    matched_keywords = [kw for kw in self.KEYWORDS if kw.lower() in title_lower or kw.lower() in body_lower]
                 
                 if matched_keywords:  # Only store if keywords matched
                     if self._store_article(article, matched_keywords):
