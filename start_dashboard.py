@@ -71,6 +71,35 @@ async def test_api():
     from fastapi.responses import FileResponse
     return FileResponse("scraper/templates/test_api.html")
 
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint to verify environment and database connection"""
+    import os
+    from scraper.core.database_manager import DatabaseManager
+    
+    health_status = {
+        "status": "ok",
+        "env_vars": {
+            "SUPABASE_URL": "set" if os.getenv('SUPABASE_URL') else "missing",
+            "SUPABASE_KEY": "set" if os.getenv('SUPABASE_KEY') else "missing"
+        },
+        "database": "unknown"
+    }
+    
+    try:
+        db = DatabaseManager()
+        if db.supabase:
+            count = db.get_total_count()
+            health_status["database"] = f"connected ({count} articles)"
+        else:
+            health_status["database"] = "connection failed"
+            health_status["status"] = "error"
+    except Exception as e:
+        health_status["database"] = f"error: {str(e)}"
+        health_status["status"] = "error"
+    
+    return health_status
+
 if __name__ == "__main__":
     print("="*60)
     print("🚀 Starting News Database Dashboard")
