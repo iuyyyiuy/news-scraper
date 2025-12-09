@@ -122,7 +122,10 @@ class ScheduledScraper:
             scraper = self._create_scraper(keyword)
             
             # Scrape from all sources
-            articles = scraper.scrape_all_sources()
+            scraper.scrape()
+            
+            # Get articles from the data store
+            articles = scraper.data_store.get_all_articles()
             
             result['found'] = len(articles)
             
