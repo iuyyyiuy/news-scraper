@@ -24,15 +24,15 @@ class SchedulerService:
         Schedule daily scraping at 11:30 AM UTC+8
         """
         try:
-            # TEST: Schedule for 16:15 (4:15 PM) HKT for immediate testing
+            # TEST: Schedule for 17:00 (5:00 PM) HKT for immediate testing
             self.scheduler.add_job(
                 func=self._run_daily_scrape,
-                trigger=CronTrigger(hour=16, minute=15, timezone=pytz.timezone('Asia/Shanghai')),
+                trigger=CronTrigger(hour=17, minute=0, timezone=pytz.timezone('Asia/Shanghai')),
                 id='daily_scrape',
                 name='Daily News Scraping',
                 replace_existing=True
             )
-            print("✅ Scheduled daily scrape at 16:15 (4:15 PM) HKT for testing")
+            print("✅ Scheduled daily scrape at 17:00 (5:00 PM) HKT for testing")
             
         except Exception as e:
             print(f"❌ Error scheduling daily scrape: {e}")
