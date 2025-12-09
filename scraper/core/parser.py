@@ -139,6 +139,20 @@ class HTMLParser:
         
         # Extract body text
         body_text = self._extract_body(soup)
+        
+        # For BlockBeats, try meta tags if body extraction fails
+        if not body_text and 'blockbeats' in source_website.lower():
+            # Try og:description
+            og_desc = soup.find('meta', property='og:description')
+            if og_desc and og_desc.get('content'):
+                body_text = og_desc.get('content')
+            
+            # Try description meta tag
+            if not body_text:
+                desc = soup.find('meta', attrs={'name': 'description'})
+                if desc and desc.get('content'):
+                    body_text = desc.get('content')
+        
         if not body_text:
             raise ValueError("Could not extract article body")
         
