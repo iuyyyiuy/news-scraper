@@ -203,31 +203,42 @@ class ScheduledScraper:
         Store article in database
         
         Args:
-            article: Article data from scraper
-            keyword: Keyword that matched this article
+            article: Article object from scraper
+            matched_keywords: List of keywords that matched this article
         
         Returns:
             True if stored, False if duplicate
         """
         try:
             # Check if article already exists
-            if self.db_manager.check_article_exists(article['url']):
+            if self.db_manager.check_article_exists(article.url):
                 # Article exists, could update keywords here if needed
                 return False
             
             # Prepare article data - match CSV structure
-            pub_date = article.date if hasattr(article, 'date') else article.publication_date
+            # Handle both date and publication_date attributes
+            if hasattr(article, 'publication_date') and article.publication_date:
+                pub_date = article.publication_date
+            elif hasattr(article, 'date') and article.date:
+                pub_date = article.date
+            else:
+                from datetime import date
+                pub_date = date.today()
+            
             if hasattr(pub_date, 'strftime'):
                 pub_date_str = pub_date.strftime('%Y/%m/%d')
             else:
                 pub_date_str = str(pub_date)
             
+            # Get body text
+            body_text = article.body_text if hasattr(article, 'body_text') else article.title
+            
             article_data = {
                 'publication_date': pub_date_str,
                 'title': article.title,
-                'body_text': article.content if hasattr(article, 'content') else article.title,
+                'body_text': body_text,
                 'url': article.url,
-                'source': article.source,
+                'source': article.source_website if hasattr(article, 'source_website') else 'BlockBeats',
                 'matched_keywords': matched_keywords
             }
             
@@ -236,6 +247,8 @@ class ScheduledScraper:
             
         except Exception as e:
             print(f"  ❌ Error storing article: {e}")
+            import traceback
+            traceback.print_exc()
             return False
     
     def _log_results(self, results: Dict):
