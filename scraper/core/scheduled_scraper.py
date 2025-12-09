@@ -62,7 +62,7 @@ class ScheduledScraper:
     def scrape_daily(self) -> Dict[str, any]:
         """
         Execute daily scraping for all keywords
-        Scrapes latest 500 articles once and filters by all keywords
+        Gets latest news ID and scrapes backward 200 articles
         
         Returns:
             Dictionary with scraping results
@@ -80,15 +80,16 @@ class ScheduledScraper:
             'errors': []
         }
         
-        # Scrape once with all keywords (more efficient)
+        # Scrape latest 200 articles from BlockBeats (no date filter)
         try:
-            print(f"\n🔍 Scraping latest 500 articles with {len(self.KEYWORDS)} keywords")
+            print(f"\n🔍 Scraping latest 200 articles from BlockBeats")
+            print(f"   Keywords: {len(self.KEYWORDS)} security-related terms")
             
-            # Create config for bulk scraping
+            # Create config - scrape latest 200 articles
             config = Config(
                 target_url="https://www.theblockbeats.info/newsflash",
-                max_articles=500,
-                request_delay=2.0,
+                max_articles=200,  # Get latest 200 articles
+                request_delay=1.0,  # Faster for scheduled runs
                 timeout=30,
                 max_retries=3
             )
@@ -96,8 +97,9 @@ class ScheduledScraper:
             temp_file = os.path.join(self.temp_dir, "temp_daily.csv")
             data_store = CSVDataStore(temp_file)
             
+            # No date filtering - just get latest articles
             end_date = date.today()
-            start_date = end_date - timedelta(days=30)
+            start_date = end_date - timedelta(days=7)  # Look back 7 days max
             
             # Create scraper with all keywords at once
             scraper = MultiSourceScraper(
@@ -111,27 +113,36 @@ class ScheduledScraper:
             )
             
             # Run scraper
+            print("   Fetching articles...")
             scraper.scrape()
             articles = data_store.get_all_articles()
             
             results['articles_found'] = len(articles)
             results['keywords_processed'] = len(self.KEYWORDS)
             
+            print(f"   Found {len(articles)} matching articles")
+            
             # Store each article
             for article in articles:
                 # Find which keywords matched
-                matched_keywords = [kw for kw in self.KEYWORDS if kw in article.title or kw in article.content]
+                title_lower = article.title.lower()
+                content_lower = (article.content if hasattr(article, 'content') else '').lower()
+                matched_keywords = [kw for kw in self.KEYWORDS if kw.lower() in title_lower or kw.lower() in content_lower]
                 
-                if self._store_article(article, matched_keywords):
-                    results['articles_stored'] += 1
-                else:
-                    results['articles_duplicate'] += 1
+                if matched_keywords:  # Only store if keywords matched
+                    if self._store_article(article, matched_keywords):
+                        results['articles_stored'] += 1
+                        print(f"   ✅ Stored: {article.title[:50]}...")
+                    else:
+                        results['articles_duplicate'] += 1
             
-            print(f"  ✅ Found: {results['articles_found']}, Stored: {results['articles_stored']}, Duplicate: {results['articles_duplicate']}")
+            print(f"\n  📊 Summary: Found {results['articles_found']}, Stored {results['articles_stored']}, Duplicate {results['articles_duplicate']}")
             
         except Exception as e:
             error_msg = f"Error during scraping: {e}"
             print(f"❌ {error_msg}")
+            import traceback
+            traceback.print_exc()
             results['errors'].append(error_msg)
         
         results['end_time'] = datetime.now()
