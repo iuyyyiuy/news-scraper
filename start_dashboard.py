@@ -100,6 +100,17 @@ async def health_check():
     
     return health_status
 
+@app.on_event("startup")
+async def startup_event():
+    """Start the scheduler when the app starts"""
+    try:
+        from scraper.core.scheduler import SchedulerService
+        scheduler = SchedulerService()
+        scheduler.start_scheduler()
+        print("✅ Scheduler started successfully")
+    except Exception as e:
+        print(f"⚠️  Scheduler failed to start: {e}")
+
 if __name__ == "__main__":
     print("="*60)
     print("🚀 Starting News Database Dashboard")
@@ -107,6 +118,7 @@ if __name__ == "__main__":
     print()
     print("📊 Dashboard: http://localhost:8080/dashboard")
     print("🔌 API: http://localhost:8080/api/database/articles")
+    print("⏰ Scheduler: 11:30 AM HKT daily")
     print()
     print("Press Ctrl+C to stop")
     print("="*60)
