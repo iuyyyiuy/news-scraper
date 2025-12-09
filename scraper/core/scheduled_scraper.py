@@ -46,14 +46,14 @@ class ScheduledScraper:
         end_date = date.today()
         start_date = end_date - timedelta(days=1)
         
-        # Create scraper
+        # Create scraper - only BlockBeats for scheduled runs
         scraper = MultiSourceScraper(
             config=config,
             data_store=data_store,
             start_date=start_date,
             end_date=end_date,
             keywords_filter=[keyword],
-            sources=['blockbeats', 'jinse'],
+            sources=['blockbeats'],  # Only BlockBeats to avoid Jinse 404 errors
             enable_deduplication=True
         )
         
