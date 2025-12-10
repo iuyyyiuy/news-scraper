@@ -76,6 +76,9 @@ class DatabaseManager:
             if isinstance(matched_keywords, str):
                 matched_keywords = [k.strip() for k in matched_keywords.split(',') if k.strip()]
             
+            # Normalize source name to standard format
+            source_name = self._normalize_source_name(article_data.get('source', ''))
+            
             # Prepare data for insertion
             # Use UTC time for scraped_at (Supabase stores in UTC)
             from datetime import timezone
@@ -84,7 +87,7 @@ class DatabaseManager:
                 'title': article_data['title'],
                 'body_text': article_data['body_text'],
                 'url': article_data['url'],
-                'source': article_data['source'],
+                'source': source_name,
                 'matched_keywords': matched_keywords,
                 'scraped_at': datetime.now(timezone.utc).isoformat()
             }
@@ -293,6 +296,30 @@ class DatabaseManager:
         except Exception as e:
             print(f"❌ Error getting last scrape time: {e}")
             return None
+    
+    def _normalize_source_name(self, source: str) -> str:
+        """
+        Normalize source name to standardized format.
+        
+        Args:
+            source: Raw source name
+            
+        Returns:
+            Standardized source name: "BlockBeats" or "Jinse"
+        """
+        if not source:
+            return 'BlockBeats'  # Default
+        
+        source_lower = source.lower()
+        
+        # Normalize based on source patterns
+        if any(pattern in source_lower for pattern in ['blockbeat', 'theblockbeats']):
+            return 'BlockBeats'
+        elif any(pattern in source_lower for pattern in ['jinse']):
+            return 'Jinse'
+        else:
+            # Default to BlockBeats for unknown sources
+            return 'BlockBeats'
 
 
 # Test connection when module is run directly

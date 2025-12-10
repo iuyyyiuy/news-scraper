@@ -19,6 +19,20 @@ db_manager = DatabaseManager()
 scheduler_service = None
 
 
+def normalize_source_name(source: str) -> str:
+    """Normalize source name to standard format"""
+    if not source:
+        return 'Unknown'
+    
+    source_lower = source.lower()
+    if any(pattern in source_lower for pattern in ['blockbeat', 'theblockbeats']):
+        return 'BlockBeats'
+    elif any(pattern in source_lower for pattern in ['jinse']):
+        return 'Jinse'
+    else:
+        return source  # Return as-is if not recognized
+
+
 def init_scheduler():
     """Initialize and start the scheduler service"""
     global scheduler_service
@@ -66,6 +80,17 @@ async def export_csv(
         headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
 
+def normalize_source_name(source: str) -> str:
+    """Normalize source names for display"""
+    if not source:
+        return source
+    source_lower = source.lower()
+    if 'blockbeats' in source_lower:
+        return 'BlockBeats'
+    elif 'jinse' in source_lower:
+        return 'Jinse'
+    return source
+
 @router.get("/articles")
 async def get_articles(
     limit: int = Query(50, ge=1, le=100, description="Number of articles to return"),
@@ -77,12 +102,33 @@ async def get_articles(
     Get articles from database with optional filtering
     """
     try:
+        # Validate source parameter
+        if source and source not in ['BlockBeats', 'Jinse']:
+            raise HTTPException(status_code=400, detail="Invalid source. Must be 'BlockBeats' or 'Jinse'")
+        
         articles = db_manager.get_all_articles(
             limit=limit,
             offset=offset,
             keyword=keyword,
             source=source
         )
+        
+        # Ensure articles is a list
+        if not isinstance(articles, list):
+            articles = []
+        
+        # Normalize source names for display and ensure data consistency
+        for article in articles:
+            if isinstance(article, dict):
+                if 'source' in article:
+                    article['source'] = normalize_source_name(article['source'])
+                # Ensure required fields exist
+                if 'title' not in article:
+                    article['title'] = 'Untitled'
+                if 'date' not in article:
+                    article['date'] = datetime.now().isoformat()
+                if 'matched_keywords' not in article:
+                    article['matched_keywords'] = []
         
         total_count = db_manager.get_total_count(keyword=keyword, source=source)
         
@@ -94,8 +140,20 @@ async def get_articles(
             "offset": offset
         }
         
+    except HTTPException:
+        raise  # Re-raise HTTP exceptions
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"❌ Error in get_articles: {e}")
+        import traceback
+        traceback.print_exc()
+        return {
+            "success": False,
+            "error": "Failed to retrieve articles",
+            "data": [],
+            "total": 0,
+            "limit": limit,
+            "offset": offset
+        }
 
 
 @router.get("/articles/{article_id}")
@@ -128,10 +186,15 @@ async def get_keywords():
     try:
         keywords = db_manager.get_all_keywords_with_counts()
         
+        # Ensure keywords is a dict
+        if not isinstance(keywords, dict):
+            keywords = {}
+        
         # Convert to list format for easier frontend consumption
         keyword_list = [
             {"keyword": k, "count": v}
             for k, v in keywords.items()
+            if k and isinstance(v, (int, float))  # Validate data
         ]
         
         return {
@@ -140,7 +203,14 @@ async def get_keywords():
         }
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"❌ Error in get_keywords: {e}")
+        import traceback
+        traceback.print_exc()
+        return {
+            "success": False,
+            "error": "Failed to retrieve keywords",
+            "data": []
+        }
 
 
 @router.get("/stats")
