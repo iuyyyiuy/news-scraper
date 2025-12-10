@@ -233,12 +233,22 @@ class ScheduledScraper:
             # Get body text
             body_text = article.body_text if hasattr(article, 'body_text') else article.title
             
+            # Normalize source name
+            if hasattr(article, 'source_website'):
+                source = article.source_website
+                if 'blockbeats' in source.lower():
+                    source = 'BlockBeats'
+                elif 'jinse' in source.lower():
+                    source = 'Jinse'
+            else:
+                source = 'BlockBeats'
+            
             article_data = {
                 'publication_date': pub_date_str,
                 'title': article.title,
                 'body_text': body_text,
                 'url': article.url,
-                'source': article.source_website if hasattr(article, 'source_website') else 'BlockBeats',
+                'source': source,
                 'matched_keywords': matched_keywords
             }
             
