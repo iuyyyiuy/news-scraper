@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>月度新闻汇总 - Crypto News Monthly</title>
+    <title>CryptoGuard - 月度新闻汇总</title>
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
     <style>
         * {
             margin: 0;
@@ -32,12 +33,21 @@
         }
 
         .sidebar-title {
-            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
             font-weight: 700;
             margin-bottom: 32px;
             color: #17a2b8;
             letter-spacing: 0.5px;
             line-height: 1.3;
+        }
+        
+        .sidebar-logo {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
         }
 
         .nav-item {
@@ -90,13 +100,47 @@
         .header-title-group {
             display: flex;
             align-items: center;
-            gap: 0;
+            gap: 16px;
         }
         
-        .header-icon {
-            display: none;
+        .header-logo {
+            width: 120px;
+            height: 40px;
+            flex-shrink: 0;
         }
         
+        .header-logo {
+            width: 120px;
+            height: 40px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .sidebar-logo {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-logo:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        /* Logo animations */
+        @keyframes pulse-alert {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .sidebar-logo circle[fill="#ff6b6b"] {
+            animation: pulse-alert 2s ease-in-out infinite;
+        }
+
         .dashboard-header h2 {
             font-size: 20px;
             font-weight: 600;
@@ -444,7 +488,24 @@
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="sidebar-title">风控小工具</div>
+            <div class="sidebar-title">
+                <svg class="sidebar-logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="sidebarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#17a2b8;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#138496;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M4 8 L4 20 Q4 24 8 26 L14 28 Q16 29 16 29 Q16 29 18 28 L24 26 Q28 24 28 20 L28 8 Q28 4 24 4 L8 4 Q4 4 4 8 Z" 
+                          fill="url(#sidebarGradient)" stroke="#0f5f6b" stroke-width="1"/>
+                    <rect x="12" y="14" width="8" height="6" rx="1" fill="white" opacity="0.9"/>
+                    <path d="M13 14 L13 12 Q13 10 16 10 Q19 10 19 12 L19 14" 
+                          stroke="white" stroke-width="1.5" fill="none" opacity="0.9"/>
+                    <circle cx="24" cy="8" r="2" fill="#ff6b6b"/>
+                    <circle cx="24" cy="8" r="1" fill="white"/>
+                </svg>
+                <span>风控小工具</span>
+            </div>
             <div class="nav-item active" onclick="window.location.href='/dashboard'">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
@@ -464,11 +525,7 @@
         <div class="main-content">
             <div class="dashboard-header">
                 <div class="header-title-group">
-                    <div class="header-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                        </svg>
-                    </div>
+                    <img src="/static/images/logo.svg" alt="CryptoGuard Logo" class="header-logo">
                     <h2>月度新闻汇总</h2>
                 </div>
                 <div class="header-stats">
