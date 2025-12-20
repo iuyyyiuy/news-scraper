@@ -28,3 +28,17 @@ Thumbs.db
 *.key
 *.pem
 credentials.json
+
+# Temporary files
+temp_session_*.json
+temp_session_*.csv
+session_stats_*.json
+alert_logs_*.json
+
+# Debug files
+debug_html/
+session_reports/
+
+# Test outputs
+test_*.html
+*.backup_*

@@ -489,12 +489,15 @@
                     <label>来源:</label>
                     <select id="source-filter">
                         <option value="">全部来源</option>
-                        <option value="blockbeat">BlockBeats</option>
-                        <option value="jinse">Jinse</option>
+                        <option value="BlockBeats">BlockBeats</option>
+                        <option value="Jinse">Jinse</option>
                     </select>
                 </div>
                 <button id="clear-filters" class="btn-secondary">清除筛选</button>
-                <button id="export-csv" class="btn-export" style="margin-left: auto;">导出CSV</button>
+                
+                <button id="manual-update" class="btn-primary">手动更新</button>
+                
+                <button id="export-csv" class="btn-primary" style="margin-left: auto;">导出CSV</button>
             </div>
 
             <!-- Article Table -->
@@ -522,6 +525,32 @@
                 <button id="prev-page" class="btn-page" disabled>上一页</button>
                 <span id="page-info">第 1 页</span>
                 <button id="next-page" class="btn-page">下一页</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual Update Modal -->
+    <div id="manual-update-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close" onclick="dashboard.closeManualUpdateModal()">&times;</span>
+            <div class="modal-header">
+                <h3>手动更新设置</h3>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">选择抓取数量 (每个来源):</label>
+                    <select id="article-count-select" style="width: 100%; padding: 10px; border: 1px solid #d3dce6; border-radius: 6px; font-size: 14px;">
+                        <option value="100">100 篇文章</option>
+                        <option value="300">300 篇文章</option>
+                        <option value="500" selected>500 篇文章</option>
+                        <option value="1000">1000 篇文章</option>
+                        <option value="2000">2000 篇文章</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button onclick="dashboard.closeManualUpdateModal()" class="btn-secondary">取消</button>
+                    <button onclick="dashboard.confirmManualUpdate()" class="btn-primary">开始更新</button>
+                </div>
             </div>
         </div>
     </div>

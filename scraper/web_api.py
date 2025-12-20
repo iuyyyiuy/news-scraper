@@ -14,6 +14,8 @@ import logging
 
 # Import database routes
 from scraper.api.database_routes import router as database_router
+from scraper.api.monitoring_routes import router as monitoring_router
+from scraper.api.csv_routes import router as csv_router
 
 # Import scraper components
 from scraper.core import SessionManager, Session, SessionStatus, Config
@@ -95,6 +97,13 @@ app.add_middleware(
 
 # Include database API routes
 app.include_router(database_router)
+
+# Include monitoring API routes
+app.include_router(monitoring_router)
+
+# Include CSV export API routes
+app.include_router(csv_router)
+app.include_router(monitoring_router)
 
 # Serve static files
 app.mount("/static", StaticFiles(directory="scraper/static"), name="static")
@@ -201,6 +210,14 @@ async def index():
 @app.get("/dashboard")
 async def dashboard():
     response = FileResponse("scraper/templates/dashboard.html")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+@app.get("/monitoring")
+async def monitoring():
+    response = FileResponse("scraper/templates/monitoring.html")
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -405,38 +422,101 @@ async def trigger_manual_scrape():
     except Exception as e:
         return {"success": False, "error": str(e)}
 
-# Global scheduler instance
-scheduler_service = None
-
-@app.on_event("startup")
-async def startup_event():
-    """Start the scheduler when the app starts"""
-    global scheduler_service
-    try:
-        from scraper.core.scheduler import SchedulerService
-        scheduler_service = SchedulerService()
-        scheduler_service.start_scheduler()
-        print("✅ Scheduler started successfully")
-    except Exception as e:
-        print(f"⚠️  Scheduler failed to start: {e}")
-
 @app.post("/api/trigger-scrape")
-async def trigger_manual_scrape():
-    """Manually trigger the daily scrape (for testing)"""
-    if scheduler_service is None:
-        raise HTTPException(status_code=503, detail="Scheduler not initialized")
-    
-    import threading
-    thread = threading.Thread(target=scheduler_service.trigger_scrape_now)
-    thread.start()
-    
-    return {"success": True, "message": "Scrape triggered successfully"}
+async def trigger_manual_scrape(background_tasks: BackgroundTasks):
+    """Manually trigger the scheduled scraper (for testing)"""
+    try:
+        from scraper.core.scheduled_scraper import ScheduledScraper
+        
+        def run_scrape():
+            scraper = ScheduledScraper()
+            result = scraper.scrape_daily()
+            logger.info(f"Manual scrape completed: {result}")
+        
+        background_tasks.add_task(run_scrape)
+        
+        return {
+            "success": True,
+            "message": "Scrape triggered successfully. Check logs for progress."
+        }
+    except Exception as e:
+        logger.error(f"Failed to trigger scrape: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/scheduler-status")
-async def get_scheduler_status_endpoint():
-    """Get scheduler status"""
-    if scheduler_service is None:
-        return {"running": False, "message": "Scheduler not initialized"}
+@app.post("/api/manual-update")
+async def 手动更新(background_tasks: BackgroundTasks, request: dict = None):
+    """
+    手动更新 - Manual news update with configurable parameters
     
-    status = scheduler_service.get_scheduler_status()
-    return status
+    Parameters:
+    - max_articles: Number of articles to scrape per source (default: 1000)
+    
+    Process:
+    1. First scrape BlockBeats (check latest news ID, scrape backward N articles)
+    2. Then scrape Jinse (check latest news ID, scrape backward N articles)  
+    3. Use AI to filter duplicates/similar/unrelated news
+    4. Real-time update to Supabase database
+    5. Extract same content as CSV scraper results
+    """
+    try:
+        from scraper.core.manual_scraper import ManualScraper
+        from fastapi import Request, Body
+        
+        # Get max_articles from request body, default to 1000
+        max_articles = 1000  # Default value
+        if request:
+            max_articles = request.get('max_articles', 1000)
+        
+        def run_manual_update():
+            scraper = ManualScraper()
+            result = scraper.手动更新(max_articles=max_articles)
+            logger.info(f"手动更新 completed: {result}")
+        
+        background_tasks.add_task(run_manual_update)
+        
+        return {
+            "success": True,
+            "message": f"手动更新已启动 - 每个源抓取{max_articles}篇文章",
+            "parameters": {
+                "date_range": "最近7天",
+                "keywords_count": 21,
+                "max_articles_per_source": max_articles,
+                "sources": ["BlockBeats", "Jinse"]
+            },
+            "process": [
+                f"1. 抓取 BlockBeats (检查最新新闻ID，向后抓取{max_articles}篇文章)",
+                f"2. 抓取 Jinse (检查最新新闻ID，向后抓取{max_articles}篇文章)", 
+                "3. 使用21个安全相关关键词过滤",
+                "4. AI过滤重复/相似/无关新闻",
+                "5. 实时更新到 Supabase 数据库"
+            ]
+        }
+    except Exception as e:
+        logger.error(f"Failed to start 手动更新: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/manual-update/status")
+async def get_manual_update_status():
+    """Get status of manual update process"""
+    return {
+        "status": "ready",
+        "message": "手动更新功能已就绪 - 固定参数配置",
+        "parameters": {
+            "date_range": "最近1天",
+            "keywords_count": 21,
+            "max_articles_per_source": 100,
+            "sources": ["BlockBeats", "Jinse"]
+        },
+        "keywords": [
+            "安全问题", "黑客", "被盗", "漏洞", "攻击", "恶意软件", "盗窃",
+            "CoinEx", "ViaBTC", "破产", "执法", "监管", "洗钱", "KYC",
+            "合规", "牌照", "风控", "诈骗", "突发", "rug pull", "下架"
+        ],
+        "features": [
+            "顺序处理 BlockBeats 和 Jinse",
+            "使用21个安全相关关键词", 
+            "AI智能过滤重复和无关新闻", 
+            "实时更新到 Supabase 数据库",
+            "提取与CSV相同的新闻内容"
+        ]
+    }
