@@ -100,16 +100,7 @@ async def health_check():
     
     return health_status
 
-@app.on_event("startup")
-async def startup_event():
-    """Start the scheduler when the app starts"""
-    try:
-        from scraper.core.scheduler import SchedulerService
-        scheduler = SchedulerService()
-        scheduler.start_scheduler()
-        print("✅ Scheduler started successfully")
-    except Exception as e:
-        print(f"⚠️  Scheduler failed to start: {e}")
+# Scheduler removed - no automatic scheduling
 
 if __name__ == "__main__":
     print("="*60)
