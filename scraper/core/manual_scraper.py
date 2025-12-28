@@ -157,7 +157,7 @@ class ManualScraper:
         try:
             # Create config for this source
             config = Config(
-                target_url="https://www.theblockbeats.info/newsflash" if source == 'blockbeats' else "https://www.jinse.cn/lives",
+                target_url="https://www.theblockbeats.info/newsflash" if source == 'blockbeats' else "https://www.jinse.com.cn/lives",
                 max_articles=max_articles,
                 request_delay=1.5,  # Reasonable delay
                 timeout=30,

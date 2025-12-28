@@ -16,6 +16,20 @@ import logging
 from scraper.api.database_routes import router as database_router
 from scraper.api.monitoring_routes import router as monitoring_router
 from scraper.api.csv_routes import router as csv_router
+# Temporarily disable AI trading to avoid SQLite errors
+# from scraper.api.trading_strategy_routes import router as trading_strategy_router
+# from scraper.api.ai_trading_routes import router as ai_trading_router
+
+# Import ML integration routes
+try:
+    import sys
+    import os
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'ml_orderbook_analyzer'))
+    from ml_orderbook_analyzer.ml_integration_api import router as ml_analysis_router
+    ML_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠️  ML integration not available: {e}")
+    ML_AVAILABLE = False
 
 # Import scraper components
 from scraper.core import SessionManager, Session, SessionStatus, Config
@@ -103,7 +117,17 @@ app.include_router(monitoring_router)
 
 # Include CSV export API routes
 app.include_router(csv_router)
-app.include_router(monitoring_router)
+
+# Temporarily disable AI trading routes to avoid SQLite errors
+# Include trading strategy analysis API routes
+# app.include_router(trading_strategy_router)
+
+# Include AI trading system API routes
+# app.include_router(ai_trading_router)
+
+# Include ML analysis API routes (if available)
+if ML_AVAILABLE:
+    app.include_router(ml_analysis_router)
 
 # Serve static files
 app.mount("/static", StaticFiles(directory="scraper/static"), name="static")
@@ -222,6 +246,28 @@ async def monitoring():
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
+
+@app.get("/ml-analysis")
+async def ml_analysis():
+    """Serve the ML analysis interface"""
+    if not ML_AVAILABLE:
+        raise HTTPException(status_code=503, detail="ML analysis not available")
+    
+    response = FileResponse("scraper/templates/ml_analysis.html")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+@app.get("/trading-strategy")
+async def trading_strategy():
+    """Serve the trading strategy analysis interface - DISABLED"""
+    raise HTTPException(status_code=503, detail="Trading strategy analysis temporarily disabled")
+
+@app.get("/ai-trading")
+async def ai_trading():
+    """Serve the AI trading system interface - DISABLED"""
+    raise HTTPException(status_code=503, detail="AI trading system temporarily disabled")
 
 @app.post("/api/scrape", response_model=ScrapeResponseModel)
 async def start_scrape(

@@ -1,5 +1,5 @@
 """
-Jinse (jinse.cn) specific scraper.
+Jinse (jinse.com.cn) specific scraper.
 """
 import logging
 import time
@@ -19,10 +19,10 @@ logger = logging.getLogger(__name__)
 
 class JinseScraper:
     """
-    Specialized scraper for Jinse (jinse.cn).
+    Specialized scraper for Jinse (jinse.com.cn).
     
     Jinse uses article IDs in the format:
-    https://www.jinse.cn/lives/{id}.html
+    https://www.jinse.com.cn/lives/{id}.html
     
     This scraper:
     1. Finds the latest article ID
@@ -74,7 +74,7 @@ class JinseScraper:
         }
         
         self.parser = HTMLParser(selectors=jinse_selectors)
-        self.base_url = "https://www.jinse.cn/lives/"
+        self.base_url = "https://www.jinse.com.cn/lives/"
     
     
     def _parse_jinse_article(self, html: str, url: str) -> Article:
@@ -141,7 +141,7 @@ class JinseScraper:
             author="金色财经",
             body_text=body_text,
             scraped_at=datetime.now(),
-            source_website="jinse.cn"
+            source_website="jinse.com.cn"
         )
         
         return article
@@ -165,7 +165,7 @@ class JinseScraper:
         """
         try:
             # Search message removed
-            response = self.http_client.fetch_with_retry("https://www.jinse.cn/lives")
+            response = self.http_client.fetch_with_retry("https://www.jinse.com.cn/lives")
             
             # Look for lives article links in the format /lives/{id}.html
             pattern = r'/lives/(\d+)\.html'
