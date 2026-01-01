@@ -1,4 +1,16 @@
+#!/usr/bin/env python3
 """
+Disable alert logging to eliminate 404 errors
+This is a quick fix that keeps the main system working without alert table errors
+"""
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+def create_minimal_alert_logger():
+    """Create a minimal alert logger that doesn't use database"""
+    
+    alert_logger_code = '''"""
 Minimal Alert Logger - File-only version to avoid 404 errors
 """
 
@@ -175,10 +187,50 @@ class AlertLogger:
         try:
             log_file = f"alert_logs_{datetime.now().strftime('%Y%m%d')}.json"
             with open(log_file, 'a') as f:
-                f.write(json.dumps(entry.to_dict(), default=str) + '\n')
+                f.write(json.dumps(entry.to_dict(), default=str) + '\\n')
         except Exception as e:
             print(f"❌ Failed to write log: {e}")
 
 
 # Global logger instance
 alert_logger = AlertLogger()
+'''
+    
+    return alert_logger_code
+
+def main():
+    """Create minimal alert logger to replace the database version"""
+    
+    print("🔧 Creating minimal alert logger (file-only, no database)")
+    print("=" * 60)
+    
+    # Create the minimal alert logger
+    minimal_code = create_minimal_alert_logger()
+    
+    # Write to file
+    with open('scraper/core/alert_logger_minimal.py', 'w') as f:
+        f.write(minimal_code)
+    
+    print("✅ Created scraper/core/alert_logger_minimal.py")
+    
+    # Create backup of original
+    import shutil
+    try:
+        shutil.copy('scraper/core/alert_logger.py', 'scraper/core/alert_logger_original.py')
+        print("📁 Backed up original to alert_logger_original.py")
+    except Exception as e:
+        print(f"⚠️ Could not backup original: {e}")
+    
+    # Replace the original with minimal version
+    with open('scraper/core/alert_logger.py', 'w') as f:
+        f.write(minimal_code)
+    
+    print("✅ Replaced alert_logger.py with minimal version")
+    print("\n" + "=" * 60)
+    print("🎉 SUCCESS: Alert logging now uses file-only mode")
+    print("📁 Logs will be saved to alert_logs_YYYYMMDD.json files")
+    print("🚫 No more 404 database errors!")
+    print("=" * 60)
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Backfill script for missing news from 2025-12-10 to 2025-12-20
+Backfill script for missing news from 2026-01-01 to 2026-01-10
 Scrapes articles from both BlockBeats and Jinse for the specified date range
 """
 
@@ -21,9 +21,9 @@ import tempfile
 import time
 
 def backfill_missing_news():
-    """Backfill news from 2025-12-10 to 2025-12-20"""
+    """Backfill news from 2026-01-01 to 2026-01-10"""
     
-    print("🔄 Backfilling Missing News: 2025-12-10 to 2025-12-20")
+    print("🔄 Backfilling Missing News: 2026-01-01 to 2026-01-10")
     print("=" * 60)
     
     # Initialize database manager
@@ -38,8 +38,8 @@ def backfill_missing_news():
     print(f"📊 Current articles in database: {total_before}")
     
     # Define date range
-    start_date = date(2025, 12, 10)
-    end_date = date(2025, 12, 20)
+    start_date = date(2026, 1, 1)
+    end_date = date(2026, 1, 10)
     
     print(f"📅 Target date range: {start_date} to {end_date}")
     

@@ -129,7 +129,7 @@ class HTMLParser:
         import re
         from datetime import datetime
         
-        # Pattern 1: "2025-12-09 05:56" (full datetime)
+        # Pattern 1: "2026-01-01 05:56" (full datetime)
         pattern1 = r'(\d{4})-(\d{1,2})-(\d{1,2})\s+(\d{1,2}):(\d{1,2})'
         match = re.search(pattern1, body_text)
         if match:
@@ -149,13 +149,13 @@ class HTMLParser:
         if match:
             month = int(match.group(1))
             day = int(match.group(2))
-            year = datetime.now().year
+            year = self._determine_smart_year(month, day)
             try:
                 return datetime(year, month, day)
             except ValueError:
                 pass
         
-        # Pattern 3: "2025-11-11" or "2025/11/11" (date only)
+        # Pattern 3: "2026-01-01" or "2026/01/01" (date only)
         pattern3 = r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})'
         match = re.search(pattern3, body_text)
         if match:
@@ -173,13 +173,54 @@ class HTMLParser:
         if match:
             month = int(match.group(1))
             day = int(match.group(2))
-            year = datetime.now().year
+            year = self._determine_smart_year(month, day)
             try:
                 return datetime(year, month, day)
             except ValueError:
                 pass
         
         return None
+    
+    def _determine_smart_year(self, month: int, day: int) -> int:
+        """
+        Intelligently determine the year for dates without year information.
+        
+        Logic for 2026:
+        - If the date is in the future (compared to today), assume it's from last year (2025)
+        - Otherwise, use current year (2026)
+        - Special handling for December dates in January to avoid confusion
+        
+        Args:
+            month: Month (1-12)
+            day: Day (1-31)
+            
+        Returns:
+            Year (int)
+        """
+        from datetime import datetime, date
+        
+        current_year = datetime.now().year  # 2026
+        current_date = date.today()
+        current_month = current_date.month
+        
+        try:
+            # Special case: If we're in January and the date is December, it's from last year
+            if current_month == 1 and month == 12:
+                return current_year - 1  # 2025
+            
+            # Try current year first
+            test_date = date(current_year, month, day)
+            
+            # If the date is more than 30 days in the future, it's probably from last year
+            days_diff = (test_date - current_date).days
+            if days_diff > 30:
+                return current_year - 1  # 2025
+            else:
+                return current_year  # 2026
+                
+        except ValueError:
+            # Invalid date (e.g., Feb 30), default to current year
+            return current_year
     
     def _extract_source_from_content(self, text: str) -> Optional[str]:
         """
@@ -287,6 +328,7 @@ class HTMLParser:
     def _extract_title_enhanced(self, soup: BeautifulSoup) -> Optional[str]:
         """
         Enhanced title extraction with comprehensive fallback strategies.
+        Prioritizes meta tags and page title to avoid picking up titles from other articles.
         
         Args:
             soup: BeautifulSoup object
@@ -294,52 +336,32 @@ class HTMLParser:
         Returns:
             Extracted title or None
         """
-        # Strategy 1: Try configured selector
-        if 'title' in self.selectors:
-            element = soup.select_one(self.selectors['title'])
-            if element:
-                title = self._clean_text(element.get_text())
-                if title:
-                    logger.debug(f"Title extracted using configured selector: {title[:50]}...")
+        # Strategy 1: Try meta og:title first (most reliable for BlockBeats)
+        try:
+            og_title_meta = soup.find('meta', property='og:title')
+            if og_title_meta and og_title_meta.get('content'):
+                title = self._clean_text(og_title_meta['content'])
+                if title and len(title) > 5:
+                    logger.debug(f"Title extracted from og:title meta: {title[:50]}...")
                     return title
+        except Exception as e:
+            logger.debug(f"og:title meta extraction failed: {e}")
         
-        # Strategy 2: Try common title selectors (expanded list)
-        common_selectors = [
-            'h1.article-title',
-            'h1.entry-title', 
-            'h1[itemprop="headline"]',
-            'article h1',
-            '.article-header h1',
-            '.post-title h1',
-            '.news-title h1',
-            '.content-title h1',
-            'h1.title',
-            'h1.post-title',
-            'h1.news-title',
-            # Flash news specific selectors
-            '.flash-top h3',
-            '.flash-item h3',
-            '.flash-content h3',
-            'h3',  # Generic h3 for flash news
-            'h2',  # Generic h2 as backup
-            'h1'   # Generic h1 as last resort
-        ]
+        # Strategy 2: Try page title tag (second most reliable)
+        try:
+            title_tag = soup.find('title')
+            if title_tag:
+                title = self._clean_text(title_tag.get_text())
+                # Clean common title suffixes
+                title = re.sub(r'\s*[-|–]\s*.*$', '', title)  # Remove " - Site Name" etc.
+                if title and len(title) > 5:
+                    logger.debug(f"Title extracted from page title: {title[:50]}...")
+                    return title
+        except Exception as e:
+            logger.debug(f"Page title extraction failed: {e}")
         
-        for selector in common_selectors:
-            try:
-                element = soup.select_one(selector)
-                if element:
-                    title = self._clean_text(element.get_text())
-                    if title and len(title) > 5:  # Ensure meaningful title
-                        logger.debug(f"Title extracted using selector '{selector}': {title[:50]}...")
-                        return title
-            except Exception as e:
-                logger.debug(f"Selector '{selector}' failed: {e}")
-                continue
-        
-        # Strategy 3: Try meta tags (enhanced)
+        # Strategy 3: Try other meta tags (more reliable than DOM selectors)
         meta_selectors = [
-            ('meta[property="og:title"]', 'content'),
             ('meta[name="twitter:title"]', 'content'),
             ('meta[property="twitter:title"]', 'content'),
             ('meta[name="title"]', 'content'),
@@ -358,21 +380,109 @@ class HTMLParser:
                 logger.debug(f"Meta selector '{selector}' failed: {e}")
                 continue
         
-        # Strategy 4: Use page title as last resort (cleaned)
+        # Strategy 4: Try configured selector
+        if 'title' in self.selectors:
+            try:
+                element = soup.select_one(self.selectors['title'])
+                if element:
+                    title = self._clean_text(element.get_text())
+                    if title:
+                        logger.debug(f"Title extracted using configured selector: {title[:50]}...")
+                        return title
+            except Exception as e:
+                logger.debug(f"Configured selector failed: {e}")
+        
+        # Strategy 5: Try BlockBeats-specific selectors (avoid generic selectors that might pick up other articles)
+        blockbeats_selectors = [
+            '.flash-top h1',  # Specific to flash news
+            '.flash-content h1',
+            'article h1:first-child',  # First h1 in article (avoid sidebar h1s)
+            '.article-header h1',
+            'h1[itemprop="headline"]'
+        ]
+        
+        for selector in blockbeats_selectors:
+            try:
+                element = soup.select_one(selector)
+                if element:
+                    title = self._clean_text(element.get_text())
+                    if title and len(title) > 5:
+                        # Additional validation: avoid titles that look like they're from other articles
+                        if not self._looks_like_other_article_title(title, soup):
+                            logger.debug(f"Title extracted using selector '{selector}': {title[:50]}...")
+                            return title
+            except Exception as e:
+                logger.debug(f"Selector '{selector}' failed: {e}")
+                continue
+        
+        # Strategy 6: Last resort - try the first h1 that's not in a sidebar or related articles section
         try:
-            title_tag = soup.find('title')
-            if title_tag:
-                title = self._clean_text(title_tag.get_text())
-                # Clean common title suffixes
-                title = re.sub(r'\s*[-|–]\s*.*$', '', title)  # Remove " - Site Name" etc.
+            h1_tags = soup.find_all('h1')
+            for h1 in h1_tags:
+                # Skip h1s that are likely in sidebars or related articles
+                parent_classes = []
+                parent = h1.parent
+                while parent and parent.name != 'body':
+                    if parent.get('class'):
+                        parent_classes.extend(parent.get('class'))
+                    parent = parent.parent
+                
+                # Skip if in sidebar, related articles, or other secondary content
+                skip_classes = ['sidebar', 'related', 'recommend', 'other', 'more', 'list']
+                if any(skip_class in ' '.join(parent_classes).lower() for skip_class in skip_classes):
+                    continue
+                
+                title = self._clean_text(h1.get_text())
                 if title and len(title) > 5:
-                    logger.debug(f"Title extracted from page title: {title[:50]}...")
+                    logger.debug(f"Title extracted from filtered h1: {title[:50]}...")
                     return title
         except Exception as e:
-            logger.debug(f"Page title extraction failed: {e}")
+            logger.debug(f"Filtered h1 extraction failed: {e}")
         
         logger.warning("All title extraction strategies failed")
         return None
+    
+    def _looks_like_other_article_title(self, title: str, soup: BeautifulSoup) -> bool:
+        """
+        Check if a title looks like it belongs to another article (from sidebar/related articles)
+        
+        Args:
+            title: The extracted title
+            soup: BeautifulSoup object
+            
+        Returns:
+            True if title looks like it's from another article
+        """
+        try:
+            # Look for the title text in the page and check its context
+            title_elements = soup.find_all(text=lambda text: text and title.strip() in text.strip())
+            
+            for elem in title_elements:
+                parent = elem.parent if hasattr(elem, 'parent') else None
+                if not parent:
+                    continue
+                
+                # Check if the title appears in contexts that suggest it's from another article
+                parent_text = parent.get_text().lower() if parent else ""
+                parent_classes = ' '.join(parent.get('class', [])).lower() if parent.get('class') else ""
+                
+                # If title appears with date patterns, it might be from a list of other articles
+                if re.search(r'\d{4}-\d{2}-\d{2}|\d{2}:\d{2}', parent_text):
+                    # Check if there are multiple date patterns (suggesting a list)
+                    date_matches = re.findall(r'\d{4}-\d{2}-\d{2}|\d{2}:\d{2}', parent_text)
+                    if len(date_matches) > 1:
+                        return True
+                
+                # Check for classes that suggest secondary content
+                secondary_indicators = ['list', 'related', 'recommend', 'sidebar', 'other']
+                if any(indicator in parent_classes for indicator in secondary_indicators):
+                    return True
+            
+            return False
+            
+        except Exception:
+            # If we can't determine, assume it's valid
+            return False
 
     def _extract_date_enhanced(self, soup: BeautifulSoup) -> Optional[datetime]:
         """

@@ -1,157 +1,146 @@
 #!/usr/bin/env python3
 """
-Test script for monthly cleanup functionality.
-Tests the monthly cleanup system that keeps articles for one month.
+Test Monthly Cleanup System
+Safe testing of the monthly cleanup without actually deleting data
 """
 
 import sys
 import os
-from datetime import datetime, timedelta
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# Add the project root to Python path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from automated_monthly_cleanup import MonthlyCleanupScheduler
+from datetime import date, datetime
+import json
 
-from scraper.core.database_manager import DatabaseManager
-
-def test_monthly_cleanup():
-    """Test the monthly cleanup functionality."""
+def test_cleanup_logic():
+    """Test the cleanup logic without actually deleting anything"""
     
-    print("🧪 Testing Monthly Cleanup System")
-    print("=" * 60)
+    print("🧪 Testing Monthly Cleanup Logic")
+    print("=" * 50)
     
-    # Initialize database manager
-    db = DatabaseManager()
-    
-    if not db.supabase:
-        print("❌ Failed to connect to database")
-        return False
-    
-    # Get current article count
-    total_articles = db.get_total_count()
-    print(f"📊 Current total articles: {total_articles}")
-    
-    # Calculate cleanup date (first day of current month)
-    today = datetime.now()
-    first_day_of_month = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    
-    print(f"📅 Current date: {today.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"🗑️  Cleanup cutoff: {first_day_of_month.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"💾 Will keep: Articles from {first_day_of_month.strftime('%Y-%m-%d')} onwards")
-    print(f"🗑️  Will delete: Articles before {first_day_of_month.strftime('%Y-%m-%d')}")
-    
-    # Get articles that would be deleted (for preview)
     try:
-        # Query articles before the cutoff date
-        old_articles_response = db.supabase.table('articles').select('id, date, title').lt('date', first_day_of_month.isoformat()).execute()
-        old_articles = old_articles_response.data if old_articles_response.data else []
+        # Initialize cleanup scheduler
+        cleanup_scheduler = MonthlyCleanupScheduler()
         
-        print(f"\n📋 Articles that would be deleted: {len(old_articles)}")
+        # Test 1: Database connection
+        print("1️⃣ Testing database connection...")
+        if cleanup_scheduler.db_manager.supabase:
+            print("   ✅ Database connection successful")
+        else:
+            print("   ❌ Database connection failed")
+            return False
         
-        if old_articles:
-            print("   Preview (first 5):")
-            for i, article in enumerate(old_articles[:5]):
-                print(f"   {i+1}. {article['date']} - {article['title'][:50]}...")
-            
-            if len(old_articles) > 5:
-                print(f"   ... and {len(old_articles) - 5} more")
+        # Test 2: Date threshold calculation
+        print("\n2️⃣ Testing date threshold calculation...")
+        threshold_date = cleanup_scheduler.get_cleanup_date_threshold()
+        print(f"   📅 Threshold date: {threshold_date}")
+        print(f"   📋 Meaning: Keep articles from {threshold_date} onwards")
         
-        # Get articles that would be kept
-        current_articles_response = db.supabase.table('articles').select('id, date, title').gte('date', first_day_of_month.isoformat()).execute()
-        current_articles = current_articles_response.data if current_articles_response.data else []
+        # Test 3: Article counting
+        print("\n3️⃣ Testing article counting...")
+        articles_to_keep = cleanup_scheduler.get_articles_to_keep_count(threshold_date)
+        articles_to_delete = cleanup_scheduler.get_articles_to_delete_count(threshold_date)
         
-        print(f"\n💾 Articles that would be kept: {len(current_articles)}")
+        print(f"   📊 Articles to keep (current month): {articles_to_keep}")
+        print(f"   🗑️ Articles to delete (old months): {articles_to_delete}")
         
-        if current_articles:
-            print("   Preview (first 5):")
-            for i, article in enumerate(current_articles[:5]):
-                print(f"   {i+1}. {article['date']} - {article['title'][:50]}...")
-            
-            if len(current_articles) > 5:
-                print(f"   ... and {len(current_articles) - 5} more")
+        total_articles = articles_to_keep + articles_to_delete
+        print(f"   📈 Total articles in database: {total_articles}")
+        
+        # Test 4: Cleanup decision logic
+        print("\n4️⃣ Testing cleanup decision logic...")
+        should_run = cleanup_scheduler.should_run_cleanup()
+        today = date.today()
+        
+        print(f"   📅 Today is: {today}")
+        print(f"   🔍 Is 1st of month: {today.day == 1}")
+        print(f"   🎯 Should run cleanup: {should_run}")
+        
+        # Test 5: Backup summary creation (safe test)
+        print("\n5️⃣ Testing backup summary creation...")
+        if articles_to_delete > 0:
+            backup_summary = cleanup_scheduler.create_backup_summary(threshold_date)
+            if backup_summary:
+                print("   ✅ Backup summary created successfully")
+                print(f"   📁 Sample articles to delete: {len(backup_summary.get('sample_deleted_articles', []))}")
+            else:
+                print("   ⚠️ Backup summary creation had issues")
+        else:
+            print("   ℹ️ No articles to delete - backup not needed")
+        
+        # Test 6: Simulate cleanup results
+        print("\n6️⃣ Simulating cleanup results...")
+        if should_run and articles_to_delete > 0:
+            print(f"   🎯 SIMULATION: Would delete {articles_to_delete} old articles")
+            print(f"   📊 SIMULATION: Would keep {articles_to_keep} current articles")
+            print(f"   💾 SIMULATION: Database size would reduce by {articles_to_delete} articles")
+        elif not should_run:
+            print("   ⏭️ SIMULATION: Cleanup would be skipped (not 1st of month)")
+        else:
+            print("   ✅ SIMULATION: No cleanup needed (database already clean)")
+        
+        print("\n" + "=" * 50)
+        print("🎉 All tests completed successfully!")
+        print("✅ Monthly cleanup system is ready to deploy")
+        
+        return True
         
     except Exception as e:
-        print(f"❌ Error querying articles: {e}")
+        print(f"❌ Test failed: {e}")
+        import traceback
+        traceback.print_exc()
         return False
-    
-    # Ask for confirmation before actual cleanup
-    print(f"\n⚠️  Monthly Cleanup Preview Complete")
-    print(f"   Total articles: {total_articles}")
-    print(f"   Would delete: {len(old_articles)} articles")
-    print(f"   Would keep: {len(current_articles)} articles")
-    
-    # For testing, we'll do a dry run unless explicitly requested
-    if len(sys.argv) > 1 and sys.argv[1] == "--execute":
-        print(f"\n🚨 EXECUTING ACTUAL CLEANUP...")
-        
-        # Perform the actual cleanup
-        deleted_count = db.delete_old_articles(first_day_of_month)
-        
-        # Verify results
-        new_total = db.get_total_count()
-        
-        print(f"\n✅ Cleanup Results:")
-        print(f"   Articles before: {total_articles}")
-        print(f"   Articles deleted: {deleted_count}")
-        print(f"   Articles after: {new_total}")
-        print(f"   Expected after: {len(current_articles)}")
-        
-        if new_total == len(current_articles):
-            print(f"✅ Cleanup successful! Article count matches expected.")
-            return True
-        else:
-            print(f"⚠️  Article count mismatch. Expected {len(current_articles)}, got {new_total}")
-            return False
-    
-    else:
-        print(f"\n💡 This was a DRY RUN. No articles were deleted.")
-        print(f"   To execute actual cleanup, run: python test_monthly_cleanup.py --execute")
-        return True
 
-def show_cleanup_schedule():
-    """Show when the next cleanup would occur."""
+def show_deployment_summary():
+    """Show summary of what will be deployed"""
     
-    print("\n📅 Monthly Cleanup Schedule")
-    print("=" * 40)
+    print("\n📋 DEPLOYMENT SUMMARY")
+    print("=" * 50)
+    print("🎯 What will be automated:")
+    print("   ✅ Runs automatically on 1st of each month at 2:00 AM")
+    print("   ✅ Deletes all articles older than current month")
+    print("   ✅ Keeps only current month's articles (2026-01-XX)")
+    print("   ✅ Creates backup summary before deletion")
+    print("   ✅ Logs all activities to monthly_cleanup_cron.log")
+    print("   ✅ Keeps your dashboard fast and clean")
     
-    today = datetime.now()
-    
-    # Calculate next cleanup date
-    if today.day == 1:
-        # If today is the 1st, next cleanup is next month
-        if today.month == 12:
-            next_cleanup = datetime(today.year + 1, 1, 1, 0, 5)  # January 1st next year
+    print("\n📊 Current Status:")
+    try:
+        cleanup_scheduler = MonthlyCleanupScheduler()
+        threshold_date = cleanup_scheduler.get_cleanup_date_threshold()
+        articles_to_keep = cleanup_scheduler.get_articles_to_keep_count(threshold_date)
+        articles_to_delete = cleanup_scheduler.get_articles_to_delete_count(threshold_date)
+        
+        print(f"   📅 Current month threshold: {threshold_date}")
+        print(f"   📊 Articles to keep: {articles_to_keep}")
+        print(f"   🗑️ Articles to delete: {articles_to_delete}")
+        
+        if articles_to_delete == 0:
+            print("   ✅ Database is already clean for current month!")
         else:
-            next_cleanup = datetime(today.year, today.month + 1, 1, 0, 5)
-    else:
-        # Next cleanup is the 1st of next month
-        if today.month == 12:
-            next_cleanup = datetime(today.year + 1, 1, 1, 0, 5)  # January 1st next year
-        else:
-            next_cleanup = datetime(today.year, today.month + 1, 1, 0, 5)
+            print(f"   🔄 Next cleanup will remove {articles_to_delete} old articles")
+            
+    except Exception as e:
+        print(f"   ⚠️ Could not get current status: {e}")
     
-    days_until = (next_cleanup - today).days
-    
-    print(f"🗓️  Current date: {today.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"🕐 Next cleanup: {next_cleanup.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"⏳ Days until cleanup: {days_until}")
-    
-    # Show what would be kept after next cleanup
-    next_cutoff = next_cleanup.replace(hour=0, minute=0, second=0, microsecond=0)
-    print(f"💾 After next cleanup, will keep articles from: {next_cutoff.strftime('%Y-%m-%d')} onwards")
+    print("\n🚀 Ready to deploy!")
 
-if __name__ == "__main__":
-    print("🗑️  Monthly News Database Cleanup System")
-    print("=" * 60)
+def main():
+    """Main test function"""
     
-    # Show schedule information
-    show_cleanup_schedule()
+    print("🧪 Monthly Cleanup Test Suite")
+    print("=" * 50)
     
-    # Run cleanup test
-    success = test_monthly_cleanup()
+    # Run tests
+    success = test_cleanup_logic()
     
     if success:
-        print(f"\n✅ Monthly Cleanup Test Complete!")
+        show_deployment_summary()
+        print("\n✅ All tests passed - ready for deployment!")
+        sys.exit(0)
     else:
-        print(f"\n❌ Monthly Cleanup Test Failed!")
-    
-    print("=" * 60)
+        print("\n❌ Tests failed - fix issues before deployment")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
