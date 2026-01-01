@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Completion Message</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+        .test-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Dashboard Completion Message Test</h1>
+        
+        <div class="test-info">
+            <h3>📋 Test Purpose</h3>
+            <p>This page tests the centered completion messages that should appear when manual update finishes.</p>
+        </div>
+        
+        <h3>🎯 Test Buttons</h3>
+        <button class="btn btn-primary" onclick="testRunningMessage()">Test "正在运行..." Message</button>
+        <button class="btn btn-success" onclick="testSuccessMessage()">Test "完成！新增 X 篇文章" Message</button>
+        <button class="btn btn-info" onclick="testNoNewMessage()">Test "完成！没有新增新闻" Message</button>
+        
+        <div class="test-info">
+            <h3>✅ Expected Behavior</h3>
+            <ul>
+                <li><strong>Position</strong>: All messages should appear in the <strong>center of the screen</strong></li>
+                <li><strong>Duration</strong>: Messages should display for 5 seconds</li>
+                <li><strong>Animation</strong>: Messages should scale down when closing</li>
+                <li><strong>Style</strong>: Centered text with enhanced shadow</li>
+            </ul>
+        </div>
+        
+        <div class="test-info">
+            <h3>🔧 Improved Completion Detection</h3>
+            <ul>
+                <li><strong>Check Frequency</strong>: Every 5 seconds (was 10 seconds)</li>
+                <li><strong>Smart Detection</strong>: Shows completion when article count stabilizes</li>
+                <li><strong>Minimum Wait</strong>: 30 seconds before showing completion</li>
+                <li><strong>Maximum Wait</strong>: 3 minutes timeout</li>
+                <li><strong>Console Logging</strong>: Detailed progress logs for debugging</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Copy the showNotification function from dashboard.js
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            
+            // Style the notification - centered on screen
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 16px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                max-width: 400px;
+                min-width: 200px;
+                text-align: center;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                transition: all 0.3s ease;
+                font-size: 16px;
+            `;
+            
+            // Set background color based on type
+            switch (type) {
+                case 'success':
+                    notification.style.backgroundColor = '#28a745';
+                    break;
+                case 'error':
+                    notification.style.backgroundColor = '#dc3545';
+                    break;
+                case 'info':
+                default:
+                    notification.style.backgroundColor = '#17a2b8';
+                    break;
+            }
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+        
+        function testRunningMessage() {
+            showNotification('🔄 正在运行...', 'info');
+        }
+        
+        function testSuccessMessage() {
+            const randomCount = Math.floor(Math.random() * 10) + 1;
+            showNotification(`✅ 完成！新增 ${randomCount} 篇文章`, 'success');
+        }
+        
+        function testNoNewMessage() {
+            showNotification('✅ 完成！没有新增新闻', 'info');
+        }
+        
+        // Auto-test on page load
+        setTimeout(() => {
+            console.log('🧪 Auto-testing completion messages...');
+            testRunningMessage();
+            
+            setTimeout(() => {
+                testNoNewMessage();
+            }, 6000);
+        }, 1000);
+    </script>
+</body>
+</html>

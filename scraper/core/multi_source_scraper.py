@@ -2,17 +2,31 @@
 Multi-source scraper that coordinates scraping from multiple news sources.
 """
 import logging
+import sys
+import os
 from typing import List, Dict, Optional
 from datetime import date
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
-from .models import Config, ScrapingResult, Article
-from .storage import DataStore
-from .blockbeats_scraper import BlockBeatsScraper
-from .jinse_scraper import JinseScraper
-from .panews_scraper import PANewsScraper
-from .deduplicator import DeduplicationEngine
 import hashlib
+
+# Add project root to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+try:
+    from .models import Config, ScrapingResult, Article
+    from .storage import DataStore
+    from .blockbeats_scraper import BlockBeatsScraper
+    from .jinse_scraper import JinseScraper
+    from .panews_scraper import PANewsScraper
+    from .deduplicator import DeduplicationEngine
+except ImportError:
+    # Fallback for direct execution
+    from scraper.core.models import Config, ScrapingResult, Article
+    from scraper.core.storage import DataStore
+    from scraper.core.blockbeats_scraper import BlockBeatsScraper
+    from scraper.core.jinse_scraper import JinseScraper
+    from scraper.core.panews_scraper import PANewsScraper
+    from scraper.core.deduplicator import DeduplicationEngine
 
 
 logger = logging.getLogger(__name__)

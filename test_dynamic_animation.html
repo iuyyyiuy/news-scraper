@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Animation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            background: #17a2b8;
+            color: white;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .progress-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        .progress-text {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎨 Dynamic Animation Test</h1>
+        
+        <p>Testing the new dynamic progress animation that will replace the boring static "🔄 正在运行..." message.</p>
+        
+        <button class="btn" onclick="testDynamicAnimation()">Test Dynamic Progress Animation</button>
+        
+        <h3>✨ Animation Features:</h3>
+        <ul>
+            <li><strong>Spinning Loader</strong>: Rotating circle indicator</li>
+            <li><strong>Animated Dots</strong>: . .. ... cycling pattern</li>
+            <li><strong>Dynamic Text</strong>: Changes between different status messages</li>
+            <li><strong>Pulsing Effect</strong>: Text gently pulses to show activity</li>
+        </ul>
+    </div>
+
+    <script>
+        let currentNotification = null;
+        let animationInterval = null;
+        
+        function testDynamicAnimation() {
+            // Remove existing notification
+            if (currentNotification) {
+                document.body.removeChild(currentNotification);
+                clearInterval(animationInterval);
+            }
+            
+            // Create animated notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 16px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10001;
+                max-width: 400px;
+                min-width: 200px;
+                text-align: center;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                transition: all 0.3s ease;
+                font-size: 16px;
+                background-color: #17a2b8;
+            `;
+            
+            // Create animated content
+            const progressContainer = document.createElement('div');
+            progressContainer.style.cssText = `
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+            `;
+            
+            // Create spinning loader
+            const spinner = document.createElement('div');
+            spinner.className = 'progress-spinner';
+            spinner.style.cssText = `
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(255,255,255,0.3);
+                border-top: 2px solid white;
+                border-radius: 50%;
+            `;
+            
+            // Create dynamic text element
+            const textElement = document.createElement('span');
+            textElement.className = 'progress-text';
+            textElement.textContent = '正在运行';
+            
+            // Create dots animation element
+            const dotsElement = document.createElement('span');
+            dotsElement.style.cssText = `
+                display: inline-block;
+                width: 20px;
+                text-align: left;
+            `;
+            
+            progressContainer.appendChild(spinner);
+            progressContainer.appendChild(textElement);
+            progressContainer.appendChild(dotsElement);
+            notification.appendChild(progressContainer);
+            
+            document.body.appendChild(notification);
+            currentNotification = notification;
+            
+            // Start animations
+            let dotCount = 0;
+            animationInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                dotsElement.textContent = '.'.repeat(dotCount);
+            }, 500);
+            
+            // Cycle through different status messages
+            const statusMessages = [
+                '正在运行',
+                '抓取中',
+                '处理中', 
+                '分析中'
+            ];
+            let messageIndex = 0;
+            
+            setInterval(() => {
+                messageIndex = (messageIndex + 1) % statusMessages.length;
+                if (textElement && textElement.parentNode) {
+                    textElement.textContent = statusMessages[messageIndex];
+                }
+            }, 3000);
+            
+            // Auto-remove after 15 seconds for demo
+            setTimeout(() => {
+                if (currentNotification) {
+                    currentNotification.style.opacity = '0';
+                    currentNotification.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                    setTimeout(() => {
+                        if (currentNotification && currentNotification.parentNode) {
+                            document.body.removeChild(currentNotification);
+                        }
+                        currentNotification = null;
+                        clearInterval(animationInterval);
+                    }, 300);
+                }
+            }, 15000);
+        }
+    </script>
+</body>
+</html>

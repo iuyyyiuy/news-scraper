@@ -1,0 +1,96 @@
+{
+  "session_id": "phase3_integration_test",
+  "start_time": "2025-12-20T18:25:12.568541",
+  "end_time": "2025-12-20T18:25:13.599347",
+  "total_duration": 1.030806,
+  "sources": {
+    "BlockBeats": {
+      "source_name": "BlockBeats",
+      "total_attempts": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "articles_stored": 1,
+      "total_content_length": 125,
+      "avg_processing_time": 0.010070085525512695
+    },
+    "Jinse": {
+      "source_name": "Jinse",
+      "total_attempts": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "articles_stored": 1,
+      "total_content_length": 65,
+      "avg_processing_time": 0.007539987564086914
+    },
+    "CryptoNews": {
+      "source_name": "CryptoNews",
+      "total_attempts": 1,
+      "successful_extractions": 1,
+      "failed_extractions": 0,
+      "articles_stored": 1,
+      "total_content_length": 66,
+      "avg_processing_time": 0.003969907760620117
+    },
+    "BrokenSite": {
+      "source_name": "BrokenSite",
+      "total_attempts": 1,
+      "successful_extractions": 0,
+      "failed_extractions": 1,
+      "articles_stored": 0,
+      "total_content_length": 0,
+      "avg_processing_time": 0.004124879837036133
+    }
+  },
+  "attempts": [
+    {
+      "url": "https://theblockbeats.info/news/analysis-123",
+      "source": "BlockBeats",
+      "success": true,
+      "error_message": null,
+      "title": "加密货币市场深度分析",
+      "content_length": 125,
+      "processing_time": 0.010070085525512695
+    },
+    {
+      "url": "https://jinse.com/flash/456",
+      "source": "Jinse",
+      "success": true,
+      "error_message": null,
+      "title": "🚨 重要快讯",
+      "content_length": 65,
+      "processing_time": 0.007539987564086914
+    },
+    {
+      "url": "https://cryptonews.com/nft-trends",
+      "source": "CryptoNews",
+      "success": true,
+      "error_message": null,
+      "title": "NFT市场新趋势",
+      "content_length": 66,
+      "processing_time": 0.003969907760620117
+    },
+    {
+      "url": "https://broken.com/test",
+      "source": "BrokenSite",
+      "success": false,
+      "error_message": "Could not extract article title",
+      "title": null,
+      "content_length": null,
+      "processing_time": 0.004124879837036133
+    }
+  ],
+  "summary": {
+    "total_attempts": 4,
+    "successful_extractions": 3,
+    "failed_extractions": 1,
+    "success_rate_percent": 75.0,
+    "articles_stored": 3,
+    "storage_rate_percent": 100.0,
+    "avg_processing_time_seconds": 0.006,
+    "total_duration_seconds": 1.030806,
+    "sources_processed": 4,
+    "error_types": {
+      "Could not extract article title": 1
+    }
+  }
+}

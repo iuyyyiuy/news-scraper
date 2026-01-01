@@ -1,0 +1,88 @@
+{
+  "session_id": "session_20251220_182230",
+  "start_time": "2025-12-20T18:22:30.715796",
+  "end_time": "2025-12-20T18:22:31.723712",
+  "total_duration": 1.007916,
+  "sources": {
+    "BlockBeats": {
+      "source_name": "BlockBeats",
+      "total_attempts": 3,
+      "successful_extractions": 2,
+      "failed_extractions": 1,
+      "articles_stored": 2,
+      "total_content_length": 1250,
+      "avg_processing_time": 0.19333333333333333
+    },
+    "Jinse": {
+      "source_name": "Jinse",
+      "total_attempts": 2,
+      "successful_extractions": 1,
+      "failed_extractions": 1,
+      "articles_stored": 1,
+      "total_content_length": 600,
+      "avg_processing_time": 0.22
+    }
+  },
+  "attempts": [
+    {
+      "url": "https://blockbeats.com/article1",
+      "source": "BlockBeats",
+      "success": true,
+      "error_message": null,
+      "title": "Test Article 1",
+      "content_length": 500,
+      "processing_time": 0.25
+    },
+    {
+      "url": "https://blockbeats.com/article2",
+      "source": "BlockBeats",
+      "success": true,
+      "error_message": null,
+      "title": "Test Article 2",
+      "content_length": 750,
+      "processing_time": 0.18
+    },
+    {
+      "url": "https://jinse.com/article1",
+      "source": "Jinse",
+      "success": true,
+      "error_message": null,
+      "title": "Jinse Article 1",
+      "content_length": 600,
+      "processing_time": 0.32
+    },
+    {
+      "url": "https://blockbeats.com/broken",
+      "source": "BlockBeats",
+      "success": false,
+      "error_message": "Could not extract article title",
+      "title": null,
+      "content_length": null,
+      "processing_time": 0.15
+    },
+    {
+      "url": "https://jinse.com/broken",
+      "source": "Jinse",
+      "success": false,
+      "error_message": "Could not extract article body",
+      "title": null,
+      "content_length": null,
+      "processing_time": 0.12
+    }
+  ],
+  "summary": {
+    "total_attempts": 5,
+    "successful_extractions": 3,
+    "failed_extractions": 2,
+    "success_rate_percent": 60.0,
+    "articles_stored": 3,
+    "storage_rate_percent": 100.0,
+    "avg_processing_time_seconds": 0.204,
+    "total_duration_seconds": 1.007916,
+    "sources_processed": 2,
+    "error_types": {
+      "Could not extract article title": 1,
+      "Could not extract article body": 1
+    }
+  }
+}
