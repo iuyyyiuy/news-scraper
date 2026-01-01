@@ -110,26 +110,43 @@ print_info "Step 6: Creating environment file..."
 cp .env.example .env || handle_error "Environment file creation" "cp .env.example .env"
 print_status "Environment file created"
 
-# Step 7: Install Python dependencies with error handling
-print_info "Step 7: Installing Python dependencies..."
-pip3 install --upgrade pip || handle_error "Pip upgrade" "pip3 install --upgrade pip"
+# Step 7: Install Python dependencies with virtual environment (fixes PEP 668 issue)
+print_info "Step 7: Setting up Python virtual environment..."
+
+# Create virtual environment to bypass PEP 668 restrictions
+python3 -m venv venv || handle_error "Virtual environment creation" "python3 -m venv venv"
+source venv/bin/activate || handle_error "Virtual environment activation" "source venv/bin/activate"
+
+# Now install dependencies in virtual environment
+pip install --upgrade pip || handle_error "Pip upgrade in venv" "pip install --upgrade pip"
 
 # Install requirements with retry logic
 for i in {1..3}; do
-    if pip3 install -r requirements.txt; then
-        print_status "Python dependencies installed successfully"
+    if pip install -r requirements.txt; then
+        print_status "Python dependencies installed successfully in virtual environment"
         break
     else
         print_warning "Attempt $i failed, retrying..."
         if [ $i -eq 3 ]; then
-            handle_error "Python dependencies" "pip3 install -r requirements.txt"
+            handle_error "Python dependencies" "pip install -r requirements.txt"
         fi
         sleep 2
     fi
 done
 
-# Step 8: Test core imports
-print_info "Step 8: Testing core imports..."
+# Create activation script for easy use
+cat > activate_env.sh << 'EOF'
+#!/bin/bash
+cd /opt/news-scraper
+source venv/bin/activate
+echo "✅ Virtual environment activated"
+echo "📋 You can now run: python3 automated_news_scheduler.py"
+EOF
+chmod +x activate_env.sh
+
+# Step 8: Test core imports in virtual environment
+print_info "Step 8: Testing core imports in virtual environment..."
+source venv/bin/activate
 python3 -c "
 import sys
 sys.path.append('.')
@@ -166,16 +183,17 @@ echo "   SUPABASE_URL=https://your-project.supabase.co"
 echo "   SUPABASE_KEY=your_supabase_anon_key"
 echo "   DEEPSEEK_API_KEY=your_deepseek_key  # Optional"
 echo ""
-echo "3. Run the final setup:"
+echo "3. Activate virtual environment and test:"
 echo "   cd /opt/news-scraper"
-echo "   sudo ./setup_digital_ocean_scheduler.sh"
+echo "   source venv/bin/activate"
+echo "   python3 automated_news_scheduler.py"
 echo ""
-echo "4. Check if it's working:"
-echo "   python3 check_scheduler_status.py"
+echo "4. Set up systemd service (after testing):"
+echo "   sudo ./setup_digital_ocean_scheduler.sh"
 echo ""
 echo "🔧 Quick Command Sequence:"
 echo "cd /opt/news-scraper && nano .env"
-echo "sudo ./setup_digital_ocean_scheduler.sh"
-echo "python3 check_scheduler_status.py"
+echo "source venv/bin/activate"
+echo "python3 automated_news_scheduler.py"
 echo ""
-print_status "System is ready for final configuration!"
+print_status "System is ready for configuration! Virtual environment bypasses PEP 668 restrictions."
