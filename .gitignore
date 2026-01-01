@@ -1,8 +1,7 @@
-# Environment and Configuration
+# Environment variables - NEVER commit these!
 .env
 .env.local
 .env.production
-*.env
 
 # Python
 __pycache__/
@@ -27,82 +26,24 @@ wheels/
 *.egg
 MANIFEST
 
-# Virtual Environment
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
+# PyInstaller
+*.manifest
+*.spec
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Logs
-*.log
-logs/
-scheduler.log
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-news.db
-trade_data.db*
-trading_data.db*
-
-# Temporary files
-temp_*
-*.tmp
-*.temp
-
-# CSV exports and temporary data
-temp_session_*.csv
-exports/
-*.xlsx
-20251221_history-positions.xlsx
-
-# Machine Learning Models
-models/*.pkl
-models/*.joblib
-models/*.h5
-models/*.model
-
-# System files
-.DS_Store
-Thumbs.db
-
-# Backup files
-*.backup
-*.bak
-*_backup_*
-sqlite_backup_*
-
-# Session and cache files
-session_stats_*.json
-alert_logs_*.json
-
-# Test outputs
-test_*.csv
-test_reports/
-example_reports/
-
-# Hypothesis testing
-.hypothesis/
-
-# Node modules (if any)
-node_modules/
-
-# Coverage reports
+# Unit test / coverage reports
 htmlcov/
+.tox/
 .coverage
 .coverage.*
+.cache
+nosetests.xml
 coverage.xml
-
-# Pytest
+*.cover
+.hypothesis/
 .pytest_cache/
 
 # Jupyter Notebook
@@ -111,13 +52,84 @@ coverage.xml
 # pyenv
 .python-version
 
-# Selenium
-geckodriver.log
-chromedriver.log
+# celery beat schedule file
+celerybeat-schedule
 
-# Excel backups
-excel_backups/
+# SageMath parsed files
+*.sage.py
 
-# Temporary directories
-tmp/
-temp/
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+temp_session_*.csv
+debug_html/
+*.tmp
+*.temp
+
+# Backup files
+*.backup
+*_backup_*
+
+# Excel files with sensitive data
+*.xlsx
+*.xls
+
+# Session files
+session_stats_*.json
+alert_logs_*.json
+
+# SQLite backups
+sqlite_backup_*/
+
+# Trading data
+trade_data.db*
+trading_data.db*
+
+# Monthly cleanup backups
+monthly_cleanup_backup_*.json
