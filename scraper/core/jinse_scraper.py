@@ -164,7 +164,6 @@ class JinseScraper:
             Latest article ID or None if not found
         """
         try:
-            # Search message removed
             response = self.http_client.fetch_with_retry("https://www.jinse.com.cn/lives")
             
             # Look for lives article links in the format /lives/{id}.html
@@ -174,7 +173,6 @@ class JinseScraper:
             if matches:
                 # Get the highest ID
                 latest_id = max(int(id_str) for id_str in matches)
-                # Found ID message removed
                 return latest_id
             
             self._log("⚠️  未找到任何文章ID", "error")
@@ -206,9 +204,18 @@ class JinseScraper:
             # Find the latest article ID
             latest_id = self.find_latest_article_id()
             if not latest_id:
-                # Fallback to a reasonable starting point
-                latest_id = 7000000  # Adjust based on current Jinse article count
-                self._log(f"⚠️  使用默认起始ID: {latest_id}", "info")
+                # Jinse is temporarily unavailable due to domain issues
+                self._log(f"⚠️  Jinse 暫時不可用", "info")
+                
+                # Return a proper ScrapingResult indicating Jinse is unavailable
+                duration_seconds = time.time() - start_time
+                return ScrapingResult(
+                    total_articles_found=0,
+                    articles_scraped=0,
+                    articles_failed=0,
+                    duration_seconds=duration_seconds,
+                    errors=["Jinse 暫時不可用 - 域名访问问题"]
+                )
             
             # Iterate backwards through article IDs
             current_id = latest_id

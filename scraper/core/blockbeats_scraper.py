@@ -86,7 +86,6 @@ class BlockBeatsScraper:
             Latest article ID or None if not found
         """
         try:
-            # Search message removed
             response = self.http_client.fetch_with_retry("https://www.theblockbeats.info/")
             
             # Look for flash article links in the format /flash/{id}
@@ -97,7 +96,6 @@ class BlockBeatsScraper:
             if matches:
                 # Get the highest ID
                 latest_id = max(int(id_str) for id_str in matches)
-                # Found ID message removed
                 return latest_id
             
             self._log("⚠️  未找到任何文章ID", "error")
@@ -129,9 +127,15 @@ class BlockBeatsScraper:
             # Find the latest article ID
             latest_id = self.find_latest_article_id()
             if not latest_id:
-                # Fallback to a reasonable starting point
-                latest_id = 320000  # Adjust this based on current BlockBeats article count
-                self._log(f"⚠️  使用默认起始ID: {latest_id}", "info")
+                # BlockBeats latest ID not found, skip processing
+                self._log(f"⚠️  BlockBeats 无法获取最新ID，跳过处理", "info")
+                return ScrapingResult(
+                    total_articles_found=0,
+                    articles_scraped=0,
+                    articles_failed=0,
+                    duration_seconds=0,
+                    errors=["BlockBeats 无法获取最新ID"]
+                )
             
             # Iterate backwards through article IDs
             current_id = latest_id

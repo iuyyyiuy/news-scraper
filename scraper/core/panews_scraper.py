@@ -148,9 +148,15 @@ class PANewsScraper:
             # Find the latest article ID
             latest_id = self.find_latest_article_id()
             if not latest_id:
-                # Fallback to a reasonable starting point
-                latest_id = 800000  # Adjust based on current PANews article count
-                self._log(f"⚠️  使用默认起始ID: {latest_id}", "info")
+                # PANews latest ID not found, skip processing
+                self._log(f"⚠️  PANews 无法获取最新ID，跳过处理", "info")
+                return ScrapingResult(
+                    total_articles_found=0,
+                    articles_scraped=0,
+                    articles_failed=0,
+                    duration_seconds=0,
+                    errors=["PANews 无法获取最新ID"]
+                )
             
             # Iterate backwards through article IDs
             current_id = latest_id

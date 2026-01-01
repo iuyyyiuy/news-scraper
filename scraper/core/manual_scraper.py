@@ -14,8 +14,136 @@ import tempfile
 import os
 import time
 import logging
+import hashlib
 
 logger = logging.getLogger(__name__)
+
+
+class EnhancedDuplicateDetector:
+    """Multi-layer duplicate detection system for real-time scraping"""
+    
+    def __init__(self, db_manager):
+        self.db_manager = db_manager
+        
+        # In-memory caches for this session
+        self.seen_urls = set()
+        self.seen_titles = set()
+        self.seen_content_hashes = set()
+        
+        # Load existing data from database
+        self._load_existing_data()
+    
+    def _load_existing_data(self):
+        """Load existing URLs, titles, and content hashes from database"""
+        try:
+            # Get recent articles (last 30 days) to build cache
+            result = self.db_manager.supabase.table('articles').select(
+                'url, title, body_text'
+            ).gte(
+                'scraped_at', '2025-12-01T00:00:00'  # Last 30 days
+            ).execute()
+            
+            for article in result.data:
+                self.seen_urls.add(article['url'])
+                self.seen_titles.add(article['title'].strip().lower())
+                
+                # Create content hash
+                content = article.get('body_text', article['title'])
+                content_hash = self._calculate_content_hash(content)
+                self.seen_content_hashes.add(content_hash)
+            
+            logger.info(f"Enhanced duplicate detector loaded {len(self.seen_urls)} URLs, {len(self.seen_titles)} titles")
+            
+        except Exception as e:
+            logger.warning(f"Error loading existing data for duplicate detection: {e}")
+    
+    def _calculate_content_hash(self, content: str) -> str:
+        """Calculate normalized content hash"""
+        import re
+        normalized = re.sub(r'[^\w\s]', '', content.lower())
+        normalized = ''.join(normalized.split())
+        return hashlib.md5(normalized.encode()).hexdigest()
+    
+    def is_duplicate(self, article_data: Dict) -> Dict[str, any]:
+        """Check if article is duplicate using multiple methods"""
+        url = article_data.get('url', '')
+        title = article_data.get('title', '').strip().lower()
+        content = article_data.get('content', article_data.get('title', ''))
+        
+        # Method 1: URL check (most reliable)
+        if url in self.seen_urls:
+            return {
+                'is_duplicate': True,
+                'method': 'url_match',
+                'confidence': 100,
+                'reason': f'URL already exists'
+            }
+        
+        # Method 2: Exact title match
+        if title in self.seen_titles:
+            return {
+                'is_duplicate': True,
+                'method': 'title_match',
+                'confidence': 95,
+                'reason': f'Title already exists'
+            }
+        
+        # Method 3: Content hash match
+        content_hash = self._calculate_content_hash(content)
+        if content_hash in self.seen_content_hashes:
+            return {
+                'is_duplicate': True,
+                'method': 'content_hash_match',
+                'confidence': 90,
+                'reason': f'Content already exists'
+            }
+        
+        # Method 4: Similar title check (fuzzy matching)
+        similar_title = self._find_similar_title(title)
+        if similar_title:
+            return {
+                'is_duplicate': True,
+                'method': 'similar_title',
+                'confidence': 80,
+                'reason': f'Similar title exists'
+            }
+        
+        return {
+            'is_duplicate': False,
+            'method': 'none',
+            'confidence': 0,
+            'reason': 'No duplicates found'
+        }
+    
+    def _find_similar_title(self, title: str) -> str:
+        """Find similar titles using simple similarity"""
+        title_words = set(title.split())
+        
+        for existing_title in self.seen_titles:
+            existing_words = set(existing_title.split())
+            
+            # Calculate Jaccard similarity
+            intersection = len(title_words & existing_words)
+            union = len(title_words | existing_words)
+            
+            if union > 0:
+                similarity = intersection / union
+                if similarity > 0.8:  # 80% similarity threshold
+                    return existing_title
+        
+        return None
+    
+    def add_article(self, article_data: Dict):
+        """Add article to seen cache"""
+        url = article_data.get('url', '')
+        title = article_data.get('title', '').strip().lower()
+        content = article_data.get('content', article_data.get('title', ''))
+        
+        self.seen_urls.add(url)
+        self.seen_titles.add(title)
+        
+        content_hash = self._calculate_content_hash(content)
+        self.seen_content_hashes.add(content_hash)
 
 
 class ManualScraper:
@@ -32,6 +160,9 @@ class ManualScraper:
         self.db_manager = DatabaseManager()
         self.alert_logger = AlertLogger()
         
+        # Initialize enhanced duplicate detector
+        self.duplicate_detector = EnhancedDuplicateDetector(self.db_manager)
+        
         # Initialize AI content analyzer
         try:
             self.ai_analyzer = AIContentAnalyzer()
@@ -45,19 +176,19 @@ class ManualScraper:
         # Create temporary directory for CSV storage
         self.temp_dir = tempfile.mkdtemp()
     
-    def 手动更新(self, max_articles: int = 1000, progress_callback: Optional[callable] = None) -> Dict[str, any]:
+    def 手动更新(self, max_articles: int = 2000, progress_callback: Optional[callable] = None) -> Dict[str, any]:
         """
         手动更新 - Manual news update function
         
         Process:
-        1. First scrape BlockBeats (check latest news ID, scrape backward 1000 articles)
-        2. Then scrape Jinse (check latest news ID, scrape backward 1000 articles)
+        1. First scrape BlockBeats (check latest news ID, scrape backward 2000 articles)
+        2. Then scrape ForesightNews (check latest news ID, scrape backward 2000 articles)
         3. Use AI to filter duplicates/similar/unrelated news
         4. Real-time update to Supabase database
         5. Extract same content as CSV scraper results
         
         Args:
-            max_articles: Maximum articles to scrape per source (default 1000)
+            max_articles: Maximum articles to scrape per source (default 2000)
             progress_callback: Optional callback for progress updates
             
         Returns:
@@ -70,7 +201,7 @@ class ManualScraper:
             progress_callback("🚀 开始手动更新...", "info")
         
         # Start alert logging session
-        session_id = self.alert_logger.start_scraping_session(['BlockBeats', 'Jinse'])
+        session_id = self.alert_logger.start_scraping_session(['BlockBeats'])
         
         results = {
             'start_time': start_time,
@@ -84,8 +215,8 @@ class ManualScraper:
             'source_results': {}
         }
         
-        # Sequential processing: BlockBeats first, then Jinse
-        sources = ['blockbeats', 'jinse']
+        # Sequential processing: BlockBeats only (Jinse completely disabled)
+        sources = ['blockbeats']
         
         for source in sources:
             try:
@@ -156,21 +287,32 @@ class ManualScraper:
         
         try:
             # Create config for this source
-            config = Config(
-                target_url="https://www.theblockbeats.info/newsflash" if source == 'blockbeats' else "https://www.jinse.com.cn/lives",
-                max_articles=max_articles,
-                request_delay=1.5,  # Reasonable delay
-                timeout=30,
-                max_retries=3
-            )
+            if source == 'blockbeats':
+                config = Config(
+                    target_url="https://www.theblockbeats.info/newsflash",
+                    max_articles=max_articles,
+                    request_delay=1.5,
+                    timeout=30,
+                    max_retries=3
+                )
+            elif source == 'foresightnews':
+                config = Config(
+                    target_url="https://foresightnews.pro/news",
+                    max_articles=max_articles,
+                    request_delay=2.0,  # Slower for Selenium
+                    timeout=45,
+                    max_retries=2
+                )
+            else:
+                raise ValueError(f"Unknown source: {source}")
             
             # Create temporary data store
             temp_file = os.path.join(self.temp_dir, f"temp_{source}_{int(time.time())}.csv")
             data_store = CSVDataStore(temp_file)
             
-            # Date range: last 7 days to ensure we get enough articles
+            # Date range: last 14 days to ensure we get enough articles
             end_date = date.today()
-            start_date = end_date - timedelta(days=7)
+            start_date = end_date - timedelta(days=14)
             
             if progress_callback:
                 progress_callback(f"🔍 {source.upper()}: 检查最新新闻ID...", "info")
@@ -219,11 +361,30 @@ class ManualScraper:
             
             for i, article in enumerate(articles):
                 try:
+                    # Enhanced duplicate check FIRST (before AI analysis)
+                    article_data = {
+                        'url': article.url,
+                        'title': article.title,
+                        'content': getattr(article, 'body_text', article.title)
+                    }
+                    
+                    duplicate_result = self.duplicate_detector.is_duplicate(article_data)
+                    
+                    if duplicate_result['is_duplicate']:
+                        duplicates_skipped += 1
+                        if progress_callback and duplicates_skipped % 5 == 0:
+                            progress_callback(
+                                f"💾 {source.upper()}: 跳过重复文章 {duplicates_skipped} 篇 ({duplicate_result['method']})",
+                                "info"
+                            )
+                        continue
+                    
                     # Check AI relevance if available
                     should_save = True
                     if hasattr(article, 'ai_analysis') and article.ai_analysis:
                         relevance = article.ai_analysis.get('relevance', {})
-                        if not relevance.get('is_relevant', True) or relevance.get('relevance_score', 100) < 40:
+                        # More lenient relevance threshold - only filter out clearly irrelevant content
+                        if not relevance.get('is_relevant', True) and relevance.get('relevance_score', 100) < 20:
                             should_save = False
                             ai_filtered += 1
                     
@@ -237,11 +398,14 @@ class ManualScraper:
                             if self._store_article_realtime(article, matched_keywords, source):
                                 articles_saved += 1
                                 
-                                # Progress update every 10 articles
-                                if (i + 1) % 10 == 0 and progress_callback:
+                                # Add to duplicate detector cache
+                                self.duplicate_detector.add_article(article_data)
+                                
+                                # Progress update every 5 articles
+                                if articles_saved % 5 == 0 and progress_callback:
                                     progress_callback(
                                         f"💾 {source.upper()}: 已保存 {articles_saved}/{len(articles)} 篇",
-                                        "info"
+                                        "success"
                                     )
                             else:
                                 duplicates_skipped += 1
@@ -322,20 +486,40 @@ class ManualScraper:
                 }
                 article_dicts.append(article_dict)
             
-            # Process articles with AI analysis including database duplicate check
+            # Process articles with enhanced duplicate detection + AI analysis
             analyzed_articles = []
             duplicates_filtered = 0
             
             for i, article_dict in enumerate(article_dicts):
                 try:
-                    # Analyze relevance
+                    # First: Enhanced duplicate check (fast)
+                    enhanced_duplicate_check = self.duplicate_detector.is_duplicate({
+                        'url': getattr(article_dict['original_article'], 'url', ''),
+                        'title': article_dict['title'],
+                        'content': article_dict['content']
+                    })
+                    
+                    if enhanced_duplicate_check['is_duplicate']:
+                        duplicates_filtered += 1
+                        self.alert_logger.log_info(
+                            component="EnhancedDuplicateDetector",
+                            message=f"{source}: Duplicate detected by {enhanced_duplicate_check['method']}",
+                            details={
+                                "title": article_dict['title'][:100],
+                                "method": enhanced_duplicate_check['method'],
+                                "confidence": enhanced_duplicate_check['confidence']
+                            }
+                        )
+                        continue
+                    
+                    # Second: AI relevance analysis (if not duplicate)
                     relevance = self.ai_analyzer.analyze_content_relevance(
                         article_dict['title'],
                         article_dict['content'],
                         article_dict.get('matched_keywords', [])
                     )
                     
-                    # Check for duplicates against database articles
+                    # Third: AI duplicate check against database (slower but more thorough)
                     duplicate_check = self.ai_analyzer.detect_duplicate_content(
                         {'title': article_dict['title'], 'content': article_dict['content']},
                         recent_db_articles
@@ -355,6 +539,7 @@ class ManualScraper:
                     original_article.ai_analysis = {
                         'relevance': relevance,
                         'duplicate_check': duplicate_check,
+                        'enhanced_duplicate_check': enhanced_duplicate_check,
                         'analyzed_at': datetime.now().isoformat()
                     }
                     
@@ -365,11 +550,18 @@ class ManualScraper:
                             'content': article_dict['content'],
                             'original_article': original_article
                         })
+                        
+                        # Add to enhanced duplicate detector cache
+                        self.duplicate_detector.add_article({
+                            'url': getattr(original_article, 'url', ''),
+                            'title': article_dict['title'],
+                            'content': article_dict['content']
+                        })
                     else:
                         duplicates_filtered += 1
                         self.alert_logger.log_info(
                             component="AIContentAnalyzer",
-                            message=f"{source}: Duplicate article detected and filtered",
+                            message=f"{source}: AI duplicate detected",
                             details={
                                 "title": article_dict['title'][:100],
                                 "similarity_score": duplicate_check['similarity_score'],
@@ -511,6 +703,8 @@ class ManualScraper:
         """Normalize source name to match CSV format"""
         if source.lower() == 'blockbeats':
             return 'BlockBeats'
+        elif source.lower() == 'foresightnews':
+            return 'ForesightNews'
         elif source.lower() == 'jinse':
             return 'Jinse'
         else:

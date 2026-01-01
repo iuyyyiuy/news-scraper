@@ -16,20 +16,19 @@ import logging
 from scraper.api.database_routes import router as database_router
 from scraper.api.monitoring_routes import router as monitoring_router
 from scraper.api.csv_routes import router as csv_router
-# Temporarily disable AI trading to avoid SQLite errors
-# from scraper.api.trading_strategy_routes import router as trading_strategy_router
-# from scraper.api.ai_trading_routes import router as ai_trading_router
+# All other routes disabled to keep only core news functionality
 
-# Import ML integration routes
-try:
-    import sys
-    import os
-    sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'ml_orderbook_analyzer'))
-    from ml_orderbook_analyzer.ml_integration_api import router as ml_analysis_router
-    ML_AVAILABLE = True
-except ImportError as e:
-    print(f"⚠️  ML integration not available: {e}")
-    ML_AVAILABLE = False
+# Import ML integration routes - COMPLETELY DISABLED to prevent SQLite locks
+# try:
+#     import sys
+#     import os
+#     sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'ml_orderbook_analyzer'))
+#     from ml_orderbook_analyzer.ml_integration_api import router as ml_analysis_router
+#     ML_AVAILABLE = True
+# except ImportError as e:
+#     print(f"⚠️  ML integration not available: {e}")
+#     ML_AVAILABLE = False
+ML_AVAILABLE = False  # Force disable to prevent SQLite locks
 
 # Import scraper components
 from scraper.core import SessionManager, Session, SessionStatus, Config
@@ -109,25 +108,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include database API routes
+# Include core API routes only
 app.include_router(database_router)
-
-# Include monitoring API routes
-app.include_router(monitoring_router)
-
-# Include CSV export API routes
+app.include_router(monitoring_router)  
 app.include_router(csv_router)
-
-# Temporarily disable AI trading routes to avoid SQLite errors
-# Include trading strategy analysis API routes
-# app.include_router(trading_strategy_router)
-
-# Include AI trading system API routes
-# app.include_router(ai_trading_router)
-
-# Include ML analysis API routes (if available)
-if ML_AVAILABLE:
-    app.include_router(ml_analysis_router)
 
 # Serve static files
 app.mount("/static", StaticFiles(directory="scraper/static"), name="static")
@@ -246,28 +230,6 @@ async def monitoring():
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
-
-@app.get("/ml-analysis")
-async def ml_analysis():
-    """Serve the ML analysis interface"""
-    if not ML_AVAILABLE:
-        raise HTTPException(status_code=503, detail="ML analysis not available")
-    
-    response = FileResponse("scraper/templates/ml_analysis.html")
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
-
-@app.get("/trading-strategy")
-async def trading_strategy():
-    """Serve the trading strategy analysis interface - DISABLED"""
-    raise HTTPException(status_code=503, detail="Trading strategy analysis temporarily disabled")
-
-@app.get("/ai-trading")
-async def ai_trading():
-    """Serve the AI trading system interface - DISABLED"""
-    raise HTTPException(status_code=503, detail="AI trading system temporarily disabled")
 
 @app.post("/api/scrape", response_model=ScrapeResponseModel)
 async def start_scrape(
@@ -508,10 +470,10 @@ async def 手动更新(background_tasks: BackgroundTasks, request: dict = None):
         from scraper.core.manual_scraper import ManualScraper
         from fastapi import Request, Body
         
-        # Get max_articles from request body, default to 1000
-        max_articles = 1000  # Default value
+        # Get max_articles from request body, default to 2000
+        max_articles = 2000  # Default value
         if request:
-            max_articles = request.get('max_articles', 1000)
+            max_articles = request.get('max_articles', 2000)
         
         def run_manual_update():
             scraper = ManualScraper()
@@ -522,19 +484,21 @@ async def 手动更新(background_tasks: BackgroundTasks, request: dict = None):
         
         return {
             "success": True,
-            "message": f"手动更新已启动 - 每个源抓取{max_articles}篇文章",
+            "message": f"手动更新已启动 - 抓取BlockBeats {max_articles}篇文章",
             "parameters": {
                 "date_range": "最近7天",
                 "keywords_count": 21,
                 "max_articles_per_source": max_articles,
-                "sources": ["BlockBeats", "Jinse"]
+                "sources": ["BlockBeats"],
+                "note": "Jinse暫時不可用，ForesightNews已移除"
             },
             "process": [
                 f"1. 抓取 BlockBeats (检查最新新闻ID，向后抓取{max_articles}篇文章)",
-                f"2. 抓取 Jinse (检查最新新闻ID，向后抓取{max_articles}篇文章)", 
-                "3. 使用21个安全相关关键词过滤",
-                "4. AI过滤重复/相似/无关新闻",
-                "5. 实时更新到 Supabase 数据库"
+                "2. Jinse 暂时不可用 - 域名访问问题", 
+                "3. ForesightNews 已移除 - 技术问题",
+                "4. 使用21个安全相关关键词过滤",
+                "5. AI过滤重复/相似/无关新闻",
+                "6. 实时更新到 Supabase 数据库"
             ]
         }
     except Exception as e:
@@ -546,12 +510,13 @@ async def get_manual_update_status():
     """Get status of manual update process"""
     return {
         "status": "ready",
-        "message": "手动更新功能已就绪 - 固定参数配置",
+        "message": "手动更新功能已就绪 - BlockBeats单源配置",
         "parameters": {
-            "date_range": "最近1天",
+            "date_range": "最近7天",
             "keywords_count": 21,
-            "max_articles_per_source": 100,
-            "sources": ["BlockBeats", "Jinse"]
+            "max_articles_per_source": 2000,
+            "sources": ["BlockBeats"],
+            "note": "Jinse暫時不可用，ForesightNews已移除"
         },
         "keywords": [
             "安全问题", "黑客", "被盗", "漏洞", "攻击", "恶意软件", "盗窃",
@@ -559,7 +524,9 @@ async def get_manual_update_status():
             "合规", "牌照", "风控", "诈骗", "突发", "rug pull", "下架"
         ],
         "features": [
-            "顺序处理 BlockBeats 和 Jinse",
+            "处理 BlockBeats 新闻源 (传统爬虫)",
+            "Jinse 暂时不可用 (域名问题)", 
+            "ForesightNews 已移除 (技术问题)", 
             "使用21个安全相关关键词", 
             "AI智能过滤重复和无关新闻", 
             "实时更新到 Supabase 数据库",

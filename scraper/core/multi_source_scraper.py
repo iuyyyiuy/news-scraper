@@ -12,9 +12,147 @@ from .blockbeats_scraper import BlockBeatsScraper
 from .jinse_scraper import JinseScraper
 from .panews_scraper import PANewsScraper
 from .deduplicator import DeduplicationEngine
+import hashlib
 
 
 logger = logging.getLogger(__name__)
+
+
+class EnhancedDuplicateDetector:
+    """Multi-layer duplicate detection system for real-time scraping"""
+    
+    def __init__(self, db_manager=None):
+        # Import here to avoid circular imports
+        from .database_manager import DatabaseManager
+        self.db_manager = db_manager or DatabaseManager()
+        
+        # In-memory caches for this session
+        self.seen_urls = set()
+        self.seen_titles = set()
+        self.seen_content_hashes = set()
+        
+        # Load existing data from database
+        self._load_existing_data()
+    
+    def _load_existing_data(self):
+        """Load existing URLs, titles, and content hashes from database"""
+        try:
+            # Get recent articles (last 30 days) to build cache
+            result = self.db_manager.supabase.table('articles').select(
+                'url, title, body_text'
+            ).gte(
+                'scraped_at', '2025-12-01T00:00:00'  # Last 30 days
+            ).execute()
+            
+            for article in result.data:
+                self.seen_urls.add(article['url'])
+                self.seen_titles.add(article['title'].strip().lower())
+                
+                # Create content hash
+                content = article.get('body_text', article['title'])
+                content_hash = self._calculate_content_hash(content)
+                self.seen_content_hashes.add(content_hash)
+            
+            logger.info(f"Enhanced duplicate detector loaded {len(self.seen_urls)} URLs, {len(self.seen_titles)} titles")
+            
+        except Exception as e:
+            logger.warning(f"Error loading existing data for duplicate detection: {e}")
+    
+    def _calculate_content_hash(self, content: str) -> str:
+        """Calculate normalized content hash"""
+        import re
+        normalized = re.sub(r'[^\w\s]', '', content.lower())
+        normalized = ''.join(normalized.split())
+        return hashlib.md5(normalized.encode()).hexdigest()
+    
+    def is_duplicate(self, article_data: dict) -> dict:
+        """Check if article is duplicate using multiple methods"""
+        url = article_data.get('url', '')
+        title = article_data.get('title', '').strip().lower()
+        content = article_data.get('content', article_data.get('title', ''))
+        
+        # Method 1: URL check (most reliable)
+        if url in self.seen_urls:
+            return {
+                'is_duplicate': True,
+                'method': 'url_match',
+                'confidence': 100,
+                'reason': f'URL already exists'
+            }
+        
+        # Method 2: Exact title match
+        if title in self.seen_titles:
+            return {
+                'is_duplicate': True,
+                'method': 'title_match',
+                'confidence': 95,
+                'reason': f'Title already exists'
+            }
+        
+        # Method 3: Content hash match
+        content_hash = self._calculate_content_hash(content)
+        if content_hash in self.seen_content_hashes:
+            return {
+                'is_duplicate': True,
+                'method': 'content_hash_match',
+                'confidence': 90,
+                'reason': f'Content already exists'
+            }
+        
+        # Method 4: Similar title check (fuzzy matching)
+        similar_title = self._find_similar_title(title)
+        if similar_title:
+            return {
+                'is_duplicate': True,
+                'method': 'similar_title',
+                'confidence': 80,
+                'reason': f'Similar title exists'
+            }
+        
+        return {
+            'is_duplicate': False,
+            'method': 'none',
+            'confidence': 0,
+            'reason': 'No duplicates found'
+        }
+    
+    def _find_similar_title(self, title: str) -> str:
+        """Find similar titles using simple similarity"""
+        title_words = set(title.split())
+        
+        for existing_title in self.seen_titles:
+            existing_words = set(existing_title.split())
+            
+            # Calculate Jaccard similarity
+            intersection = len(title_words & existing_words)
+            union = len(title_words | existing_words)
+            
+            if union > 0:
+                similarity = intersection / union
+                if similarity > 0.8:  # 80% similarity threshold
+                    return existing_title
+        
+        return None
+    
+    def add_article(self, article_data: dict):
+        """Add article to seen cache"""
+        url = article_data.get('url', '')
+        title = article_data.get('title', '').strip().lower()
+        content = article_data.get('content', article_data.get('title', ''))
+        
+        self.seen_urls.add(url)
+        self.seen_titles.add(title)
+        
+        content_hash = self._calculate_content_hash(content)
+        self.seen_content_hashes.add(content_hash)
+    
+    def get_stats(self) -> dict:
+        """Get duplicate detector statistics"""
+        return {
+            'urls_tracked': len(self.seen_urls),
+            'titles_tracked': len(self.seen_titles),
+            'content_hashes_tracked': len(self.seen_content_hashes)
+        }
 
 
 class MultiSourceScraper:
@@ -82,8 +220,9 @@ class MultiSourceScraper:
         if not self.sources:
             raise ValueError("No valid sources specified")
         
-        # Initialize deduplicator
+        # Initialize deduplicator and enhanced duplicate detector
         self.deduplicator = DeduplicationEngine() if enable_deduplication else None
+        self.enhanced_duplicate_detector = EnhancedDuplicateDetector() if enable_deduplication else None
         
         # Track per-source results
         self.source_results: Dict[str, ScrapingResult] = {}
@@ -222,15 +361,64 @@ class MultiSourceScraper:
                 all_errors.extend(result.errors)
                 all_articles.extend(articles)
         
-        # Deduplicate if enabled
+        # Deduplicate if enabled - Enhanced duplicate detection
         articles_before_dedup = len(all_articles)
         duplicates_removed = 0
         
-        if self.enable_deduplication and self.deduplicator and len(all_articles) > 1:
-            self._log("🔍 开始去重处理...", "info")
+        if self.enable_deduplication and self.enhanced_duplicate_detector and len(all_articles) > 0:
+            self._log("🔍 开始增强去重处理...", "info")
+            
+            # Enhanced duplicate detection with database check
+            unique_articles = []
+            duplicates_by_method = {'url_match': 0, 'title_match': 0, 'content_hash_match': 0, 'similar_title': 0}
+            
+            for article in all_articles:
+                # Convert article to dict for duplicate check
+                article_data = {
+                    'url': getattr(article, 'url', ''),
+                    'title': getattr(article, 'title', ''),
+                    'content': getattr(article, 'body_text', getattr(article, 'title', ''))
+                }
+                
+                # Check for duplicates
+                duplicate_result = self.enhanced_duplicate_detector.is_duplicate(article_data)
+                
+                if duplicate_result['is_duplicate']:
+                    duplicates_removed += 1
+                    method = duplicate_result['method']
+                    duplicates_by_method[method] = duplicates_by_method.get(method, 0) + 1
+                    
+                    # Log duplicate detection (every 10th duplicate)
+                    if duplicates_removed % 10 == 0:
+                        self._log(f"🔍 已跳过 {duplicates_removed} 篇重复文章 ({method})", "info")
+                else:
+                    # Not a duplicate, add to unique list and cache
+                    unique_articles.append(article)
+                    self.enhanced_duplicate_detector.add_article(article_data)
+            
+            all_articles = unique_articles
+            
+            # Log detailed duplicate removal results
+            if duplicates_removed > 0:
+                self._log(f"✅ 增强去重完成: 移除 {duplicates_removed} 篇重复文章", "success")
+                for method, count in duplicates_by_method.items():
+                    if count > 0:
+                        method_name = {
+                            'url_match': 'URL匹配',
+                            'title_match': '标题匹配', 
+                            'content_hash_match': '内容匹配',
+                            'similar_title': '相似标题'
+                        }.get(method, method)
+                        self._log(f"   - {method_name}: {count} 篇", "info")
+            else:
+                self._log("✅ 增强去重完成: 未发现重复文章", "success")
+        
+        # Fallback to basic deduplication for session-internal duplicates
+        elif self.enable_deduplication and self.deduplicator and len(all_articles) > 1:
+            self._log("🔍 开始基础去重处理...", "info")
             all_articles = self.deduplicator.deduplicate(all_articles)
             duplicates_removed = articles_before_dedup - len(all_articles)
-            self._log(f"✅ 去重完成: 移除 {duplicates_removed} 篇重复文章", "success")
+            self._log(f"✅ 基础去重完成: 移除 {duplicates_removed} 篇重复文章", "success")
         
         # Save all unique articles to the main data store
         saved_count = 0
