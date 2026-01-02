@@ -182,8 +182,14 @@ Consider that we're looking for news about:
 - Security incidents (hacks, breaches, vulnerabilities)
 - Regulatory compliance and enforcement
 - Financial crimes (money laundering, fraud)
-- Exchange issues (bankruptcies, delistings)
+- Exchange issues (bankruptcies, delistings, financial disputes)
 - Risk management and security measures
+- Corporate governance issues and transparency problems
+- Leadership disputes that may affect platform security
+- Financial irregularities or accounting issues
+
+Be more inclusive - if there's any reasonable connection to financial security, 
+regulatory issues, or platform stability, consider it relevant.
 
 Respond in JSON format:
 {{
