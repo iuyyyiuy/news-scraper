@@ -3,11 +3,38 @@
 .env.local
 .env.production
 
-# Python
+# Sensitive configuration files
+config.json
+secrets.json
+credentials.json
+
+# Server-specific files
+*droplet*
+*server*
+*deploy*
+fix_*.sh
+monitor_*.sh
+test_droplet_*.sh
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs and temporary files
+*.log
+logs/
+temp_*
+debug_*
+session_*
+alert_logs_*
+monthly_cleanup_backup_*
+
+# Python cache
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
+*.pyc
+*.pyo
+*.pyd
 .Python
 build/
 develop-eggs/
@@ -24,112 +51,24 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# PyInstaller
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# IDE
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
-# OS
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-
-# Logs
-*.log
-logs/
-
-# Database files
-*.db
-*.sqlite
-*.sqlite3
-
-# Temporary files
-temp_session_*.csv
-debug_html/
-*.tmp
-*.temp
 
 # Backup files
 *.backup
 *_backup_*
-
-# Excel files with sensitive data
-*.xlsx
-*.xls
-
-# Session files
-session_stats_*.json
-alert_logs_*.json
-
-# SQLite backups
 sqlite_backup_*/
+excel_backups/
 
 # Trading data
 trade_data.db*
 trading_data.db*
-
-# Monthly cleanup backups
-monthly_cleanup_backup_*.json
+orderbook_*.db*
